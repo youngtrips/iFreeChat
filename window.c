@@ -86,6 +86,7 @@ void test (GtkTreeView *tv) {
 	column = gtk_tree_view_column_new_with_attributes("", renderer,
 														"pixbuf", PIXBUF_COL, NULL);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(tv), column);
+
 	renderer = gtk_cell_renderer_text_new();
 	column = gtk_tree_view_column_new_with_attributes("", renderer,
 														"text", TEXT_COL, NULL);
@@ -96,6 +97,22 @@ void test (GtkTreeView *tv) {
 	g_signal_connect(G_OBJECT(tv), "row-activated", G_CALLBACK(row_activated), NULL);
 
 }
+void InitTreeView(GtkTreeView *tv, int ncol, char *col_type[]) {
+	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *col;
+	for(int i = 0;i < ncol; i++) {
+		if (!strcmp(col_type[i], "pixbuf"))
+			renderer = gtk_cell_renderer_pixbuf_new();
+		else if (!strcmp(col_type[i], "text"))
+			renderer = gtk_cell_renderer_text_new();
+		col = gtk_tree_view_column_new_with_attributes("", renderer,
+				col_type[i], i, NULL);
+		gtk_tree_view_append_column(GTK_TREE_VIEW(tv), column);
+	}
+
+}
+
+
 
 window_t * create_window(const char *xml_file) {
 	window_t *win = NULL;
