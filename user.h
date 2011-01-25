@@ -47,6 +47,7 @@ class User : DList {
 		char m_moto[128];
 		char m_groupname[32];
 
+		GtkTreeStore *m_tree_store;
 		GtkWidget *m_dialog;
 		GtkTreeIter *m_parent_iter;
 		GtkTreeIter *m_my_iter;

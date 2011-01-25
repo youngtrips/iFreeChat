@@ -81,6 +81,7 @@ void test (GtkTreeView *tv) {
 	}
 
 	gtk_tree_view_set_model(tv, store);
+	gtk_tree_view_set_headers_visible(tv, FALSE);
 
 	renderer = gtk_cell_renderer_pixbuf_new();
 	column = gtk_tree_view_column_new_with_attributes("", renderer,
@@ -97,6 +98,7 @@ void test (GtkTreeView *tv) {
 	g_signal_connect(G_OBJECT(tv), "row-activated", G_CALLBACK(row_activated), NULL);
 
 }
+/*
 void InitTreeView(GtkTreeView *tv, int ncol, char *col_type[]) {
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *col;
@@ -112,7 +114,7 @@ void InitTreeView(GtkTreeView *tv, int ncol, char *col_type[]) {
 
 }
 
-
+*/
 
 window_t * create_window(const char *xml_file) {
 	window_t *win = NULL;

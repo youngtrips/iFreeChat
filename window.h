@@ -22,6 +22,7 @@ typedef struct window_t {
 	GtkWidget *window;
 }window_t;
 
+/*
 class Window {
 	public:
 		Window(GladeXML *xml);
@@ -49,5 +50,6 @@ class Window {
 		GtkListStore *m_grouplist_model;
 		GtkListStore *m_historylist_model;
 };
+*/
 
 #endif

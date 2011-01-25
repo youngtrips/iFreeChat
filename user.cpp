@@ -22,7 +22,8 @@ User::User(const char *nickname, const char *grpname, const char *avatar,
 bool User::UpdateNickName(const char *nickname) {
 	strcpy(m_nickname, nickname);
 
-
+	///gtk_tree_store_set_value
+	gtk_tree_store_set_value(m_tree_store, m_my_iter, 1, nickname);
 	return true;
 }
 
