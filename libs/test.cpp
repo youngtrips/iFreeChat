@@ -10,11 +10,11 @@
 
 char buf[65535];
 int main() {
-	network net(2425, 2425);
+	network net(9090, 9090);
 	net.start();
 
 	msg_t msg;
-	msg.buf = (void*)buf;
+	msg.buf = buf;
 	msg.buf_cap = 65535;
 	if (msg.buf == NULL) {
 		printf("err...\n");
@@ -29,7 +29,7 @@ int main() {
 		size = net.recv_msg(ip, port, buf, sizeof(buf));
 		if (size > 0) {
 			printf("%s:%u\n", ip, port);
-//			printf("%s\n", buf);
+			printf("%s\n", buf);
 		}
 //		memset(msg.buf, 0, msg.buf_cap);
 //		msg.buf_size = 0;

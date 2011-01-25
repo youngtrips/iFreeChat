@@ -67,8 +67,7 @@ ssize_t udp_socket::sendto(const char *ip, unsigned short port,
 	strcpy(msg->ip, ip);
 	msg->port = htons(port);
 	msg->buf_size = size;
-//	msg->buf = m_wbuf->push(data, size);
-	msg->buf = malloc(size);
+	msg->buf = (char*)malloc(size);
 	memcpy(msg->buf, data, size);
 
 	m_wque->push(msg);
@@ -82,10 +81,10 @@ ssize_t udp_socket::recvfrom(char *ip, unsigned short &port,
 	msg = (msg_t*)m_rque->pop();
 	if (msg == NULL)
 		return -1;
+
 	strcpy(ip, msg->ip);
-	port = ntohs(msg->port);
+	port = msg->port;
 	memcpy(data, msg->buf, msg->buf_size);
-//	m_rbuf->pop(msg->buf_size);
 	len = msg->buf_size;
 	free(msg->buf);
 	free(msg);
@@ -156,7 +155,7 @@ void *udp_listen_routine(void *arg) {
 	int nfds;
 	int ep;
 	int i;
-	char buf[1024];
+	char buf[4096];
 	int size;
 	struct sockaddr_in addr;
 	socklen_t socklen;
@@ -202,18 +201,23 @@ void *udp_listen_routine(void *arg) {
 				size = recvfrom(sock, (void*)buf, sizeof(buf), 0,
 					   (struct sockaddr*)&addr, &socklen);
 				if (size > 0) {
-					msg = (msg_t*)malloc(sizeof(msg));
+					msg = (msg_t*)malloc(sizeof(msg_t));
 					if (msg == NULL) {
 						fprintf(stderr, "malloc() error: %s\n",
 								strerror(errno));
 						break;
 					}
 					strcpy(msg->ip, inet_ntoa(addr.sin_addr));
-					msg->port = addr.sin_port; 
-					msg->buf_size = size;
-//					msg->buf = rbuf->push(buf, size);
-					msg->buf = malloc(size);
-					memcpy(msg->buf, buf, size);
+					msg->port = ntohs(addr.sin_port); 
+					msg->buf_size = size * sizeof(char);
+					msg->buf = NULL;
+					msg->buf = (char*)malloc(size * sizeof(char) * 2);
+					if (msg->buf == NULL) {
+						fprintf(stderr, "malloc() error: %s:%s:%d\n",
+								strerror(errno), __FILE__, __LINE__);
+						break;
+					}
+					bcopy(buf, msg->buf, size);
 
 					rque->push(msg);
 				} else if (size == 0) {

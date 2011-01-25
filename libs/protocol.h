@@ -8,12 +8,14 @@
 #ifndef __PROTOCOL_H
 #define __PROTOCOL_H
 
+#include <sys/types.h>
+
 typedef struct msg_t {
-	char ip[20];
+	char ip[32];
 	unsigned short port;
-	unsigned short buf_size;
-	unsigned short buf_cap;
-	void *buf;
+	size_t buf_size;
+	size_t buf_cap;
+	char *buf;
 }msg_t;
 
 

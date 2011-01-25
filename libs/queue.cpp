@@ -14,6 +14,7 @@ queue::queue() :
 	m_size(QUEUE_DEFAULT_SIZE),
 	m_head(0),
 	m_tail(0) {
+		pthread_rwlock_init(&m_rwlock, NULL);
 }
 
 queue::queue(size_t size) :
@@ -28,18 +29,31 @@ bool queue::empty() {
 }
 
 bool queue::push(void *data) {
-	if ((m_tail + 1) % m_size == m_head) 
+//	pthread_rwlock_rdlock(&m_rwlock);
+	if ((m_tail + 1) % m_size == m_head) {
+//		pthread_rwlock_unlock(&m_rwlock);
 		return false;
+	}
+
 	m_data[m_tail] = data;
+	
+	pthread_rwlock_wrlock(&m_rwlock);
 	m_tail = (m_tail + 1) % m_size;
+	pthread_rwlock_unlock(&m_rwlock);
 	return true;
 }
 
 void *queue::pop() {
 	void *data;
-	if (m_head == m_tail) 
+//	pthread_rwlock_rdlock(&m_rwlock);
+	if (m_head == m_tail) {
+//		pthread_rwlock_unlock(&m_rwlock);
 		return NULL;
+	}
+
 	data = m_data[m_head];
+	pthread_rwlock_wrlock(&m_rwlock);
 	m_head = (m_head + 1) % m_size;
+	pthread_rwlock_unlock(&m_rwlock);
 	return data;
 }
