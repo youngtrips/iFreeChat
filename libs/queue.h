@@ -10,14 +10,14 @@
 
 #include <stddef.h>
 
-class Queue {
+class queue {
 	public:
-		Queue();
-		Queue(size_t size);
+		queue();
+		queue(size_t size);
 
-		bool Empty();
-		bool Push(void *data);
-		void *Pop();
+		bool empty();
+		bool push(void *data);
+		void *pop();
 
 	private:
 		size_t m_size;

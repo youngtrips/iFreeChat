@@ -9,25 +9,25 @@
 
 #define QUEUE_DEFAULT_SIZE 65535
 
-Queue::Queue() :
+queue::queue() :
 	m_data(new void*[QUEUE_DEFAULT_SIZE]),
 	m_size(QUEUE_DEFAULT_SIZE),
 	m_head(0),
 	m_tail(0) {
 }
 
-Queue::Queue(size_t size) :
+queue::queue(size_t size) :
 	m_data(new void*[size]),
 	m_size(size),
 	m_head(0),
 	m_tail(0) {
 }
 
-bool Queue::Empty() {
+bool queue::empty() {
 	return m_head == m_tail;
 }
 
-bool Queue::Push(void *data) {
+bool queue::push(void *data) {
 	if ((m_tail + 1) % m_size == m_head) 
 		return false;
 	m_data[m_tail] = data;
@@ -35,7 +35,7 @@ bool Queue::Push(void *data) {
 	return true;
 }
 
-void *Queue::Pop() {
+void *queue::pop() {
 	void *data;
 	if (m_head == m_tail) 
 		return NULL;

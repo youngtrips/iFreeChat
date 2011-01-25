@@ -8,24 +8,44 @@
 #ifndef __UDP_SOCKET_H
 #define __UDP_SOCKET_H
 
+#include "protocol.h"
+#include "socket.h"
 
-void *udp_routine(void *arg);
+void *udp_listen_routine(void *arg);
 
-class UdpSocket : Socket{
+class udp_socket : Socket{
 	public:
-		UdpSocket(const char *ip, unsigned short m_port);
-		~UdpSocket();
-		virtual bool Init();
-		virtual bool StartListen();
-		virtual bool Shutdown();
-		ssize_t SendTo(const char *ip, unsigned short port, const msg_t *msg);
-		ssize_t RecvFrom(char *ip, unsigned short *port, msg_t *msg);
-		unsigned short GetPort() { return m_port; }
-		const char *GetIP() { return m_ipv4; }
-		int GetSocket() { return m_socket; }
+		udp_socket(const char *bind_ip, unsigned short m_port,
+				size_t rqsize, size_t wqsize,
+				size_t rbsize, size_t wbsize,
+				socket_mode mode);
+		~udp_socket();
+
+		virtual bool init();
+		virtual bool start_listen();
+		virtual bool shutdown();
+
+		ssize_t sendto(const char *ip, unsigned short port, 
+				const void *data, size_t size);
+		ssize_t recvfrom(const char *ip, unsigned short *port,
+				void *data, size_t size);
+
+		unsigned short get_bind_port() { return m_bind_port; }
+		const char *get_bind_ip() { return m_bind_ip; }
+		int get_socket() { return m_socket; }
+		bool is_shutdown() {
+			return m_shutdown == true;
+		}
 	private:
-		unsigned short m_port;
-		char m_ipv4[20];
-		struct sockaddr_t m_bind_addr;
+		bool enable_socket_resuse();
+		bool enable_broadcast();
+		bool enable_multicast(const char *mulitcast_addr);
+		bool setnonblocking();
+
+	private:
+		unsigned short m_bind_port;
+		char m_bind_ip[20];
+		struct sockaddr_in m_bind_addr;
 };
 
+#endif
