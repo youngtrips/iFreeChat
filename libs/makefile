@@ -1,2 +1,2 @@
 all:
-	g++ -o test test.cpp udp_socket.cpp queue.cpp buffer.cpp -lpthread
+	g++ -o test utils.cpp test.cpp udp_socket.cpp network.cpp queue.cpp buffer.cpp -lpthread -g

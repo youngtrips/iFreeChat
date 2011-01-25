@@ -6,6 +6,7 @@
  */
 
 #include "udp_socket.h"
+#include "utils.h"
 
 udp_socket::udp_socket(const char *bind_ip, unsigned short bind_port,
 		size_t rqsize, size_t wqsize, size_t rbsize, size_t wbsize,
@@ -61,10 +62,32 @@ bool udp_socket::shutdown() {
 
 ssize_t udp_socket::sendto(const char *ip, unsigned short port, 
 		const void *data, size_t size) {
+	msg_t *msg = NULL;
+	msg = (msg_t*)malloc(sizeof(msg_t));
+	strcpy(msg->ip, ip);
+	msg->port = htons(port);
+	msg->buf_size = size;
+	msg->buf = malloc(size);
+	memcpy(msg->buf, data, size);
+	m_wque->push(msg);
+	return size;
 }
 
-ssize_t udp_socket::recvfrom(const char *ip, unsigned short *port,
+ssize_t udp_socket::recvfrom(char *ip, unsigned short &port,
 		void *data, size_t size) {
+	ssize_t len;
+	msg_t *msg = NULL;
+	msg = (msg_t*)m_rque->pop();
+	if (msg == NULL)
+		return 0;
+	strcpy(ip, msg->ip);
+	port = ntohs(msg->port);
+	memcpy(data, msg->buf, msg->buf_size);
+	len = msg->buf_size;
+
+	free(msg->buf);
+	free(msg);
+	return len;
 }
 
 bool udp_socket::enable_socket_resuse() {
@@ -136,12 +159,22 @@ void *udp_listen_routine(void *arg) {
 	struct sockaddr_in addr;
 	socklen_t socklen;
 	msg_t *msg;
+	queue *rque;
+	queue *wque;
 
 	usock = (udp_socket*)arg;
 	if (usock == NULL) 
 		return NULL;
 
 	sock = usock->get_socket();
+	rque = usock->get_rque();
+	wque = usock->get_wque();
+
+	if (rque == NULL || wque == NULL) {
+		fprintf(stderr, "queue is null.\n");
+		return NULL;
+	}
+
 	ep = epoll_create(32);
 
 	ev.data.fd = sock;
@@ -164,18 +197,41 @@ void *udp_listen_routine(void *arg) {
 				size = recvfrom(sock, (void*)buf, sizeof(buf), 0,
 					   (struct sockaddr*)&addr, &socklen);
 				if (size > 0) {
-					printf("recv: %s\n", buf);
+					msg = (msg_t*)malloc(sizeof(msg));
+					strcpy(msg->ip, inet_ntoa(addr.sin_addr));
+					msg->port = addr.sin_port; 
+					msg->buf_size = size;
+					msg->buf = malloc(size);
+					memcpy(msg->buf, buf, size);
+					rque->push(msg);
+				} else if (size == 0) {
+					fprintf(stderr, "recvfrom() error: %s\n",
+							strerror(errno));
 				}
 
 			} else if (ev.events & (EPOLLOUT | EPOLLET)) {
-
+				msg = (msg_t*)wque->pop();
+				if (msg) {
+					memset(&addr, 0, sizeof(addr));
+					addr.sin_family = AF_INET;
+					addr.sin_addr.s_addr = inet_addr(msg->ip);
+					addr.sin_port = msg->port;
+					size = sendto(sock, (void*)msg->buf, msg->buf_size, 0,
+							(struct sockaddr*)&addr, sizeof(addr));
+					if (size < 0) {
+						fprintf(stderr, "sendto %s:%u error: %s\n",
+								inet_ntoa(addr.sin_addr), ntohs(msg->port),
+								strerror(errno));
+					}
+					free(msg->buf);
+					free(msg);
+				}
 			}
 		}
 		if (usock->is_shutdown()) {
 			break;
 		}
 	}
-
 
 	close(ep);
 	return NULL;

@@ -63,6 +63,9 @@ class Socket {
 		virtual bool init() {} 
 		virtual bool start_listen() {} 
 		virtual bool shutdown() {} 
+		queue *get_rque() { return m_rque; }
+		queue *get_wque() { return m_wque; }
+
 	protected:
 		queue *m_rque;
 		queue *m_wque;

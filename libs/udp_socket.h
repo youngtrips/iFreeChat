@@ -13,7 +13,7 @@
 
 void *udp_listen_routine(void *arg);
 
-class udp_socket : Socket{
+class udp_socket : public Socket {
 	public:
 		udp_socket(const char *bind_ip, unsigned short m_port,
 				size_t rqsize, size_t wqsize,
@@ -27,7 +27,7 @@ class udp_socket : Socket{
 
 		ssize_t sendto(const char *ip, unsigned short port, 
 				const void *data, size_t size);
-		ssize_t recvfrom(const char *ip, unsigned short *port,
+		ssize_t recvfrom(char *ip, unsigned short &port,
 				void *data, size_t size);
 
 		unsigned short get_bind_port() { return m_bind_port; }
@@ -36,6 +36,7 @@ class udp_socket : Socket{
 		bool is_shutdown() {
 			return m_shutdown == true;
 		}
+
 	private:
 		bool enable_socket_resuse();
 		bool enable_broadcast();

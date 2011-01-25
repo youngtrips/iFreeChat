@@ -9,25 +9,27 @@
 #define __NETWORK_H
 
 #include <stdint.h>
+#include <stddef.h>
+#include <sys/types.h>
 
-typedef struct udpserver_socket_t {
-	int s;
-	uint16_t port;
-	uint16_t ipv4;
-	struct sockaddr_t bind;
-}udp_socket_t;
+#include "protocol.h"
 
-udp_socket_t *udpserver_socket_init(const char *ipv4, uint16_t port);
+class udp_socket;
+class network {
+	public:
+		network(unsigned short tcp_port, unsigned short udp_port);
+		~network();
 
-void udpserver_socket_destroy(udp_socket_t *udp_socket);
+		bool start();
+		bool shutdown();
 
+		void send_msg(const msg_t *msg);
+		void recv_msg(msg_t *msg);
 
-typedef struct network_t {
-	udp_socket_t *udp_socket;
-	pthread_t udp_listenthread_id;
-	pthread_rwlock_t *sendq_rwlock;
-	pthread_rwlock_t *recvq_rwlock;
-	volatile uint8_t shutdown;
+	private:
+		udp_socket *m_udpsock;
+		unsigned m_tcp_port;
+		unsigned m_udp_port;
 };
 
 #endif

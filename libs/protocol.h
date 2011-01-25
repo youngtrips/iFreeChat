@@ -9,9 +9,10 @@
 #define __PROTOCOL_H
 
 typedef struct msg_t {
-	unsigned long ipv4;
+	char ip[20];
 	unsigned short port;
 	unsigned short buf_size;
+	unsigned short buf_cap;
 	void *buf;
 }msg_t;
 
