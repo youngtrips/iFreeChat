@@ -65,7 +65,8 @@ class Socket {
 		virtual bool shutdown() {} 
 		queue *get_rque() { return m_rque; }
 		queue *get_wque() { return m_wque; }
-
+		buffer *get_rbuf() { return m_rbuf; }
+		buffer *get_wbuf() { return m_wbuf; }
 	protected:
 		queue *m_rque;
 		queue *m_wque;

@@ -25,6 +25,7 @@ class network {
 
 		void send_msg(const msg_t *msg);
 		void recv_msg(msg_t *msg);
+		ssize_t recv_msg(char *ip, unsigned short &port, void *data, size_t size);
 
 	private:
 		udp_socket *m_udpsock;

@@ -19,6 +19,8 @@ class buffer {
 		ssize_t read(void *data, size_t size);
 		ssize_t soft_read(void *data, size_t size);
 		ssize_t write(const void *data, size_t size);
+		void *push(const void *data, size_t size);
+		void pop(size_t size);
 		const void *get_data() { return (void*)(m_data + m_rpos); }
 		size_t get_size() { return m_size; }
 		void clean();

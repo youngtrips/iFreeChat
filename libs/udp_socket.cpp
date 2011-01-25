@@ -67,8 +67,10 @@ ssize_t udp_socket::sendto(const char *ip, unsigned short port,
 	strcpy(msg->ip, ip);
 	msg->port = htons(port);
 	msg->buf_size = size;
+//	msg->buf = m_wbuf->push(data, size);
 	msg->buf = malloc(size);
 	memcpy(msg->buf, data, size);
+
 	m_wque->push(msg);
 	return size;
 }
@@ -79,12 +81,12 @@ ssize_t udp_socket::recvfrom(char *ip, unsigned short &port,
 	msg_t *msg = NULL;
 	msg = (msg_t*)m_rque->pop();
 	if (msg == NULL)
-		return 0;
+		return -1;
 	strcpy(ip, msg->ip);
 	port = ntohs(msg->port);
 	memcpy(data, msg->buf, msg->buf_size);
+//	m_rbuf->pop(msg->buf_size);
 	len = msg->buf_size;
-
 	free(msg->buf);
 	free(msg);
 	return len;
@@ -161,6 +163,8 @@ void *udp_listen_routine(void *arg) {
 	msg_t *msg;
 	queue *rque;
 	queue *wque;
+	buffer *rbuf;
+	buffer *wbuf;
 
 	usock = (udp_socket*)arg;
 	if (usock == NULL) 
@@ -168,6 +172,7 @@ void *udp_listen_routine(void *arg) {
 
 	sock = usock->get_socket();
 	rque = usock->get_rque();
+
 	wque = usock->get_wque();
 
 	if (rque == NULL || wque == NULL) {
@@ -198,11 +203,18 @@ void *udp_listen_routine(void *arg) {
 					   (struct sockaddr*)&addr, &socklen);
 				if (size > 0) {
 					msg = (msg_t*)malloc(sizeof(msg));
+					if (msg == NULL) {
+						fprintf(stderr, "malloc() error: %s\n",
+								strerror(errno));
+						break;
+					}
 					strcpy(msg->ip, inet_ntoa(addr.sin_addr));
 					msg->port = addr.sin_port; 
 					msg->buf_size = size;
+//					msg->buf = rbuf->push(buf, size);
 					msg->buf = malloc(size);
 					memcpy(msg->buf, buf, size);
+
 					rque->push(msg);
 				} else if (size == 0) {
 					fprintf(stderr, "recvfrom() error: %s\n",
@@ -224,6 +236,7 @@ void *udp_listen_routine(void *arg) {
 								strerror(errno));
 					}
 					free(msg->buf);
+//					wbuf->pop(msg->buf_size);
 					free(msg);
 				}
 			}

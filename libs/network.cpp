@@ -30,7 +30,13 @@ void network::send_msg(const msg_t *msg) {
 }
 
 void network::recv_msg(msg_t *msg) {
-	msg->buf_size = m_udpsock->recvfrom(msg->ip, msg->port, msg->buf, msg->buf_cap);
+	ssize_t size;
+	size = m_udpsock->recvfrom(msg->ip, msg->port, msg->buf, msg->buf_cap);
+	msg->buf_size = size < 0 ? 0 : size; 
+}
+
+ssize_t network::recv_msg(char *ip, unsigned short &port, void *data, size_t size) {
+	return m_udpsock->recvfrom(ip, port, data, size);
 }
 
 bool network::shutdown() {
