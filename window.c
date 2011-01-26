@@ -126,6 +126,10 @@ window_t * create_window(const char *xml_file) {
 	}
 
 	ui = glade_xml_new(xml_file, NULL, NULL);
+	if (ui == NULL) {
+		free(win);
+		return NULL;
+	}
 
 	win->window = glade_xml_get_widget(ui, MAIN_WIN);
 	win->contactlist_view = glade_xml_get_widget(ui, MAIN_WIN_CONTACTLIST_TREEVIEW);
