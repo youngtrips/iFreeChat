@@ -1,7 +1,7 @@
 /*
  * Author: youngtrips(youngtrips@163.com)
  * Created Time:  2011-01-27
- * File Name: socket.h
+ * File Name: test.c
  * Description: 
  *
  * You should have received a copy of the GNU General Public License
@@ -9,17 +9,20 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef __SOCKET_H
-#define __SOCKET_H
-
-#include <sys/socket.h>
-#include <sys/epoll.h>
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
+#include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <fcntl.h>
 
-#endif
+#include "udp_socket.h"
+
+static struct udp_socket_t usock;
+int main() {
+
+	init_udp_socket(&usock, "0.0.0.0", 9090);
+	udp_start_listen(&usock);
+	for(;;) {
+		sleep(1);
+	}
+	return 0;
+}

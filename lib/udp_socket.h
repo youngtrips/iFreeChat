@@ -14,6 +14,7 @@
 
 #include "socket.h"
 #include "queue.h"
+#include "msg.h"
 
 struct udp_socket_t {
 
@@ -45,9 +46,9 @@ int udp_start_listen(struct udp_socket_t *usock);
 int udp_stop_listen(struct udp_socket_t *usock);
 
 int udp_send(struct udp_socket_t *usock, const char *ip, 
-		unsigned short port, const msg_t *msg);
+		unsigned short port, const struct msg_t *msg);
 
 int udp_recv(struct udp_socket_t *usock, const char *ip, 
-		unsigned short &port, msg_t *msg); 
+		unsigned short *port, struct msg_t *msg); 
 
 #endif

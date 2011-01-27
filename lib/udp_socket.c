@@ -8,13 +8,17 @@
  * along with emesene; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
 
 #include "udp_socket.h"
+#include "utils.h"
 
 
-int init_udp_socket(struct udp_socket *usock,
+int init_udp_socket(struct udp_socket_t *usock,
 		const char *ip, unsigned short port) {
-	struct socckaddr_in addr;
+	struct sockaddr_in addr;
 
 	if (usock == NULL) {
 		return -1;
@@ -29,7 +33,7 @@ int init_udp_socket(struct udp_socket *usock,
 
 	memset(&addr, 0, sizeof(addr));
 	addr.sin_family = AF_INET;
-	addr.sin_addr.s_addr = inet_addr(p);
+	addr.sin_addr.s_addr = inet_addr(ip);
 	addr.sin_port = htons(port);
 
 	if (bind(usock->sock, (struct sockaddr*)&addr, 
@@ -40,8 +44,11 @@ int init_udp_socket(struct udp_socket *usock,
 		return -1;
 	}
 
+	/* enable port reuse */
+	if (enable_socket_reuse(usock->sock) < 0) {
+		goto err;
+	}
 	/* enable broadcast */
-
 	if (enable_socket_broadcast(usock->sock) < 0) {
 		goto err;
 	}
@@ -52,7 +59,7 @@ int init_udp_socket(struct udp_socket *usock,
 	}
 
 	/* set nonblocking */
-	if (nonblocking(usock->sock) < 0) {
+	if (setnonblocking(usock->sock) < 0) {
 		goto err;
 	}
 
@@ -139,9 +146,9 @@ void *udp_listen_routine(void *arg) {
 }
 
 int udp_send(struct udp_socket_t *usock, const char *ip,
-		unsigned short port, const msg_t *msg) {
+		unsigned short port, const struct msg_t *msg) {
 }
 
 int udp_recv(struct udp_socket_t *usock, const char *ip,
-		unsigned short *port, msg_t *msg) {
+		unsigned short *port, struct msg_t *msg) {
 }
