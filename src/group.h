@@ -13,6 +13,7 @@
 #define __GROUP_H
 
 #include "dlist.h"
+#include "user.h"
 
 struct group_t {
 	char group_name[32];
@@ -31,4 +32,10 @@ enum {
 };
 
 
+void init_group(struct dlist_t *glist);
+
+void group_add_user(struct dlist_t *glist, struct user_t *user);
+
+struct user_t *group_find_user(struct dlist_t *glist, int type, const char *key);
+	
 #endif

@@ -14,8 +14,8 @@
 #include <stdlib.h>
 
 #include "dlist.h"
-#include "group.h"
 #include "user.h"
+#include "group.h"
 
 void init_group(struct dlist_t *glist) {
 	struct group_t *group;
