@@ -21,6 +21,8 @@
  *
  */
 
+#include <pthread.h>
+
 #include "gtk_common.h"
 #include "main_window.h"
 
@@ -29,11 +31,15 @@
 #include "user.h"
 #include "udp_socket.h"
 
+#include "ifreechat.h"
+
 static window_t win;
 
 struct dlist_t glist;
 struct dlist_t ulist;
 struct udp_socket_t usock;
+pthread_t tid;
+struct ifreechat_t ifreechat;
 
 int main(int argc, char *argv[]) {
 
@@ -43,19 +49,34 @@ int main(int argc, char *argv[]) {
 	struct user_t *user;
 	int i;
 
+	ifreechat.win = &win;
+	ifreechat.glist = &glist;
+	ifreechat.ulist = &ulist;
+	ifreechat.usock = &usock;
+
 	gtk_init(&argc, &argv);
 
-	if (init_udp_socket(&usock, "0.0.0.0", 9090) < 0)
+	if (init_udp_socket(&usock, "0.0.0.0", 2425) < 0)
 		return 1;
 	if (udp_start_listen(&usock) < 0)
 		return 1;
 
 	init_group(&glist);
+	init_dlist_node(&ulist);
 
+	start_recv_msg(&tid, &ifreechat);
+
+
+	/*
 	init_main_window(&win, &glist, "glade/ui.glade");
-	gtk_main();
 
+
+	show_main_window(&win);
+
+	gtk_main();
+	*/
 	udp_stop_listen(&usock);
+	stop_recv_msg(tid);
 
 	return 0;
 }

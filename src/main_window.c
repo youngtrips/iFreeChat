@@ -138,8 +138,17 @@ int init_main_window(window_t *win, struct dlist_t *glist, const char *uifile) {
 //	init_treeview(win->history_treeview, 3, {"pixbuf", "text", "int" });
 
 
-	g_signal_connect(GTK_OBJECT(win->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
-
-	gtk_widget_show_all(win->window);
+//	g_signal_connect(GTK_OBJECT(win->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+	
 	return 0;
 }
+//	gtk_widget_show_all(win->window);
+//	return 0;
+//}
+
+void show_main_window(window_t *win) {
+	g_signal_connect(GTK_OBJECT(win->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+	gtk_widget_show_all(win->window);
+}
+
+

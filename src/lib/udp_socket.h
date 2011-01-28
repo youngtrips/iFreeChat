@@ -4,9 +4,6 @@
  * File Name: udp_socket.h
  * Description: 
  *
- * You should have received a copy of the GNU General Public License
- * along with emesene; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
 #ifndef __UDP_SOCKET_H
@@ -29,6 +26,10 @@ struct udp_socket_t {
 	/* for send */
 	struct queue_t *wque;
 
+	pthread_mutex_t mutex;
+	pthread_mutex_t wq_lock;
+	pthread_cond_t cond;
+
 	pthread_t tid;
 	volatile int shutdown;
 };
@@ -45,10 +46,8 @@ int udp_start_listen(struct udp_socket_t *usock);
 
 int udp_stop_listen(struct udp_socket_t *usock);
 
-int udp_send(struct udp_socket_t *usock, const char *ip, 
-		unsigned short port, const struct msg_t *msg);
+int udp_send(struct udp_socket_t *usock, const struct msg_t *msg); 
 
-int udp_recv(struct udp_socket_t *usock, const char *ip, 
-		unsigned short *port, struct msg_t *msg); 
+int udp_recv(struct udp_socket_t *usock, struct msg_t **msg); 
 
 #endif
