@@ -8,6 +8,7 @@
 #ifndef __GTK_COMMON_H
 #define __GTK_COMMON_H
 
+#include <gdk/gdk.h>
 #include <gtk-2.0/gtk/gtk.h>
 #include <glib-2.0/glib.h>
 #include <libglade-2.0/glade/glade.h>

@@ -10,7 +10,7 @@
 #define __USER_H
 
 #include "dlist.h"
-
+#include "gtk_common.h"
 
 struct user_t {
 	char nickname[32];
@@ -20,8 +20,8 @@ struct user_t {
 	char signature[128];
 	char group_name[32];
 
-	void *parent_iter;
-	void *my_iter;
+	GtkTreeIter parent_iter;
+	GtkTreeIter my_iter;
 
 	struct dlist_t ulist_node;
 	struct dlist_t glist_node;

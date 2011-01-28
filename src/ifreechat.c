@@ -21,8 +21,6 @@
  *
  */
 
-#include <pthread.h>
-
 #include "gtk_common.h"
 #include "main_window.h"
 
@@ -33,50 +31,54 @@
 
 #include "ifreechat.h"
 
-static window_t win;
-
-struct dlist_t glist;
-struct dlist_t ulist;
-struct udp_socket_t usock;
-pthread_t tid;
 struct ifreechat_t ifreechat;
+
+GThread *udp_listen_th;
+GThread *ui_update_th;
+
+void ifreechat_init(struct ifreechat_t *ifc) {
+	ifc->glist = (struct dlist_t*)malloc(sizeof(struct dlist_t));
+	ifc->ulist = (struct dlist_t*)malloc(sizeof(struct dlist_t));
+	ifc->usock = (struct udp_socket_t*)malloc(sizeof(struct udp_socket_t));
+	ifc->win = (struct window_t*)malloc(sizeof(struct window_t));
+
+	init_dlist_node(ifc->glist);
+	init_dlist_node(ifc->ulist);
+}
+
+void ifreechat_destroy(struct ifreechat_t *ifc) {
+	free(ifc->glist);
+	free(ifc->ulist);
+	free(ifc->usock);
+	free(ifc->win);
+}
 
 int main(int argc, char *argv[]) {
 
-	struct dlist_t *p;
-	struct dlist_t *j;
-	struct group_t *group;
-	struct user_t *user;
-	int i;
+	ifreechat_init(&ifreechat);
 
-	ifreechat.win = &win;
-	ifreechat.glist = &glist;
-	ifreechat.ulist = &ulist;
-	ifreechat.usock = &usock;
+	init_udp_socket(ifreechat.usock, "0.0.0.0", 9090);
+	udp_start_listen(ifreechat.usock);
+//	start_recv_msg(&ifreechat);
 
+	if (!g_thread_supported()) {
+		g_thread_init(NULL);
+	}
+	gdk_threads_init();
 	gtk_init(&argc, &argv);
 
-	if (init_udp_socket(&usock, "0.0.0.0", 2425) < 0)
-		return 1;
-	if (udp_start_listen(&usock) < 0)
-		return 1;
+	init_main_window(ifreechat.win, "glade/ui.glade");
+	show_main_window(ifreechat.win);
+	start_recv_msg(&ifreechat);
 
-	init_group(&glist);
-	init_dlist_node(&ulist);
-
-	start_recv_msg(&tid, &ifreechat);
-
-
-	/*
-	init_main_window(&win, &glist, "glade/ui.glade");
-
-
-	show_main_window(&win);
-
+	gdk_threads_enter();
 	gtk_main();
-	*/
-	udp_stop_listen(&usock);
-	stop_recv_msg(tid);
+	gdk_threads_leave();
+
+	udp_stop_listen(ifreechat.usock);
+	stop_recv_msg(&ifreechat);
+	ifreechat_destroy(&ifreechat);
 
 	return 0;
 }
+

@@ -48,25 +48,28 @@ void *recv_msg_loop(void *arg) {
 			continue;
 		}
 		
-//		printf("from: %s:%u\n", msg->ip, msg->port);
-//		printf("msg_size: %u\n", msg->size);
-//		printf("msg_data: %s\n", msg->data);
-//		printf("\n");
+		printf("from: %s:%u\n", msg->ip, msg->port);
+		printf("msg_size: %u\n", msg->size);
+		printf("msg_data: %s\n", msg->data);
+		printf("\n");
+
 		handle_message(msg, ifreechat);
-		free(msg->data);
-		free(msg);
+//		free(msg->data);
+//		free(msg);
 	}
 	pthread_exit(0);
 }
 
 
-void start_recv_msg(pthread_t *tid, struct udp_socket_t *usock) {
-	pthread_create(tid, NULL,
-			recv_msg_loop, (void*)usock);
+void start_recv_msg(struct ifreechat_t *ifc) {
+	
+	pthread_create(&(ifc->recv_msg_tid), NULL,
+			recv_msg_loop, (void*)ifc);
 }
 
-void stop_recv_msg(pthread_t tid) {
-	pthread_join(tid, NULL);
+void stop_recv_msg(struct ifreechat_t *ifc) {
+	
+	pthread_join(ifc->recv_msg_tid, NULL);
 }
 
 
@@ -146,24 +149,38 @@ void update_contact_treeview(struct ifreechat_t *ifc, char *username) {
 	struct user_t *user;
 	user = add_user(ifc->ulist, username, "pixmaps/online.png",
 			"test", "test", 
-			"test", "test");
-	group_add_user(ifc->glist, user);
+			"test", "No Group");
+	gdk_threads_enter();
+	group_add_user(ifc, ifc->glist, user);
+	gdk_threads_leave();
 }
 
 
 void handle_message(struct msg_t *msg, struct ifreechat_t *ifc) {
-	char *buf = msg->data;
+	
 	unsigned int cmd;
 	unsigned int pno;
 	char *username;
 	char *hostname;
+	char *buf;
+	char *encode;
+
+	buf = string_validate(msg->data, "gbk", &encode);
+	if (buf == NULL) {
+		buf = msg->data;
+	} else {
+		printf("buf: %s\n", buf);
+		printf("encode: %s\n", encode);
+	}
+
 	pno = get_dec_number(buf, ':', 1);
 	username = get_section_string(buf, ':', 2);
 	hostname = get_section_string(buf, ':', 3);
 	cmd = get_dec_number(buf, ':', 4);
 
-
+	printf("cmd: %u\n", cmd);
 	if (cmd & 0x3) {
+		printf("bbbbbnb\n");
 		printf("pno: %u\n", pno);
 		printf("user: %s, host:%s\n", username, hostname);
 		printf("cmd=%x\n", cmd);

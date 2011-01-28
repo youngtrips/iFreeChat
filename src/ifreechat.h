@@ -9,6 +9,8 @@
 #ifndef __IFREECHAT_H
 #define __IFREECHAT_H
 
+#include <pthread.h>
+
 #include "main_window.h"
 #include "dlist.h"
 
@@ -17,6 +19,7 @@ struct ifreechat_t {
 	struct dlist_t *glist;
 	struct dlist_t *ulist;
 	struct udp_socket_t *usock;
+	pthread_t recv_msg_tid;
 };
 
 #endif

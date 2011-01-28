@@ -1,5 +1,5 @@
 CFLAGS=-g
-LIBS=`pkg-config --cflags --libs glib-2.0 gtk+-2.0 libglade-2.0` -lpthread
+LIBS=`pkg-config --cflags --libs glib-2.0 gdk-x11-2.0 gtk+-2.0 libglade-2.0` -lpthread
 CC=gcc
 
 SOURCES = $(wildcard *.c)

@@ -49,19 +49,16 @@ void init_treeview(GtkTreeView *tv) {
 	gtk_tree_view_append_column(GTK_TREE_VIEW(tv), col);
 }
 
-GtkTreeStore *create_contact_treevie_model(struct dlist_t *glist) {
-	GtkWidget *cell_view;
-	GdkPixbuf *pixbuf;
-	GtkTreeIter parent; 
-	GtkTreeIter child;
+GtkTreeStore *create_contact_treevie_model() {
+//	GtkWidget *cell_view;
+//	GdkPixbuf *pixbuf;
+//	GtkTreeIter parent; 
+//	GtkTreeIter child;
 	GtkTreeStore *store;
 
-	struct dlist_t *i;
-	struct dlist_t *j;
-	struct group_t *group;
-	struct user_t *user;
 
 	store = gtk_tree_store_new(2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
+	/*
 	cell_view = gtk_cell_view_new();
 
 
@@ -72,7 +69,7 @@ GtkTreeStore *create_contact_treevie_model(struct dlist_t *glist) {
 		gtk_tree_store_set(store, &parent, PIXBUF_COL, pixbuf, TEXT_COL, group->group_name, -1);
 		gdk_pixbuf_unref(pixbuf);
 
-		/* store treeview iter */
+		/ * store treeview iter * /
 		group->my_iter = &parent;
 		
 		dlist_foreach(j, &(group->mlist_head)) {
@@ -82,22 +79,24 @@ GtkTreeStore *create_contact_treevie_model(struct dlist_t *glist) {
 			gtk_tree_store_set(store, &child, PIXBUF_COL, pixbuf, TEXT_COL, user->nickname, -1);
 			gdk_pixbuf_unref(pixbuf);
 
-			/* store treeview iter */
+			/ * store treeview iter  * /
 			user->parent_iter = &parent;
 			user->my_iter = &child;
 		}	
 
 	}	
+	*/
 	return store;
 }
 
 
-int init_main_window(window_t *win, struct dlist_t *glist, const char *uifile) {
+int init_main_window(window_t *win , /*struct dlist_t *glist,*/ const char *uifile) {
 
 	GladeXML *xml;
 	GtkTreeStore *contact_store;
 
 	if (win == NULL || uifile == NULL) {
+		printf("wrong args...\n");
 		return -1;
 	}
 
@@ -126,7 +125,7 @@ int init_main_window(window_t *win, struct dlist_t *glist, const char *uifile) {
 	/* initial personal message (signature) */
 
 	/* initial contact treeview model */
-	contact_store = create_contact_treevie_model(glist);
+	contact_store = create_contact_treevie_model();
 	gtk_tree_view_set_model(win->contact_treeview, (GtkTreeModel*)contact_store);
 
 	gtk_tree_view_set_headers_visible(win->contact_treeview, FALSE);

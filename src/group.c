@@ -10,9 +10,15 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "gtk_common.h"
+
 #include "dlist.h"
 #include "user.h"
 #include "group.h"
+
+#include "main_window.h"
+#include "ifreechat.h"
+
 
 void init_group(struct dlist_t *glist) {
 	struct group_t *group;
@@ -32,17 +38,35 @@ void init_group(struct dlist_t *glist) {
 void add_group(struct dlist_t *glist, struct group_t *group) {
 }
 
-void group_add_user(struct dlist_t *glist, struct user_t *user) {
+void group_add_user(struct ifreechat_t *ifc, 
+		struct dlist_t *glist, struct user_t *user) {
 	struct dlist_t *pos;
 	struct group_t *group;
+	struct window_t *win = (struct window_t*)(ifc->win);
+	GtkTreeView *tv = (GtkTreeView*)(win->contact_treeview);
+	GtkTreeIter parent;
+	GtkTreeIter child;
+	GtkTreeStore *store;
+	GtkWidget *cell_view;
+	GdkPixbuf *pixbuf;
+
+	store = (GtkTreeStore*)gtk_tree_view_get_model(GTK_TREE_VIEW(tv));
+
 
 	dlist_foreach(pos, glist) {
 		group = (struct group_t*)dlist_entry(pos, struct group_t, glist_node);
 		if (!strcmp(group->group_name, user->group_name)) {
 			dlist_add(&(user->glist_node), &(group->mlist_head));
 
+			printf("groupname: %s\n", group->group_name);
 			/* update treeview model */
-
+			parent = group->my_iter;
+			pixbuf = gdk_pixbuf_new_from_file("pixmaps/online.png", NULL);
+			gtk_tree_store_append(store, &child, &parent);
+			gtk_tree_store_set(store, &child, 0, pixbuf, 1, user->nickname, -1);
+			gdk_pixbuf_unref(pixbuf);
+			user->parent_iter = group->my_iter; 
+			user->my_iter = child;
 			return;
 		}
 	}
@@ -54,8 +78,21 @@ void group_add_user(struct dlist_t *glist, struct user_t *user) {
 
 	dlist_add(&(group->glist_node), glist);
 
+	printf("update treeview model\n");
 	/* update treeview model */
 
+	pixbuf = gdk_pixbuf_new_from_file("pixmaps/online.png", NULL);
+	gtk_tree_store_append(store, &parent, NULL);
+	gtk_tree_store_set(store, &parent, 0, pixbuf, 1, group->group_name, -1);
+	gdk_pixbuf_unref(pixbuf);
+	group->my_iter = parent;
+
+	pixbuf = gdk_pixbuf_new_from_file("pixmaps/online.png", NULL);
+	gtk_tree_store_append(store, &child, &parent);
+	gtk_tree_store_set(store, &child, 0, pixbuf, 1, user->nickname, -1);
+	gdk_pixbuf_unref(pixbuf);
+	user->parent_iter = parent;
+	user->my_iter = child;
 }
 
 struct user_t *group_find_user(struct dlist_t *glist, int type, const char *key) {

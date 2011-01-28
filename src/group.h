@@ -12,13 +12,15 @@
 #include "dlist.h"
 #include "user.h"
 
+#include "gtk_common.h"
+
 struct group_t {
 	char group_name[32];
 
 	struct dlist_t mlist_head;
 	struct dlist_t glist_node;
 
-	void *my_iter;
+	GtkTreeIter my_iter;
 };
 
 
@@ -29,10 +31,10 @@ enum {
 };
 
 
-void init_group(struct dlist_t *glist);
+//void init_group(struct dlist_t *glist);
 
-void group_add_user(struct dlist_t *glist, struct user_t *user);
+//void group_add_user(struct dlist_t *glist, struct user_t *user);
 
-struct user_t *group_find_user(struct dlist_t *glist, int type, const char *key);
+//struct user_t *group_find_user(struct dlist_t *glist, int type, const char *key);
 	
 #endif

@@ -129,7 +129,7 @@ void *udp_listen_routine(void *arg) {
 				strerror(errno), __FILE__, __LINE__);
 		return NULL;
 	}
-	ev.events = EPOLLIN | EPOLLOUT | EPOLLET;
+	ev.events = EPOLLIN | EPOLLET;
 	ev.data.fd = usock->sock;
 	if (epoll_ctl(epfd, EPOLL_CTL_ADD, usock->sock, &ev) < 0) {
 	   fprintf(stderr, "epoll_ctl() error: %s@%s:%d\n",
@@ -141,11 +141,11 @@ void *udp_listen_routine(void *arg) {
 
 		if (usock->shutdown == 1)
 			break;
-		nfds = epoll_wait(epfd, events, 10, 10);
+		nfds = epoll_wait(epfd, events, sizeof(events), 10);
 		if (nfds < 0) {
 			fprintf(stderr, "epoll_wait() error: %s@%s:%d\n",
 					strerror(errno), __FILE__, __LINE__);
-			break;
+//			break;
 		}
 		for(i = 0;i < nfds; i++) {
 			fd = events[i].data.fd;
@@ -157,6 +157,7 @@ void *udp_listen_routine(void *arg) {
 				size = recvfrom(fd, buf, sizeof(buf), 0,
 						(struct sockaddr*)&addr, &socklen);
 				if (size > 0) {
+					printf("%s\n", buf);
 					msg = (struct msg_t*)malloc(sizeof(struct msg_t));
 					if (msg == NULL) {
 						fprintf(stderr, "malloc() error: %s@%s:%d\n",
@@ -179,27 +180,28 @@ void *udp_listen_routine(void *arg) {
 					pthread_cond_signal(&(usock->cond));
 					pthread_mutex_unlock(&(usock->mutex));
 				}
-			} else if (events[i].events & (EPOLLOUT | EPOLLET)) {
-				/* get message from queue, and send it out. */
-				pthread_mutex_lock(&(usock->wq_lock));
-				msg = queue_pop(usock->wque);
-				pthread_mutex_unlock(&(usock->wq_lock));
-				if (msg) {
-					printf("send to: %s:%u\n", msg->ip, msg->port);
-					printf("msg: %s\n", msg->data);
-
-					memset(&addr, 0, sizeof(addr));
-					addr.sin_family = AF_INET;
-					addr.sin_addr.s_addr = inet_addr(msg->ip);
-					addr.sin_port = htons(msg->port);
-					size = sendto(fd, (void*)msg->data, msg->size, 0,
-							(struct sockaddr*)&addr, sizeof(addr));
-					if (size < 0) {
-						fprintf(stderr, "sendto() error: %s@%s:%d\n",
-								strerror(errno), __FILE__, __LINE__);
-					}
-				}
 			}
+		}	
+		/* get message from queue, and send it out. */
+		pthread_mutex_lock(&(usock->wq_lock));
+		msg = queue_pop(usock->wque);
+		pthread_mutex_unlock(&(usock->wq_lock));
+		if (msg) {
+//			printf("send to: %s:%u\n", msg->ip, msg->port);
+//			printf("msg: %s\n", msg->data);
+
+			memset(&addr, 0, sizeof(addr));
+			addr.sin_family = AF_INET;
+			addr.sin_addr.s_addr = inet_addr(msg->ip);
+			addr.sin_port = htons(msg->port);
+			size = sendto(usock->sock, (void*)msg->data, msg->size, 0,
+						(struct sockaddr*)&addr, sizeof(addr));
+			if (size < 0) {
+					fprintf(stderr, "sendto() error: %s@%s:%d\n",
+							strerror(errno), __FILE__, __LINE__);
+			}
+//			free(msg->data);
+//			free(msg);
 		}
 	}
 	close(epfd);
@@ -216,7 +218,7 @@ int udp_send(struct udp_socket_t *usock, const struct msg_t *msg) {
 }
 
 int udp_recv(struct udp_socket_t *usock, struct msg_t **msg) {
-	printf("recv...\n");
+//	printf("recv...\n");
 	*msg = queue_pop(usock->rque);
 	if (*msg == NULL) {
 		return -1;
