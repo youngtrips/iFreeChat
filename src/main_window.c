@@ -145,9 +145,15 @@ int init_main_window(window_t *win , /*struct dlist_t *glist,*/ const char *uifi
 //	return 0;
 //}
 
-void show_main_window(window_t *win) {
-	g_signal_connect(GTK_OBJECT(win->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
-	gtk_widget_show_all(win->window);
+//void contact_treeview_ondoubleclicked(GtkTreeView *tree_view,
+//		GtkTreePath *path, gpointer user_data) {
+void contact_treeview_ondoubleclicked(GtkWidget *w, gpointer s) {
+	printf("double clicked...\n");
 }
 
-
+void show_main_window(window_t *win) {
+	g_signal_connect(GTK_OBJECT(win->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+	g_signal_connect(GTK_OBJECT(win->contact_treeview), "clicked", 
+			G_CALLBACK(contact_treeview_ondoubleclicked), NULL);
+	gtk_widget_show_all(win->window);
+}
