@@ -21,6 +21,7 @@ struct group_t {
 	struct dlist_t glist_node;
 
 	GtkTreeIter my_iter;
+	int num_member;
 };
 
 

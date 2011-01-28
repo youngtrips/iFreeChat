@@ -43,6 +43,7 @@ void group_add_user(struct ifreechat_t *ifc,
 	struct dlist_t *pos;
 	struct group_t *group;
 	struct window_t *win = (struct window_t*)(ifc->win);
+	char title[64];
 	GtkTreeView *tv = (GtkTreeView*)(win->contact_treeview);
 	GtkTreeIter parent;
 	GtkTreeIter child;
@@ -58,9 +59,14 @@ void group_add_user(struct ifreechat_t *ifc,
 		if (!strcmp(group->group_name, user->group_name)) {
 			dlist_add(&(user->glist_node), &(group->mlist_head));
 
-			printf("groupname: %s\n", group->group_name);
 			/* update treeview model */
 			parent = group->my_iter;
+			group->num_member++;
+			sprintf(title, "%s[%d]", group->group_name, group->num_member);
+//			pixbuf = gdk_pixbuf_new_from_file("pixmaps/online.png", NULL);
+			gtk_tree_store_set(store, &parent, 0, NULL, 1, title, -1);
+//			gdk_pixbuf_unref(pixbuf);
+
 			pixbuf = gdk_pixbuf_new_from_file("pixmaps/online.png", NULL);
 			gtk_tree_store_append(store, &child, &parent);
 			gtk_tree_store_set(store, &child, 0, pixbuf, 1, user->nickname, -1);
@@ -81,11 +87,13 @@ void group_add_user(struct ifreechat_t *ifc,
 	printf("update treeview model\n");
 	/* update treeview model */
 
-	pixbuf = gdk_pixbuf_new_from_file("pixmaps/online.png", NULL);
+	sprintf(title, "%s[1]", group->group_name);
+//	pixbuf = gdk_pixbuf_new_from_file("pixmaps/online.png", NULL);
 	gtk_tree_store_append(store, &parent, NULL);
-	gtk_tree_store_set(store, &parent, 0, pixbuf, 1, group->group_name, -1);
-	gdk_pixbuf_unref(pixbuf);
+	gtk_tree_store_set(store, &parent, 0, NULL, 1, title, -1);
+//	gdk_pixbuf_unref(pixbuf);
 	group->my_iter = parent;
+	group->num_member = 1;
 
 	pixbuf = gdk_pixbuf_new_from_file("pixmaps/online.png", NULL);
 	gtk_tree_store_append(store, &child, &parent);

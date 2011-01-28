@@ -48,10 +48,10 @@ void *recv_msg_loop(void *arg) {
 			continue;
 		}
 		
-		printf("from: %s:%u\n", msg->ip, msg->port);
-		printf("msg_size: %u\n", msg->size);
-		printf("msg_data: %s\n", msg->data);
-		printf("\n");
+//		printf("from: %s:%u\n", msg->ip, msg->port);
+//		printf("msg_size: %u\n", msg->size);
+//		printf("msg_data: %s\n", msg->data);
+//		printf("\n");
 
 		handle_message(msg, ifreechat);
 //		free(msg->data);
@@ -145,11 +145,11 @@ char *get_section_string(const char *msg, char ch, unsigned char times)
 	return string;
 }
 
-void update_contact_treeview(struct ifreechat_t *ifc, char *username) {
+void update_contact_treeview(struct ifreechat_t *ifc, char *username, char *groupname) {
 	struct user_t *user;
 	user = add_user(ifc->ulist, username, "pixmaps/online.png",
 			"test", "test", 
-			"test", "No Group");
+			"test", groupname);
 	gdk_threads_enter();
 	group_add_user(ifc, ifc->glist, user);
 	gdk_threads_leave();
@@ -161,31 +161,38 @@ void handle_message(struct msg_t *msg, struct ifreechat_t *ifc) {
 	unsigned int cmd;
 	unsigned int pno;
 	char *username;
+	char *nickname;
 	char *hostname;
 	char *buf;
 	char *encode;
+	char *groupname;
+	char *nickname_buf;
+	char *groupname_buf;
+	int i;
+	int j;
 
-	buf = string_validate(msg->data, "gbk", &encode);
-	if (buf == NULL) {
-		buf = msg->data;
-	} else {
-		printf("buf: %s\n", buf);
-		printf("encode: %s\n", encode);
-	}
-
+	buf = msg->data;
 	pno = get_dec_number(buf, ':', 1);
 	username = get_section_string(buf, ':', 2);
 	hostname = get_section_string(buf, ':', 3);
 	cmd = get_dec_number(buf, ':', 4);
 
-	printf("cmd: %u\n", cmd);
-	if (cmd & 0x3) {
-		printf("bbbbbnb\n");
-		printf("pno: %u\n", pno);
-		printf("user: %s, host:%s\n", username, hostname);
-		printf("cmd=%x\n", cmd);
-		printf("\n");
+	nickname_buf = get_section_string(buf, ':', 5);
+	groupname_buf = strrchr(msg->data, ':') + strlen(nickname_buf) + 2;
 
-		update_contact_treeview(ifc, username);
+	nickname = string_validate(nickname_buf, "gbk", &encode);
+	if (nickname == NULL) 
+		nickname = nickname_buf;
+
+	groupname = string_validate(groupname_buf, "gbk", &encode);
+	if (groupname == NULL)
+		groupname = groupname_buf;
+
+	if (cmd & 0x3) {
+
+		printf("nickanme: %s\n", nickname);
+		printf("groupname: %s\n", groupname);
+		update_contact_treeview(ifc, nickname, 
+				strlen(groupname) == 0 ? "No Group" : groupname);
 	}
 }
