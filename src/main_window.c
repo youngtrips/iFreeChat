@@ -30,7 +30,10 @@
 enum {
 	PIXBUF_COL,
 	TEXT_COL,
-	NUM_COL
+	IP_COL,
+	MAC_COL,
+	URI_COL,
+	COL_NUM
 };
 
 void init_treeview(GtkTreeView *tv) {
@@ -57,7 +60,12 @@ GtkTreeStore *create_contact_treevie_model() {
 	GtkTreeStore *store;
 
 
-	store = gtk_tree_store_new(2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
+	store = gtk_tree_store_new(COL_NUM, 
+			GDK_TYPE_PIXBUF, 
+			G_TYPE_STRING,
+			G_TYPE_STRING,
+			G_TYPE_STRING,
+			G_TYPE_POINTER);
 	/*
 	cell_view = gtk_cell_view_new();
 
@@ -145,15 +153,31 @@ int init_main_window(window_t *win , /*struct dlist_t *glist,*/ const char *uifi
 //	return 0;
 //}
 
-//void contact_treeview_ondoubleclicked(GtkTreeView *tree_view,
-//		GtkTreePath *path, gpointer user_data) {
-void contact_treeview_ondoubleclicked(GtkWidget *w, gpointer s) {
-	printf("double clicked...\n");
+void contact_treeview_ondoubleclicked(GtkTreeView *tree_view,
+		GtkTreePath *path, GtkTreeViewColumn *UNUSED(col), gpointer user_data) {
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	char *nickname;
+	char *ip_addr;
+	char *mac_addr;
+	void *user;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view));
+	gtk_tree_model_get_iter(model, &iter, path);
+	gtk_tree_model_get(model, &iter, 
+			TEXT_COL, &nickname,
+			IP_COL, &ip_addr,
+			URI_COL, &user,
+			-1);
+	printf("nickname: %s\n", nickname);
+	printf("IP: %s\n", ip_addr);
+	printf("user: %x\n", (unsigned long)user);
 }
 
 void show_main_window(window_t *win) {
 	g_signal_connect(GTK_OBJECT(win->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
-	g_signal_connect(GTK_OBJECT(win->contact_treeview), "clicked", 
+	g_signal_connect(GTK_OBJECT(win->contact_treeview), 
+			"row_activated", 
 			G_CALLBACK(contact_treeview_ondoubleclicked), NULL);
 	gtk_widget_show_all(win->window);
 }

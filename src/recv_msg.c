@@ -145,10 +145,13 @@ char *get_section_string(const char *msg, char ch, unsigned char times)
 	return string;
 }
 
-void update_contact_treeview(struct ifreechat_t *ifc, char *username, char *groupname) {
+void update_contact_treeview(struct ifreechat_t *ifc, 
+								char *username, 
+								char *groupname,
+								char *ip_addr) {
 	struct user_t *user;
 	user = add_user(ifc->ulist, username, "pixmaps/online.png",
-			"test", "test", 
+			ip_addr, "test", 
 			"test", groupname);
 	gdk_threads_enter();
 	group_add_user(ifc, ifc->glist, user);
@@ -192,7 +195,9 @@ void handle_message(struct msg_t *msg, struct ifreechat_t *ifc) {
 
 		printf("nickanme: %s\n", nickname);
 		printf("groupname: %s\n", groupname);
-		update_contact_treeview(ifc, nickname, 
-				strlen(groupname) == 0 ? "No Group" : groupname);
+		update_contact_treeview(ifc, 
+				nickname, 
+				strlen(groupname) == 0 ? "No Group" : groupname,
+				msg->ip);
 	}
 }

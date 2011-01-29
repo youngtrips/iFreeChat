@@ -33,6 +33,8 @@ struct user_t *add_user(struct dlist_t *ulist,
 	strcpy(user->signature, signature);
 	strcpy(user->group_name, grpname);
 
+	user->chatdlg = NULL;
+
 	init_dlist_node(&(user->ulist_node));
 	init_dlist_node(&(user->glist_node));
 

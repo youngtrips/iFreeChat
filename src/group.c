@@ -54,6 +54,8 @@ void group_add_user(struct ifreechat_t *ifc,
 	store = (GtkTreeStore*)gtk_tree_view_get_model(GTK_TREE_VIEW(tv));
 
 
+	printf("user pointer: %x\n", (unsigned long)user);
+
 	dlist_foreach(pos, glist) {
 		group = (struct group_t*)dlist_entry(pos, struct group_t, glist_node);
 		if (!strcmp(group->group_name, user->group_name)) {
@@ -69,7 +71,13 @@ void group_add_user(struct ifreechat_t *ifc,
 
 			pixbuf = gdk_pixbuf_new_from_file("pixmaps/online.png", NULL);
 			gtk_tree_store_append(store, &child, &parent);
-			gtk_tree_store_set(store, &child, 0, pixbuf, 1, user->nickname, -1);
+			gtk_tree_store_set(store, &child, 
+					0, pixbuf, 
+					1, user->nickname, 
+					2, user->ip_addr,
+					3, user->mac_addr,
+					4, (void*)user,
+					-1);
 			gdk_pixbuf_unref(pixbuf);
 			user->parent_iter = group->my_iter; 
 			user->my_iter = child;
@@ -97,7 +105,13 @@ void group_add_user(struct ifreechat_t *ifc,
 
 	pixbuf = gdk_pixbuf_new_from_file("pixmaps/online.png", NULL);
 	gtk_tree_store_append(store, &child, &parent);
-	gtk_tree_store_set(store, &child, 0, pixbuf, 1, user->nickname, -1);
+	gtk_tree_store_set(store, &child, 
+			0, pixbuf, 
+			1, user->nickname,
+			2, user->ip_addr,
+			3, user->mac_addr,
+			4, (void*)user,
+		   	-1);
 	gdk_pixbuf_unref(pixbuf);
 	user->parent_iter = parent;
 	user->my_iter = child;

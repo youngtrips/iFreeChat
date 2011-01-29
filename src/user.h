@@ -22,6 +22,7 @@ struct user_t {
 
 	GtkTreeIter parent_iter;
 	GtkTreeIter my_iter;
+	GtkWidget *chatdlg;
 
 	struct dlist_t ulist_node;
 	struct dlist_t glist_node;
