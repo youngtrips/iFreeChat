@@ -172,7 +172,7 @@ void contact_treeview_ondoubleclicked(GtkTreeView *tree_view,
 
 void show_main_window(window_t *win) {
 
-	g_signal_connect(GTK_OBJECT(win->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+	g_signal_connect(G_OBJECT(win->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 	
 	g_signal_connect(GTK_OBJECT(win->contact_treeview), 
 			"row_activated", 

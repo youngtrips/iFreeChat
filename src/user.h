@@ -28,6 +28,8 @@ struct user_t {
 	char signature[128];
 	char group_name[64];
 
+	void *test;
+
 	GtkTreeIter parent_iter;
 	GtkTreeIter my_iter;
 

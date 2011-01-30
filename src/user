@@ -1,0 +1,103 @@
+chatdlg.c:#include "user.h"
+chatdlg.c:void on_send_message(GtkWidget *widget, struct user_t *user);
+chatdlg.c://void on_send_message(struct user_t *user);
+chatdlg.c:struct chatdlg_t *init_chatdlg(struct user_t *user) {
+chatdlg.c://	user->chatdlg = malloc(sizeof(struct chatdlg_t));
+chatdlg.c:	chatdlg = (struct chatdlg_t*)(user->chatdlg);
+chatdlg.c:	sprintf(title, "Chat with %s", user->nickname);
+chatdlg.c:	gtk_image_set_from_file(chatdlg->avatar_image, user->avatar);
+chatdlg.c:	gtk_label_set_text(chatdlg->nickname_label, user->nickname);
+chatdlg.c:	gtk_label_set_text(chatdlg->signature_label, user->signature);
+chatdlg.c://			"destroy", G_CALLBACK(close_chatdialog), (void*)user);
+chatdlg.c:	printf("user: %x\n", (unsigned long)user);
+chatdlg.c:			"clicked", GTK_SIGNAL_FUNC(on_send_message), user);
+chatdlg.c:	struct user_t *user;
+chatdlg.c://	user = (struct user_t*)arg;
+chatdlg.c://	chatdlg = (struct chatdlg_t*)(user->chatdlg);
+chatdlg.c://	user->chatdlg = NULL;
+chatdlg.c:void on_send_message(GtkWidget *widget, struct user_t *user) {
+chatdlg.c://void on_send_message(struct user_t *user) {
+chatdlg.c:	printf("user: %x\n", (unsigned long)user);
+chatdlg.c:	chatdlg = (struct chatdlg_t*)(user->test);
+Binary file chatdlg.o matches
+global.h:	struct dlist_t user_list;
+group.c:#include "user.h"
+group.c:void group_add_user(struct ifreechat_t *ifc, 
+group.c:		struct dlist_t *glist, struct user_t *user) {
+group.c:	printf("user pointer: %x\n", (unsigned long)user);
+group.c:	printf("user avatar: [%s]\n", user->avatar);
+group.c:	user->ifreechat = (void*)ifc;
+group.c:		if (!strcmp(group->group_name, user->group_name)) {
+group.c:			dlist_add(&(user->glist_node), &(group->mlist_head));
+group.c:			pixbuf = gdk_pixbuf_new_from_file(user->avatar, NULL);
+group.c:					1, user->nickname, 
+group.c:					2, user->ip_addr,
+group.c:					3, user->mac_addr,
+group.c:					4, (void*)user,
+group.c:			user->parent_iter = group->my_iter; 
+group.c:			user->my_iter = child;
+group.c:	strcpy(group->group_name, user->group_name);
+group.c:	pixbuf = gdk_pixbuf_new_from_file(user->avatar, NULL);
+group.c:			1, user->nickname,
+group.c:			2, user->ip_addr,
+group.c:			3, user->mac_addr,
+group.c:			4, (void*)user,
+group.c:	user->parent_iter = parent;
+group.c:	user->my_iter = child;
+group.c:struct user_t *group_find_user(struct dlist_t *glist, int type, const char *key) {
+group.c:	struct user_t *user;
+group.c:			user = (struct user_t*)dlist_entry(j, struct user_t, glist_node);
+group.c:					p = user->nickname; break;
+group.c:					p = user->ip_addr; 	break;
+group.c:					p = user->mac_addr;	break;
+group.c:				return user;
+group.h:#include "user.h"
+group.h://void group_add_user(struct dlist_t *glist, struct user_t *user);
+group.h://struct user_t *group_find_user(struct dlist_t *glist, int type, const char *key);
+Binary file group.o matches
+Binary file ifreechat matches
+ifreechat.c:#include "user.h"
+Binary file ifreechat.o matches
+main_window.c:#include "user.h"
+main_window.c:			user = (struct user_t*)dlist_entry(j, struct user_t, glist_node);
+main_window.c:			gtk_tree_store_set(store, &child, PIXBUF_COL, pixbuf, TEXT_COL, user->nickname, -1);
+main_window.c:			user->parent_iter = &parent;
+main_window.c:			user->my_iter = &child;
+main_window.c:		GtkTreePath *path, GtkTreeViewColumn *UNUSED(col), gpointer user_data) {
+main_window.c:	struct user_t *user;
+main_window.c:			URI_COL, &user,
+main_window.c://	if (user->chatdlg == NULL) {
+main_window.c:		user->chatdlg = (void*)init_chatdlg(user);
+Binary file main_window.o matches
+recv_msg.c:#include "user.h"
+recv_msg.c:								char *username, 
+recv_msg.c:	struct user_t *user;
+recv_msg.c:	user = add_user(ifc->ulist, username, avatar_file,
+recv_msg.c:	group_add_user(ifc, ifc->glist, user);
+recv_msg.c:	char *username;
+recv_msg.c:	username = get_section_string(buf, ':', 2);
+Binary file recv_msg.o matches
+user.c: * File Name: user.c
+user.c:#include "user.h"
+user.c:struct dlist_t user_list;
+user.c:#define init_user_list(head) \
+user.c:struct user_t *add_user(struct dlist_t *ulist, 
+user.c:	struct user_t *user;
+user.c:	user = (struct user_t*)malloc(sizeof(struct user_t));
+user.c:	if (user == NULL) {
+user.c:	strcpy(user->nickname, nickname);
+user.c:	strcpy(user->avatar, avatar);
+user.c:	strcpy(user->ip_addr, ip);
+user.c:	strcpy(user->mac_addr, mac);
+user.c:	strcpy(user->signature, signature);
+user.c:	strcpy(user->group_name, grpname);
+user.c:	user->chatdlg = malloc(sizeof(struct chatdlg_t)); 
+user.c:	if (user->chatdlg == NULL) {
+user.c:	user->test = user->chatdlg;
+user.c:	init_dlist_node(&(user->ulist_node));
+user.c:	init_dlist_node(&(user->glist_node));
+user.c:	dlist_add(&(user->ulist_node), ulist);
+user.c:	return (void*)user;
+user.h: * File Name: user.h
+user.h:struct user_t {
+Binary file user.o matches

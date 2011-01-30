@@ -53,9 +53,6 @@ void group_add_user(struct ifreechat_t *ifc,
 
 	store = (GtkTreeStore*)gtk_tree_view_get_model(GTK_TREE_VIEW(tv));
 
-
-	printf("user pointer: %x\n", (unsigned long)user);
-	printf("user avatar: [%s]\n", user->avatar);
 	user->ifreechat = (void*)ifc;
 
 	dlist_foreach(pos, glist) {

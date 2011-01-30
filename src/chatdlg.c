@@ -112,7 +112,7 @@ void on_send_message(GtkWidget *widget, struct user_t *user) {
 	GtkTextIter end;
 
 	printf("user: %x\n", (unsigned long)user);
-	chatdlg = (struct chatdlg_t*)(user->chatdlg);
+	chatdlg = (struct chatdlg_t*)(user->test);
 
 	input_textview = chatdlg->input_textview;
 	printf("bbb\n");
@@ -132,6 +132,7 @@ void on_send_message(GtkWidget *widget, struct user_t *user) {
 	gtk_text_buffer_get_end_iter(output_buffer, &end);
 
 	input_msg = gtk_text_buffer_get_text(input_buffer, &start, &end, TRUE);
+
 	printf("msg: %s\n", input_msg);
 
 //	gtk_text_buffer_insert(output_buffer, &end, input_msg, strlen(input_msg));

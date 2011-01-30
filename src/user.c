@@ -43,6 +43,8 @@ struct user_t *add_user(struct dlist_t *ulist,
 				strerror(errno), __FILE__, __LINE__);
 	}
 
+	user->test = user->chatdlg;
+
 	init_dlist_node(&(user->ulist_node));
 	init_dlist_node(&(user->glist_node));
 
