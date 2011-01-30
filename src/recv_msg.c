@@ -12,7 +12,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "ipmsg.h"
 #include "udp_socket.h"
 #include "gtk_common.h"
 #include "recv_msg.h"
