@@ -55,6 +55,8 @@ void group_add_user(struct ifreechat_t *ifc,
 
 
 	printf("user pointer: %x\n", (unsigned long)user);
+	printf("user avatar: [%s]\n", user->avatar);
+	user->ifreechat = (void*)ifc;
 
 	dlist_foreach(pos, glist) {
 		group = (struct group_t*)dlist_entry(pos, struct group_t, glist_node);
@@ -69,7 +71,7 @@ void group_add_user(struct ifreechat_t *ifc,
 			gtk_tree_store_set(store, &parent, 0, NULL, 1, title, -1);
 //			gdk_pixbuf_unref(pixbuf);
 
-			pixbuf = gdk_pixbuf_new_from_file("pixmaps/online.png", NULL);
+			pixbuf = gdk_pixbuf_new_from_file(user->avatar, NULL);
 			gtk_tree_store_append(store, &child, &parent);
 			gtk_tree_store_set(store, &child, 
 					0, pixbuf, 
@@ -103,7 +105,7 @@ void group_add_user(struct ifreechat_t *ifc,
 	group->my_iter = parent;
 	group->num_member = 1;
 
-	pixbuf = gdk_pixbuf_new_from_file("pixmaps/online.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file(user->avatar, NULL);
 	gtk_tree_store_append(store, &child, &parent);
 	gtk_tree_store_set(store, &child, 
 			0, pixbuf, 

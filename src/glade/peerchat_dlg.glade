@@ -28,7 +28,7 @@
                         <property name="width_request">48</property>
                         <property name="height_request">48</property>
                         <property name="visible">True</property>
-                        <property name="pixbuf">test.png</property>
+                        <property name="pixbuf">../pixmaps/test.png</property>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
@@ -142,7 +142,7 @@
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">toolbutton4</property>
                         <property name="use_underline">True</property>
-                        <property name="icon">smilie.png</property>
+                        <property name="icon">../pixmaps/smilie.png</property>
                       </widget>
                       <packing>
                         <property name="expand">False</property>

@@ -157,27 +157,25 @@ void contact_treeview_ondoubleclicked(GtkTreeView *tree_view,
 		GtkTreePath *path, GtkTreeViewColumn *UNUSED(col), gpointer user_data) {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	char *nickname;
-	char *ip_addr;
-	char *mac_addr;
-	void *user;
+	struct user_t *user;
 
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view));
 	gtk_tree_model_get_iter(model, &iter, path);
 	gtk_tree_model_get(model, &iter, 
-			TEXT_COL, &nickname,
-			IP_COL, &ip_addr,
 			URI_COL, &user,
 			-1);
-	printf("nickname: %s\n", nickname);
-	printf("IP: %s\n", ip_addr);
-	printf("user: %x\n", (unsigned long)user);
+//	if (user->chatdlg == NULL) {
+		user->chatdlg = (void*)init_chatdlg(user);
+//	}
+	
 }
 
 void show_main_window(window_t *win) {
+
 	g_signal_connect(GTK_OBJECT(win->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+	
 	g_signal_connect(GTK_OBJECT(win->contact_treeview), 
 			"row_activated", 
-			G_CALLBACK(contact_treeview_ondoubleclicked), NULL);
+			GTK_SIGNAL_FUNC(contact_treeview_ondoubleclicked), NULL);
 	gtk_widget_show_all(win->window);
 }

@@ -12,6 +12,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "ipmsg.h"
 #include "udp_socket.h"
 #include "gtk_common.h"
 #include "recv_msg.h"
@@ -148,10 +149,20 @@ char *get_section_string(const char *msg, char ch, unsigned char times)
 void update_contact_treeview(struct ifreechat_t *ifc, 
 								char *username, 
 								char *groupname,
-								char *ip_addr) {
+								char *ip_addr,
+								char *mac,
+								int avatar) {
 	struct user_t *user;
-	user = add_user(ifc->ulist, username, "pixmaps/online.png",
-			ip_addr, "test", 
+	char avatar_file[128];
+	
+	if (avatar == 0) {
+		strcpy(avatar_file, "pixmaps/avatar/default.png");
+	} else {
+		sprintf(avatar_file, "pixmaps/avatar/%d.bmp", avatar);
+	}
+
+	user = add_user(ifc->ulist, username, avatar_file,
+			ip_addr, mac, 
 			"test", groupname);
 	gdk_threads_enter();
 	group_add_user(ifc, ifc->glist, user);
@@ -159,10 +170,40 @@ void update_contact_treeview(struct ifreechat_t *ifc,
 }
 
 
+int get_avatar_no(const char *version) {
+
+	char *p;
+	char *q;
+	int res;
+
+	p = strchr(version, '_'); p++;
+	q = strchr(p, '_'); q++;
+	for(res = 0;*q != '#'; q++) {
+		res = res * 10 + (*q - '0');
+	}
+	return res;
+}
+
+char *get_mac(const char *version, char *buf) {
+	char *p;
+	char *q;
+	char *o;
+	p = strchr(version, '#'); p++;
+	q = strchr(p, '#'); q++;
+
+	for(o = buf;*q != '#'; o++, q++)
+		*o = *q;
+	*o = '\0';
+	return buf;
+}
+
+
+
 void handle_message(struct msg_t *msg, struct ifreechat_t *ifc) {
 	
 	unsigned int cmd;
 	unsigned int pno;
+	char *version;
 	char *username;
 	char *nickname;
 	char *hostname;
@@ -171,10 +212,17 @@ void handle_message(struct msg_t *msg, struct ifreechat_t *ifc) {
 	char *groupname;
 	char *nickname_buf;
 	char *groupname_buf;
+	char mac[20];
+	int avatar;
 	int i;
 	int j;
 
 	buf = msg->data;
+	version = get_section_string(buf, ':', 0);
+	avatar = get_avatar_no(version);
+	get_mac(version, mac);
+	printf("mac: %s\n", mac);
+	
 	pno = get_dec_number(buf, ':', 1);
 	username = get_section_string(buf, ':', 2);
 	hostname = get_section_string(buf, ':', 3);
@@ -198,6 +246,12 @@ void handle_message(struct msg_t *msg, struct ifreechat_t *ifc) {
 		update_contact_treeview(ifc, 
 				nickname, 
 				strlen(groupname) == 0 ? "No Group" : groupname,
-				msg->ip);
+				msg->ip, 
+				mac,
+				avatar);
 	}
 }
+
+
+
+

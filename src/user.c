@@ -8,8 +8,12 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+#include <errno.h>
 
 #include "user.h"
+
+#include "chatdlg.h"
 
 struct dlist_t user_list;
 
@@ -33,7 +37,11 @@ struct user_t *add_user(struct dlist_t *ulist,
 	strcpy(user->signature, signature);
 	strcpy(user->group_name, grpname);
 
-	user->chatdlg = NULL;
+	user->chatdlg = malloc(sizeof(struct chatdlg_t)); 
+	if (user->chatdlg == NULL) {
+		fprintf(stderr, "malloc() error: %s:%s:%d\n", 
+				strerror(errno), __FILE__, __LINE__);
+	}
 
 	init_dlist_node(&(user->ulist_node));
 	init_dlist_node(&(user->glist_node));
