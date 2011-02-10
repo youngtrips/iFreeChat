@@ -24,6 +24,7 @@
 #ifndef __WINDOW_H
 #define __WINDOW_H
 
+#include "gtk_common.h"
 #include "user.h"
 #include "group.h"
 

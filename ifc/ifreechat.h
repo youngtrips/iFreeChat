@@ -33,6 +33,9 @@
 #include "group.h"
 #include "user.h"
 
+typedef struct udp_socket_t {
+}udp_socket_t;
+
 typedef struct ifreechat_t {
 
 	udp_socket_t usock; 	/* udp socket struct */

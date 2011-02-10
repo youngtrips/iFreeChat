@@ -24,6 +24,8 @@
 #ifndef __PCHATBOX_H
 #define __PCHATBOX_H
 
+#include "gtk_common.h"
+
 typedef struct pchatbox_t {
 	GtkWidget *window;
 	GtkTextView *recv_textview;

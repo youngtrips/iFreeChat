@@ -39,6 +39,7 @@ user_t *new_user(const char *nickname, const char *username,
 	size += 1 + strlen(nickname);
 	size += 1 + strlen(username);
 	size += 1 + strlen(hostname);
+	size += 1 + strlen(avatar);
 	size += 1 + strlen(ipaddr);
 	size += 1 + strlen(macaddr);
 	size += 1 + strlen(signature);
@@ -54,6 +55,7 @@ user_t *new_user(const char *nickname, const char *username,
 	user->nickname 	= base; base += 1 + strlen(nickname);
 	user->username 	= base;	base += 1 + strlen(username);
 	user->hostname 	= base; base += 1 + strlen(hostname);
+	user->avatar	= base; base += 1 + strlen(avatar);
 	user->ipaddr 	= base; base += 1 + strlen(ipaddr);
 	user->macaddr 	= base; base += 1 + strlen(macaddr);
 	user->signature = base; base += 1 + strlen(signature);
@@ -64,6 +66,7 @@ user_t *new_user(const char *nickname, const char *username,
 	strcpy(user->nickname, 	nickname);
 	strcpy(user->username, 	username);
 	strcpy(user->hostname, 	hostname);
+	strcpy(user->avatar, 	avatar);
 	strcpy(user->ipaddr, 	ipaddr);
 	strcpy(user->macaddr, 	macaddr);
 	strcpy(user->signature, signature);

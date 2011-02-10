@@ -24,14 +24,16 @@
 #ifndef __GCHATBOX_H
 #define __GCHATBOX_H
 
-typedef struct pchatbox_t {
+#include "gtk_common.h"
+
+typedef struct gchatbox_t {
 	GtkWidget *window;
 	GtkTextView *recv_textview;
 	GtkTextView *send_textview;
 	GtkButton *send_button;
 	GtkToolButton *chose_face_button;
 	GtkWindow *emo;
-}pchatbox_t;
+}gchatbox_t;
 
 
 #endif

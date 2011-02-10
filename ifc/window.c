@@ -118,10 +118,12 @@ int add_user_to_treeview(GtkTreeView *treeview, user_t *user) {
 				-1);
 	}
 
-	pixbuf = (GdkPixbuf*)gdk_pixbuf_new_from_fild(user->avatar, NULL);
+	printf("avatar: [%s]\n", user->avatar);
+	pixbuf = (GdkPixbuf*)gdk_pixbuf_new_from_file(user->avatar, NULL);
 	gtk_tree_store_append((GtkTreeStore*)model, &user_iter, &category_iter);
 	gtk_tree_store_set((GtkTreeStore*)model, &user_iter,
 			PIXBUF_COL, pixbuf,
+			TEXT_COL, user->nickname,
 			IP_COL, user->ipaddr,
 			MAC_COL, user->macaddr,
 			URI_COL, (void*)user,
