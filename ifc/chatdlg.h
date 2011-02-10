@@ -1,7 +1,7 @@
 /*
- * Author: youngtrips(youngtrips@163.com)
- * Created Time:  2011-02-10
- * File Name: pchatbox.h
+ * Author: youngtrips
+ * Created Time:  2011-01-29
+ * File Name: chatdlg.h
  * Description: 
  *
  * This program is free software; you can redistribute it and/or
@@ -21,14 +21,12 @@
  *
  */
 
-#ifndef __PCHATBOX_H
-#define __PCHATBOX_H
+#ifndef __CHATDLG_H
+#define __CHATDLG_H
 
 #include "gtk_common.h"
-#include "dlist.h"
-#include "user.h"
 
-typedef struct pchatbox_t {
+struct chatdlg_t {
 	GtkWidget *window;
 	GtkTextView *display_textview;
 	GtkTextView *input_textview;
@@ -38,12 +36,5 @@ typedef struct pchatbox_t {
 	GtkImage *avatar_image;
 	GtkLabel *nickname_label;
 	GtkLabel *signature_label;
-
-	user_t *remote;
-	void *ifreechat;
-
-	dlist_t pchatbox_node;
-
-}pchatbox_t;
-
+};
 #endif

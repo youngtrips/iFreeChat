@@ -38,6 +38,16 @@ typedef struct udp_socket_t {
 
 typedef struct ifreechat_t {
 
+	char *nickname;
+	char *username;
+	char *hostname;
+	char *avatar;
+	char *ipaddr;
+	char *macaddr;
+	char *signature;
+	char *default_encoding;
+	char *current_encoding;
+
 	udp_socket_t usock; 	/* udp socket struct */
 	window_t main_window; 	/* main window struct */
 

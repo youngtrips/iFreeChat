@@ -28,6 +28,7 @@
 #include "group.h"
 #include "user.h"
 #include "dlist.h"
+#include "ifreechat.h"
 
 enum {
 	PIXBUF_COL,
@@ -150,15 +151,17 @@ int del_group_from_treeview(GtkTreeView *treeview, group_t *group) {
 }
 
 
-int init_window(window_t *win , const char *uifile) {
+int init_window(ifreechat_t *ifc , const char *uifile) {
 
+	window_t *win;
 	GladeXML *xml;
 	GtkTreeStore *contact_store;
 
-	if (win == NULL || uifile == NULL) {
+	if (ifc == NULL || uifile == NULL) {
 		printf("wrong args...\n");
 		return -1;
 	}
+	win = &(ifc->main_window);
 
 	xml = glade_xml_new(uifile, NULL, NULL);
 	if (xml == NULL) {
@@ -198,26 +201,46 @@ int init_window(window_t *win , const char *uifile) {
 }
 
 void contact_treeview_ondoubleclicked(GtkTreeView *tree_view,
-		GtkTreePath *path, GtkTreeViewColumn *UNUSED(col), gpointer user_data) {
+		GtkTreePath *path, GtkTreeViewColumn *UNUSED(col), gpointer data) {
 
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	struct user_t *user;
+	ifreechat_t *ifc;
+	dlist_t *p;
+	pchatbox_t *chatbox;
+	user_t *user;
 
+	ifc = (ifreechat_t*)data;
+
+	if (gtk_tree_path_get_depth(path) == 1)
+		return;
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view));
 	gtk_tree_model_get_iter(model, &iter, path);
 	gtk_tree_model_get(model, &iter, 
 			URI_COL, &user,
 			-1);
-	
+
+	dlist_foreach(p, &(ifc->pchatbox)) {
+		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, pchatbox_node);
+		if (!strcmp(user->ipaddr, chatbox->remote->ipaddr)) {
+			gtk_window_present(chatbox->window);
+			return;
+		}
+	}
+
+	/* create new private chatbox */
+	new_pchatbox(ifc, user);
 }
 
-void show_window(window_t *win) {
+void show_window(ifreechat_t *ifc) {
 
+	window_t *win;
+
+	win = &(ifc->main_window);
 	g_signal_connect(G_OBJECT(win->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 	
 	g_signal_connect(GTK_OBJECT(win->contact_treeview), 
 			"row_activated", 
-			GTK_SIGNAL_FUNC(contact_treeview_ondoubleclicked), NULL);
+			GTK_SIGNAL_FUNC(contact_treeview_ondoubleclicked), (gpointer)ifc);
 	gtk_widget_show_all(win->window);
 }

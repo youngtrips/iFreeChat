@@ -28,14 +28,26 @@
 #include "user.h"
 
 ifreechat_t ifc;
+
+void init_ifreechat(ifreechat_t *ifc) {
+
+	init_dlist_node(&(ifc->pchatbox));
+	init_dlist_node(&(ifc->gchatbox));
+	init_dlist_node(&(ifc->ulist));
+	init_dlist_node(&(ifc->glist));
+	init_dlist_node(&(ifc->mlist));
+}
+
 int main(int argc, char *argv[]) {
 	user_t *user;
 	GtkTreeView *treeview;
 
 	gtk_init(&argc, &argv);
 
-	init_window(&(ifc.main_window), "glade/ui.glade");
-	show_window(&(ifc.main_window));
+	init_ifreechat(&ifc);
+
+	init_window(&ifc, "glade/ui.glade");
+	show_window(&ifc);
 
 	treeview = ifc.main_window.contact_treeview;
 	user = new_user("test1", "test1", "test1",
