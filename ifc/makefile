@@ -1,2 +1,21 @@
-all:
-	gcc -o ifreechat ifreechat.c window.c user.c pchatbox.c `pkg-config --cflags --libs glib-2.0 gdk-x11-2.0 gtk+-2.0 libglade-2.0` -g
+OBJS=ifreechat.o \
+	 group.o \
+	 user.o \
+	 window.o \
+	 read_cfg.o \
+	 pchatbox.o
+
+
+TARGET=ifreechat
+CFLAGS=`pkg-config --cflags glib-2.0 gdk-x11-2.0 gtk+-2.0 libglade-2.0` -I /usr/include/libxml2 -g
+LIBS=`pkg-config --libs glib-2.0 gdk-x11-2.0 gtk+-2.0 libglade-2.0` -lxml2
+
+$(TARGET): $(OBJS)
+			 $(CC) -o $(TARGET) $(OBJS) $(CFLAGS) $(LIBS)
+
+$(OBJS): %.o: %.c
+		   $(CC) -c $(CFLAGS) $< -o $@
+
+clean:
+	rm *.o -f
+	rm $(TARGET) -f

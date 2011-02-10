@@ -21,35 +21,55 @@
  *
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
+
 #include "gtk_common.h"
 #include "ifreechat.h"
 #include "window.h"
-
 #include "user.h"
 
-ifreechat_t ifc;
+ifreechat_t *init_ifreechat() {
+	ifreechat_t *ifc;
 
-void init_ifreechat(ifreechat_t *ifc) {
+	ifc = (ifreechat_t*)malloc(sizeof(ifreechat_t));
+	if (ifc == NULL) {
+		return NULL;
+	}
 
 	init_dlist_node(&(ifc->pchatbox));
 	init_dlist_node(&(ifc->gchatbox));
 	init_dlist_node(&(ifc->ulist));
 	init_dlist_node(&(ifc->glist));
 	init_dlist_node(&(ifc->mlist));
+
+	return ifc;
+}
+
+void ifreechat_destroy(ifreechat_t *ifc) {
+	if (ifc) 
+		free(ifc);
 }
 
 int main(int argc, char *argv[]) {
 	user_t *user;
 	GtkTreeView *treeview;
+	ifreechat_t *ifc;
 
 	gtk_init(&argc, &argv);
 
-	init_ifreechat(&ifc);
+	ifc = init_ifreechat();
+	if (read_cfg("ifreechat.xml", ifc) < 0) {
+		fprintf(stderr, "read cfg: ifreechat.xml error.\n");
+		goto err;
+	}
 
-	init_window(&ifc, "glade/ui.glade");
-	show_window(&ifc);
+	init_window(ifc, "glade/ui.glade");
+	show_window(ifc);
 
-	treeview = ifc.main_window.contact_treeview;
+	treeview = (ifc->main_window).contact_treeview;
 	user = new_user("test1", "test1", "test1",
 			"pixmaps/online.png", "172.16.18.1.1", "00:00:00:00:00", "test",
 			"category1", "gbk");
@@ -71,5 +91,7 @@ int main(int argc, char *argv[]) {
 	add_user_to_treeview(treeview, user);
 
 	gtk_main();
+err:
+	ifreechat_destroy(ifc);
 	return 0;
 }

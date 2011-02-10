@@ -182,10 +182,13 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	win->history_treeview 	= (GtkTreeView*)glade_xml_get_widget(xml, 	"history_treeview");
 
 	/* initial avatar */
+	gtk_image_set_from_file(win->avatar, ifc->avatar);
 
 	/* initial nickname */
+	gtk_entry_set_text(win->nickname, ifc->nickname);
 
 	/* initial personal message (signature) */
+	gtk_entry_set_text(win->signature, ifc->signature);
 
 	/* initial contact treeview model */
 	contact_store = create_contact_treevie_model();

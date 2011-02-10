@@ -51,8 +51,8 @@ group_t *new_group(const char *gpname, const char *gpinfo,
 
 	group->group_id = gpid;
 
-	dlist_node_init(&(group->gnode));
-	dlist_node_init(&(group->ulist));
+	init_dlist_node(&(group->gnode));
+	init_dlist_node(&(group->ulist));
 
 	return group;
 }
