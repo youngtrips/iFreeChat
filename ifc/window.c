@@ -204,7 +204,7 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 }
 
 void contact_treeview_ondoubleclicked(GtkTreeView *tree_view,
-		GtkTreePath *path, GtkTreeViewColumn *UNUSED(col), gpointer data) {
+		GtkTreePath *path, GtkTreeViewColumn *col, gpointer data) {
 
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -226,7 +226,7 @@ void contact_treeview_ondoubleclicked(GtkTreeView *tree_view,
 	dlist_foreach(p, &(ifc->pchatbox)) {
 		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, pchatbox_node);
 		if (!strcmp(user->ipaddr, chatbox->remote->ipaddr)) {
-			gtk_window_present(chatbox->window);
+			gtk_window_present((GtkWindow*)chatbox->window);
 			return;
 		}
 	}

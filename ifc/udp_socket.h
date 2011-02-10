@@ -9,45 +9,32 @@
 #ifndef __UDP_SOCKET_H
 #define __UDP_SOCKET_H
 
+#include <pthread.h>
+
 #include "socket.h"
-#include "queue.h"
+#include "ifreechat.h"
 #include "msg.h"
 
-struct udp_socket_t {
+typedef struct udp_socket_t {
 
 	char ipv4[32];
 	unsigned short port;
 	
 	int sock;
 
-	/* for recv */
-	struct queue_t *rque;
-
-	/* for send */
-	struct queue_t *wque;
-
-	pthread_mutex_t mutex;
-	pthread_mutex_t wq_lock;
-	pthread_cond_t cond;
-
 	pthread_t tid;
 	volatile int shutdown;
-};
+}udp_socket_t;
 
 
-int init_udp_socket(struct udp_socket_t *usock, 
-		const char *ip, unsigned short port);
-
+int init_udp_socket(ifreechat_t *ifc, const char *ip, unsigned short port);
 
 void *udp_listen_routine(void *arg);
 
+int udp_start_listen(ifreechat_t *ifc);
 
-int udp_start_listen(struct udp_socket_t *usock);
+int udp_stop_listen(ifreechat_t *ifc);
 
-int udp_stop_listen(struct udp_socket_t *usock);
-
-int udp_send(struct udp_socket_t *usock, const struct msg_t *msg); 
-
-int udp_recv(struct udp_socket_t *usock, struct msg_t **msg); 
+int udp_send(ifreechat_t *ifc, const msg_t *msg); 
 
 #endif

@@ -33,9 +33,6 @@
 #include "group.h"
 #include "user.h"
 
-typedef struct udp_socket_t {
-}udp_socket_t;
-
 typedef struct ifreechat_t {
 
 	char nickname[64];
@@ -48,7 +45,7 @@ typedef struct ifreechat_t {
 	char default_encoding[16];
 	char current_encoding[16];
 
-	udp_socket_t usock; 	/* udp socket struct */
+	void *usock; 	/* udp socket struct */
 	window_t main_window; 	/* main window struct */
 
 	dlist_t pchatbox; 		/* private chat box */

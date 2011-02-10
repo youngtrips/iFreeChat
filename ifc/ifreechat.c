@@ -30,6 +30,7 @@
 #include "ifreechat.h"
 #include "window.h"
 #include "user.h"
+#include "udp_socket.h"
 
 ifreechat_t *init_ifreechat() {
 	ifreechat_t *ifc;
@@ -54,10 +55,12 @@ void ifreechat_destroy(ifreechat_t *ifc) {
 }
 
 int main(int argc, char *argv[]) {
-	user_t *user;
-	GtkTreeView *treeview;
 	ifreechat_t *ifc;
 
+	if (!g_thread_supported()) {
+		g_thread_init(NULL);
+	}
+	gdk_threads_init();
 	gtk_init(&argc, &argv);
 
 	ifc = init_ifreechat();
@@ -66,32 +69,18 @@ int main(int argc, char *argv[]) {
 		goto err;
 	}
 
+	init_udp_socket(ifc, "0.0.0.0", 2425);
+	udp_start_listen(ifc);
+	online_broadcast(ifc);
+
 	init_window(ifc, "glade/ui.glade");
 	show_window(ifc);
 
-	treeview = (ifc->main_window).contact_treeview;
-	user = new_user("test1", "test1", "test1",
-			"pixmaps/online.png", "172.16.18.1.1", "00:00:00:00:00", "test",
-			"category1", "gbk");
-
-	add_user_to_treeview(treeview, user);
-	user = new_user("test2", "test2", "test2",
-			"pixmaps/online.png", "172.16.18.1.2", "00:00:00:00:00", "test",
-			"category1", "gbk");
-	add_user_to_treeview(treeview, user);
-
-	user = new_user("test3", "test3", "test3",
-			"pixmaps/online.png", "172.16.18.1.3", "00:00:00:00:00", "test",
-			"category2", "gbk");
-	add_user_to_treeview(treeview, user);
-
-	user = new_user("test4", "test3", "test3",
-			"pixmaps/online.png", "172.16.18.1.4", "00:00:00:00:00", "test",
-			"category3", "gbk");
-	add_user_to_treeview(treeview, user);
-
+	gdk_threads_enter();
 	gtk_main();
+	gdk_threads_leave();
 err:
+	udp_stop_listen(ifc);
 	ifreechat_destroy(ifc);
 	return 0;
 }
