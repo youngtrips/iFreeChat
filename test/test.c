@@ -106,7 +106,8 @@ void emotion_chose_dialg_init(chatdlg_t *dlg, int x, int y) {
 			subframe = gtk_frame_new(NULL);
 			gtk_frame_set_shadow_type(GTK_FRAME(subframe) , GTK_SHADOW_ETCHED_IN);
 			bzero(path , sizeof(path));
-			if( k < 52 ){
+			//if( k < 52 )
+			{
 				sprintf(path , "faces/%d.gif" , (k++) + 1);
 				img = gtk_image_new_from_file(path);
 				if(!img)
