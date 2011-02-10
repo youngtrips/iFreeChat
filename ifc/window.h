@@ -24,6 +24,9 @@
 #ifndef __WINDOW_H
 #define __WINDOW_H
 
+#include "user.h"
+#include "group.h"
+
 typedef struct window_t {
 	GtkWidget *window;
 
