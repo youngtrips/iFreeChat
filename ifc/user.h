@@ -35,8 +35,24 @@ typedef struct user_t {
 	char *macaddr;
 	char *signature;
 	char *category;
+	char *encoding;
 
-	dlist_t unode;
+	dlist_t unode; /* user list node */
+	dlist_t gnode; /* group list node */
 }user_t;
+
+
+
+user_t *new_user(const char *nickname, const char *username,
+		const char *hostname, const char *avatar, 
+		const char *ipaddr, const char *macaddr,
+		const char *signature, const char *category,
+		const char *encoding);
+
+int add_user(dlist_t *ulist, user_t *user);
+
+int del_user(dlist_t *ulist, user_t *user);
+
+user_t *find_user(dlist_t *ulist, const char *ip);
 
 #endif

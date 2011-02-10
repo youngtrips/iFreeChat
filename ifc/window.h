@@ -40,4 +40,12 @@ typedef struct window_t {
 }window_t;
 
 
+int add_user_to_treeview(GtkTreeView *treeview, user_t *user);
+
+int del_user_from_treeview(GtkTreeView *treeview, user_t *user);
+
+int add_group_to_treeview(GtkTreeView *treeview, group_t *group);
+
+int del_group_from_treeview(GtkTreeView *treeview, group_t *group);
+
 #endif

@@ -27,6 +27,7 @@
 #include <stdint.h>
 
 #include "dlist.h"
+#include "user.h"
 
 typedef struct group_t {
 	char *group_name;
@@ -34,7 +35,26 @@ typedef struct group_t {
 	uint32_t group_id;
 
 	dlist_t gnode;
-	dlist_t unode;
+	dlist_t ulist;
 }group_t;
+
+
+group_t *new_group(const char *gpname, const char *gpinfo,
+		uint32_t gpid);
+
+int add_group(dlist_t *glist, group_t *gp);
+
+int del_group(dlist_t *glist, group_t *gp);
+
+group_t *find_group(dlist_t *glist, uint32_t gpid);
+
+
+int group_add_user(group_t *gp, user_t *user);
+
+int group_del_user(group_t *gp, user_t *user);
+
+user_t *group_find_user(group_t *gp, const char *ip);
+
+
 
 #endif

@@ -29,16 +29,16 @@
 #include "pchatbox.h"
 #include "gchatbox.h"
 #include "window.h"
-#include "user.h"
-#include "group.h"
 #include "dlist.h"
+#include "group.h"
+#include "user.h"
 
 typedef struct ifreechat_t {
 
 	udp_socket_t usock; 	/* udp socket struct */
 	window_t main_window; 	/* main window struct */
 
-	dlist_t pchatbox; 		/* peer to peer chat box */
+	dlist_t pchatbox; 		/* private chat box */
 	dlist_t gchatbox; 		/* group chat box */
 	dlist_t ulist; 			/* user list */
 	dlist_t glist; 			/* group list */
