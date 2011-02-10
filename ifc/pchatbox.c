@@ -22,6 +22,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "user.h"
 #include "pchatbox.h"
@@ -36,6 +37,7 @@ int new_pchatbox(ifreechat_t *ifc, user_t *user) {
 
 	char title[128];
 	GladeXML *xml;
+	GtkTextBuffer *display_buffer;
 
 	xml = glade_xml_new("glade/pchatbox.glade", NULL, NULL);
 	if (xml == NULL) {
@@ -67,6 +69,18 @@ int new_pchatbox(ifreechat_t *ifc, user_t *user) {
 	gtk_label_set_text(pchatbox->nickname_label, user->nickname);
 	gtk_label_set_text(pchatbox->signature_label, user->signature);
 
+
+	display_buffer = gtk_text_view_get_buffer(pchatbox->display_textview);
+
+	gtk_text_buffer_create_tag(display_buffer, "lmarg",
+			"left_margin", 5, NULL);
+	gtk_text_buffer_create_tag(display_buffer, "blue_fg",
+			"foreground", "blue", NULL);
+	gtk_text_buffer_create_tag(display_buffer, "title_font",
+			"font", "Sans Italic 12", NULL);
+
+
+
 	g_signal_connect(GTK_OBJECT(pchatbox->window), 
 			"destroy", GTK_SIGNAL_FUNC(close_pchatbox), (gpointer)pchatbox);
 
@@ -90,36 +104,49 @@ void close_pchatbox(GtkWidget *widget, void *arg) {
 void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 
 	pchatbox_t *pchatbox;
-	char *input_msg;
+	char buf[65535];
+	char *msg;
 
 	GtkTextView *input_textview;
-	GtkTextView *display_textview;
+	GtkTextView *output_textview;
 	
 
 	GtkTextBuffer *input_buffer;
 	GtkTextBuffer *output_buffer;
 	GtkTextIter start;
 	GtkTextIter end;
+	GtkTextMark *mark;
 
 	pchatbox = (pchatbox_t*)(chatbox);
 
 	input_textview = pchatbox->input_textview;
-	display_textview = pchatbox->display_textview;
+	output_textview = pchatbox->display_textview;
 
 	input_buffer = gtk_text_view_get_buffer(input_textview);
-	output_buffer = gtk_text_view_get_buffer(display_textview);
+	output_buffer = gtk_text_view_get_buffer(output_textview);
 
-	gtk_text_buffer_get_bounds(input_buffer, &start, &end);
+	gtk_text_buffer_get_start_iter(input_buffer, &start);
+	gtk_text_buffer_get_end_iter(input_buffer, &end);
 	if (gtk_text_iter_equal(&start, &end)) {
+		printf("Please enter message!!!\n");
 		return;
 	}
 
+	msg = gtk_text_buffer_get_text(input_buffer, &start, &end, TRUE);
+	gtk_text_buffer_delete(input_buffer, &start, &end);
+
+	sprintf(buf, "Me:\n");
 	gtk_text_buffer_get_end_iter(output_buffer, &end);
+	gtk_text_buffer_insert_with_tags_by_name(output_buffer, &end,
+			buf, -1, "blue_fg", "lmarg", "title_font", NULL);
 
-	input_msg = gtk_text_buffer_get_text(input_buffer, &start, &end, TRUE);
-
-	printf("msg: %s\n", input_msg);
-
-//	gtk_text_buffer_insert(output_buffer, &end, input_msg, strlen(input_msg));
-
+	sprintf(buf, "%s\n", msg);
+	gtk_text_buffer_get_end_iter(output_buffer, &end);
+	gtk_text_buffer_insert(output_buffer, &end, buf, strlen(buf));
+	
+	gtk_text_buffer_get_end_iter(output_buffer, &end);
+	mark = gtk_text_buffer_create_mark(output_buffer, NULL, &end, FALSE);
+	gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(output_textview), mark,
+		0.0, TRUE, 0.0, 0.0);
+	gtk_text_buffer_delete_mark(output_buffer, mark);
 }
