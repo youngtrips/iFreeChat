@@ -11,6 +11,8 @@
 
 #include <stdint.h>
 
+#include "dlist.h"
+
 typedef struct msg_t {
 	uint16_t port;
 	size_t buf_size;
@@ -22,6 +24,7 @@ typedef struct msg_t {
 	char *cmd;
 	char *data;
 	char *buf;
+	dlist_t node; 
 }msg_t;
 
 #endif

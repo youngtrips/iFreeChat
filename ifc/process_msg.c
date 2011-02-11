@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "dlist.h"
 #include "process_msg.h"
 #include "user.h"
 
@@ -98,7 +99,24 @@ int on_buddy_exit(ifreechat_t *ifc, msg_t *msg) {
 	return 0;
 }
 
+void send_reply_msg(ifreechat_t *ifc, msg_t *msg) {
+}
+
 int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
+	uint32_t cmd;
+	char *encode;
+	char *data;
+	init_dlist_node(&(msg->node));
+	dlist_add_tail(&(ifc->mlist), &(msg->node));
+	data = (char*)string_validate(msg->data, "gbk", &encode);
+	if (data) 
+		strcpy(msg->data, data);
+
+	printf("msg: %s\n", msg->data);
+	cmd = atoi(msg->cmd);
+	if (cmd & OPT_SENDCHECK) {
+		send_reply_msg(ifc, msg);
+	}
 	return 0;
 }
 
@@ -175,6 +193,9 @@ void process_message(ifreechat_t *ifc, char *ip, uint16_t port,
 		case CMD_BR_ENTRY:
 		case CMD_ANSENTRY:
 			on_buddy_entry(ifc, msg);
+			break;
+		case CMD_SENDMSG:
+			on_buddy_sendmsg(ifc, msg);
 			break;
 	}
 
