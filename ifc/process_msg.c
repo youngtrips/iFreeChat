@@ -121,6 +121,8 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 //	if (data) 
 //		strcpy(msg->data, data);
 
+	gtk_status_icon_set_blinking(((ifc->main_window).icon), TRUE);
+
 	printf("msg: %s\n", msg->data);
 	dlist_foreach(p, &(ifc->pchatbox)) {
 		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, pchatbox_node);
@@ -129,11 +131,6 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 			pchatbox_insert_msg(chatbox, msg->data);
 			break;
 		}
-	}
-	if (p == &(ifc->pchatbox)) {
-		//the chatbox is not existed...
-		// just blink tray icon
-		gtk_status_icon_set_blinking(((ifc->main_window).icon), TRUE);
 	}
 
 	cmd = atoi(msg->cmd);

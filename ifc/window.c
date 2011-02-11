@@ -29,6 +29,8 @@
 #include "user.h"
 #include "dlist.h"
 #include "ifreechat.h"
+#include "msg.h"
+#include "pchatbox.h"
 
 enum {
 	PIXBUF_COL,
@@ -186,6 +188,47 @@ gboolean on_nickname_entry_activate(GtkWidget* widget , gpointer data) {
 }
 
 
+void tray_icon_activated(GtkWidget *widget, gpointer data) {
+	ifreechat_t *ifc;
+	pchatbox_t *chatbox;
+	msg_t *msg;
+	dlist_t *p;
+	user_t *user;
+
+	ifc = (ifreechat_t*)data;
+	printf("ifc: %x\n", (unsigned long)ifc);
+	p = (ifc->mlist).next;
+	msg = (msg_t*)dlist_entry(p, msg_t, node);
+
+	chatbox = NULL;
+	dlist_foreach(p, &(ifc->pchatbox)) {
+		chatbox = dlist_entry(p, pchatbox_t, pchatbox_node);
+		user = chatbox->remote;
+		if (!strcmp(user->ipaddr, msg->ip)) {
+			gtk_window_present(chatbox->window);
+			break;
+		}
+	}
+
+	if (chatbox == NULL) {
+		user = NULL;
+		dlist_foreach(p, &(ifc->ulist)) {
+			user = dlist_entry(p, user_t, unode);
+			if (!strcmp(user->ipaddr, msg->ip))
+				break;
+		}
+		if (user)
+			chatbox = new_pchatbox(ifc, user);
+		pchatbox_insert_msg(chatbox, msg);
+	}
+	p = (ifc->mlist).next;
+	dlist_del(p);
+	
+	if (&(ifc->mlist) == (ifc->mlist).next) {
+		gtk_status_icon_set_blinking((ifc->main_window).icon, FALSE);
+	}
+}
+
 int init_window(ifreechat_t *ifc , const char *uifile) {
 
 	window_t *win;
@@ -230,8 +273,15 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	win->signature_button = (GtkButton*)gtk_button_new_with_label(ifc->signature);
 	gtk_button_set_relief(win->signature_button, GTK_RELIEF_NONE);
 
+	/* trayicon */
 	win->icon = gtk_status_icon_new_from_file("pixmaps/icon.png");
 	gtk_widget_show((GtkWidget*)win->icon);
+	g_signal_connect(GTK_STATUS_ICON (win->icon), 
+			"activate", 
+			G_CALLBACK(tray_icon_activated), 
+			(gpointer)ifc);
+	printf("ifc: %x\n", (unsigned long)ifc);
+
 
 	gtk_widget_hide((GtkWidget*)win->nickname_entry);
 	gtk_widget_hide((GtkWidget*)win->signature_entry);
@@ -257,7 +307,6 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 			G_CALLBACK(on_nickname_entry_activate),
 			(gpointer)win);
 
-	printf("win: %x\n", (unsigned long)win);
 	/* initial contact treeview model */
 	contact_store = create_contact_treevie_model();
 	gtk_tree_view_set_model(win->contact_treeview, (GtkTreeModel*)contact_store);
