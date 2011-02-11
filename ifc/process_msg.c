@@ -51,7 +51,7 @@ void get_mac_from_version(const char *version, char *mac) {
 	*p = '\0';
 }
 
-int buddy_entry_func(ifreechat_t *ifc, msg_t *msg) {
+int on_buddy_entry(ifreechat_t *ifc, msg_t *msg) {
 	const char *no_group = "no group";
 	char avatar[64];
 	char macaddr[20];
@@ -62,12 +62,12 @@ int buddy_entry_func(ifreechat_t *ifc, msg_t *msg) {
 	int avatar_id;
 	user_t *user;
 
-	nickname = string_validate(msg->data, "gbk", &encode);
+	nickname = (char*)string_validate(msg->data, "gbk", &encode);
 	p = strchr(msg->data, '\0'); p++;
-	category = string_validate(p, "gbk", &encode);
+	category = (char*)string_validate(p, "gbk", &encode);
 
 	if (category == NULL) 
-		category = no_group;
+		category = (char*)no_group;
 	if (nickname == NULL)
 		nickname = msg->username;
 
@@ -93,10 +93,16 @@ int buddy_entry_func(ifreechat_t *ifc, msg_t *msg) {
 	return 0;
 }
 
-int buddy_exit_func(ifreechat_t *ifc, msg_t *msg) {
+int on_buddy_exit(ifreechat_t *ifc, msg_t *msg) {
 
 	return 0;
 }
+
+int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
+
+	return 0;
+}
+
 
 //1_lbt4_12#128#001EEC0E0C0B#0#0#0:1297408327:xdx:sdq-4F61952E5CE:6291459:zdq
 msg_t *parse_message(void *data, size_t size) {
@@ -167,8 +173,9 @@ void process_message(ifreechat_t *ifc, char *ip, uint16_t port,
 
 	cmd = atoi(msg->cmd);
 	switch(cmd & 0x000000ff) {
+		case CMD_BR_ENTRY:
 		case CMD_ANSENTRY:
-			buddy_entry_func(ifc, msg);
+			on_buddy_entry(ifc, msg);
 			break;
 	}
 
