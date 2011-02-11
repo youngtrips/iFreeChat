@@ -159,6 +159,8 @@ void *udp_listen_routine(void *arg) {
 						(struct sockaddr*)&addr, &socklen);
 				if (size > 0) {
 					printf("%s\n", buf);
+					process_message(ifc, inet_ntoa(addr.sin_addr), ntohs(addr.sin_port),
+							buf, size);
 				}
 			}
 		}	
@@ -178,7 +180,7 @@ int udp_send(ifreechat_t *ifc, const msg_t *msg) {
 
 	usock = (udp_socket_t*)ifc->usock;
 
-	return sendto(usock->sock, (void*)msg->data, msg->size, 0,
+	return sendto(usock->sock, (void*)msg->buf, msg->buf_size, 0,
 				(struct sockaddr*)&addr, sizeof(addr));
 }
 

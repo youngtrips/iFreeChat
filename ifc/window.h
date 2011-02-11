@@ -33,9 +33,13 @@ typedef struct window_t {
 
 	GtkImage *avatar;
 
-	GtkEntry *nickname;
-	GtkEntry *signature;
+	GtkEntry *nickname_entry;
+	GtkEntry *signature_entry;
+	GtkButton *nickname_button;
+	GtkButton *signature_button;
 	GtkEntry *search;
+
+	GtkVBox *topbox;
 
 	GtkTreeView *contact_treeview;
 	GtkTreeView *group_treeview;

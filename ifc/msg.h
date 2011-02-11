@@ -9,11 +9,19 @@
 #ifndef __MSG_H
 #define __MSG_H
 
+#include <stdint.h>
+
 typedef struct msg_t {
+	uint16_t port;
+	size_t buf_size;
 	char *ip;
-	unsigned short port;
-	size_t size;
+	char *version;
+	char *packet_no;
+	char *username;
+	char *hostname;
+	char *cmd;
 	char *data;
+	char *buf;
 }msg_t;
 
 #endif

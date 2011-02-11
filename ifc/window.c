@@ -150,12 +150,49 @@ int del_group_from_treeview(GtkTreeView *treeview, group_t *group) {
 	return 0;
 }
 
+void on_nickname_btn_clicked(GtkWidget *widget, gpointer data) {
+	window_t *win;
+	
+	win = (window_t*)data;
+
+	gtk_widget_hide((GtkWidget*)win->nickname_button);
+	gtk_widget_show((GtkWidget*)win->nickname_entry);
+}
+
+gboolean on_nickname_entry_focus_out(GtkWidget* widget, 
+		GdkEventFocus* event , gpointer data) {
+	window_t *win;
+	
+	win = (window_t*)data;
+	gtk_widget_hide((GtkWidget*)win->nickname_entry);
+	gtk_widget_show((GtkWidget*)win->nickname_button);
+
+	return FALSE; 
+}
+
+gboolean on_nickname_entry_activate(GtkWidget* widget , gpointer data) {
+
+	window_t *win;
+	gchar *nickname;
+
+	win = (window_t*)data;
+
+	nickname = gtk_entry_get_text(win->nickname_entry);
+	gtk_button_set_label(win->nickname_button, nickname);
+	gtk_widget_hide((GtkWidget*)win->nickname_entry);
+	gtk_widget_show((GtkWidget*)win->nickname_button);
+
+	return TRUE;
+}
+
 
 int init_window(ifreechat_t *ifc , const char *uifile) {
 
 	window_t *win;
 	GladeXML *xml;
 	GtkTreeStore *contact_store;
+	GtkButton *btn1;
+	GtkButton *btn2;
 
 	if (ifc == NULL || uifile == NULL) {
 		printf("wrong args...\n");
@@ -174,8 +211,9 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	/* load widgets from xml */
 	win->window 			= glade_xml_get_widget(xml, 				"main_window");
 	win->avatar 			= (GtkImage*)glade_xml_get_widget(xml, 		"avatar");
-	win->nickname 			= (GtkEntry*)glade_xml_get_widget(xml, 		"nickname");
-	win->signature 			= (GtkEntry*)glade_xml_get_widget(xml, 		"signature");
+	win->nickname_entry		= (GtkEntry*)glade_xml_get_widget(xml, 		"nickname");
+	win->signature_entry 	= (GtkEntry*)glade_xml_get_widget(xml, 		"signature");
+	win->topbox				= (GtkVBox*)glade_xml_get_widget(xml, 		"topbox");
 	win->search	 			= (GtkEntry*)glade_xml_get_widget(xml,		"search_entry");
 	win->contact_treeview 	= (GtkTreeView*)glade_xml_get_widget(xml, 	"contact_treeview");
 	win->group_treeview 	= (GtkTreeView*)glade_xml_get_widget(xml,	"group_treeview");
@@ -185,15 +223,38 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	gtk_image_set_from_file(win->avatar, ifc->avatar);
 
 	/* initial nickname */
-	gtk_entry_set_text(win->nickname, ifc->nickname);
+	win->nickname_button = (GtkButton*)gtk_button_new_with_label(ifc->nickname);
+	gtk_button_set_relief(win->nickname_button, GTK_RELIEF_NONE);
 
 	/* initial personal message (signature) */
-	gtk_entry_set_text(win->signature, ifc->signature);
+	win->signature_button = (GtkButton*)gtk_button_new_with_label(ifc->signature);
+	gtk_button_set_relief(win->signature_button, GTK_RELIEF_NONE);
 
+	gtk_widget_hide((GtkWidget*)win->nickname_entry);
+	gtk_widget_hide((GtkWidget*)win->signature_entry);
 
-	gtk_widget_hide_all(win->nickname);
-	gtk_widget_hide_all(win->signature);
+	gtk_box_pack_start((GtkBox*)win->topbox, (GtkWidget*)win->nickname_button, 
+			FALSE, TRUE, 0);
+	gtk_box_pack_start((GtkBox*)win->topbox, (GtkWidget*)win->signature_button, 
+			FALSE, TRUE, 0);
 
+	gtk_widget_show((GtkWidget*)win->nickname_button);
+	gtk_widget_show((GtkWidget*)win->signature_button);
+
+	g_signal_connect(G_OBJECT(win->nickname_button),
+			"clicked",
+			G_CALLBACK(on_nickname_btn_clicked), (gpointer)win);
+
+	g_signal_connect(G_OBJECT(win->nickname_entry),
+			"focus-out-event",
+			GTK_SIGNAL_FUNC(on_nickname_entry_focus_out),
+			(gpointer)win);
+	g_signal_connect(G_OBJECT(win->nickname_entry),
+			"activate",
+			G_CALLBACK(on_nickname_entry_activate),
+			(gpointer)win);
+
+	printf("win: %x\n", (unsigned long)win);
 	/* initial contact treeview model */
 	contact_store = create_contact_treevie_model();
 	gtk_tree_view_set_model(win->contact_treeview, (GtkTreeModel*)contact_store);
@@ -249,5 +310,5 @@ void show_window(ifreechat_t *ifc) {
 	g_signal_connect(GTK_OBJECT(win->contact_treeview), 
 			"row_activated", 
 			GTK_SIGNAL_FUNC(contact_treeview_ondoubleclicked), (gpointer)ifc);
-	gtk_widget_show_all(win->window);
+	gtk_widget_show(win->window);
 }

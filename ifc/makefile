@@ -6,7 +6,8 @@ OBJS=ifreechat.o \
 	 pchatbox.o \
 	 udp_socket.o \
 	 utils.o \
-	 broadcast.o
+	 broadcast.o \
+	 process_msg.o
 
 CC=gcc
 TARGET=ifreechat

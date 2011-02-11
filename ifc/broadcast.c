@@ -30,12 +30,12 @@ void online_broadcast(ifreechat_t *ifc) {
 
 	msg 		= (msg_t*)base; base += sizeof(msg_t);
 	msg->ip 	= base; 		base += 1 + strlen(BROADCAST_ADDR);
-	msg->data 	= base; 		base += 1 + strlen(buf);
+	msg->buf 	= base; 		base += 1 + strlen(buf);
 
 	strcpy(msg->ip, BROADCAST_ADDR);
 	msg->port = ifc->port; 
-	msg->size = strlen(buf);
-	memcpy(msg->data, buf, strlen(buf));
+	msg->buf_size = strlen(buf);
+	memcpy(msg->buf, buf, strlen(buf));
 
 	if (udp_send(ifc, msg) < 0) {
 		printf("broadcast online message error.\n");

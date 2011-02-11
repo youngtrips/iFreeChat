@@ -24,6 +24,9 @@
 #ifndef __PROCESS_MSG_H
 #define __PROCESS_MSG_H
 
+#include "ifreechat.h"
+#include "msg.h"
+
 #define CMD_BR_ENTRY	0x00000001UL
 #define CMD_BR_EXIT		0x00000002UL
 #define CMD_ANSENTRY	0x00000003UL
@@ -31,5 +34,11 @@
 
 #define OPT_ABSENCE		0X00000100UL
 #define OPT_UTF8		0x00800000UL
+
+
+#define MAXN_FUNC 0xFF
+
+typedef int (*handle_msg_func)(ifreechat_t *ifc, msg_t *msg);
+
 
 #endif
