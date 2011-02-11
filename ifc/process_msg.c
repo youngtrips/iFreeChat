@@ -130,7 +130,7 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 			break;
 		}
 	}
-	if (p == (ifc->pchatbox).next) {
+	if (p == &(ifc->pchatbox)) {
 		//the chatbox is not existed...
 		// just blink tray icon
 		gtk_status_icon_set_blinking(((ifc->main_window).icon), TRUE);
