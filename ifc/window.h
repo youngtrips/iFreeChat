@@ -30,6 +30,7 @@
 
 typedef struct window_t {
 	GtkWidget *window;
+	GtkStatusIcon *icon;
 
 	GtkImage *avatar;
 
