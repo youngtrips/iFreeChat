@@ -20,11 +20,11 @@ void online_broadcast(ifreechat_t *ifc) {
 	sprintf(buf + strlen(buf), ":%s", ifc->username);
 	sprintf(buf + strlen(buf), ":%s", ifc->hostname);
 	sprintf(buf + strlen(buf), ":%u", 0x101);
-	sprintf(buf + strlen(buf), ":%s", ifc->nickname);
+	sprintf(buf + strlen(buf), ":%s\0", ifc->nickname);
 
 	size = 0;
 	size += 1 + strlen(BROADCAST_ADDR);
-	size += 1 + strlen(buf);
+	size += 1 + strlen(buf) + 1;
 	size += sizeof(msg_t);
 	base = (char*)malloc(size);
 

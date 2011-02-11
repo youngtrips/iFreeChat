@@ -54,6 +54,7 @@ void get_mac_from_version(const char *version, char *mac) {
 
 int on_buddy_entry(ifreechat_t *ifc, msg_t *msg) {
 	const char *no_group = "no group";
+	const char *my_group = "my self";
 	char avatar[64];
 	char macaddr[20];
 	char *encode;
@@ -71,6 +72,9 @@ int on_buddy_entry(ifreechat_t *ifc, msg_t *msg) {
 		category = (char*)no_group;
 	if (nickname == NULL)
 		nickname = msg->username;
+	if (!strcmp(msg->ip, ifc->ipaddr)) {
+		category = (char*)my_group;
+	}
 
 	avatar_id = get_avatar_id_from_version(msg->version);
 	get_mac_from_version(msg->version, macaddr);
