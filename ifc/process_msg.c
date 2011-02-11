@@ -99,7 +99,6 @@ int on_buddy_exit(ifreechat_t *ifc, msg_t *msg) {
 }
 
 int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
-
 	return 0;
 }
 
