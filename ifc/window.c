@@ -190,6 +190,10 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	/* initial personal message (signature) */
 	gtk_entry_set_text(win->signature, ifc->signature);
 
+
+	gtk_widget_hide_all(win->nickname);
+	gtk_widget_hide_all(win->signature);
+
 	/* initial contact treeview model */
 	contact_store = create_contact_treevie_model();
 	gtk_tree_view_set_model(win->contact_treeview, (GtkTreeModel*)contact_store);

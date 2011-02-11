@@ -81,12 +81,15 @@ int read_cfg(const char *cfgfile, ifreechat_t *ifc) {
 					} else if (!xmlStrcmp(p->name, (const xmlChar*)"port")) {
 						ifc->port = atoi(szKey);
 					}
+					xmlFree(szKey);
 				}
+				p = p->next;
 			}
 		}
 		curNode = curNode->next;
 	}
 	xmlFreeDoc(doc);
+	printf("ok...\n");
 	return 0;
 }
 

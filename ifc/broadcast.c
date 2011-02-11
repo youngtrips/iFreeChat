@@ -33,7 +33,7 @@ void online_broadcast(ifreechat_t *ifc) {
 	msg->data 	= base; 		base += 1 + strlen(buf);
 
 	strcpy(msg->ip, BROADCAST_ADDR);
-	msg->port = 2425;
+	msg->port = ifc->port; 
 	msg->size = strlen(buf);
 	memcpy(msg->data, buf, strlen(buf));
 

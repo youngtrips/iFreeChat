@@ -13,8 +13,7 @@
 #include "utils.h"
 
 
-int init_udp_socket(ifreechat_t *ifc,
-		const char *ip, unsigned short port) {
+int init_udp_socket(ifreechat_t *ifc) {
 	udp_socket_t *usock;
 	struct sockaddr_in addr;
 
@@ -32,8 +31,8 @@ int init_udp_socket(ifreechat_t *ifc,
 
 	memset(&addr, 0, sizeof(addr));
 	addr.sin_family = AF_INET;
-	addr.sin_addr.s_addr = inet_addr(ip);
-	addr.sin_port = htons(port);
+	addr.sin_addr.s_addr = inet_addr(ifc->ipaddr);
+	addr.sin_port = htons(ifc->port);
 
 	if (bind(usock->sock, (struct sockaddr*)&addr, 
 				sizeof(addr)) < 0) {

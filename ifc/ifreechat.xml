@@ -4,7 +4,7 @@
 	<network>
 		<listen_ip>0.0.0.0</listen_ip>
 		<multicast_ip>226.81.9.8</multicast_ip>
-		<port>2425</port>
+		<port>9090</port>
 	</network>
 	<user>
 		<nickname>youngtrips</nickname>

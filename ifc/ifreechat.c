@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
 		goto err;
 	}
 
-	init_udp_socket(ifc, "0.0.0.0", 2425);
+	init_udp_socket(ifc);
 	udp_start_listen(ifc);
 	online_broadcast(ifc);
 

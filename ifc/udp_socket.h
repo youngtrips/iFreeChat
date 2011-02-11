@@ -27,7 +27,7 @@ typedef struct udp_socket_t {
 }udp_socket_t;
 
 
-int init_udp_socket(ifreechat_t *ifc, const char *ip, unsigned short port);
+int init_udp_socket(ifreechat_t *ifc);
 
 void *udp_listen_routine(void *arg);
 
