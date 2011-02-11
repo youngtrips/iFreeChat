@@ -44,6 +44,8 @@ typedef struct ifreechat_t {
 	char signature[128];
 	char default_encoding[16];
 	char current_encoding[16];
+	char multicast_ip[20];
+	unsigned short port;
 
 	void *usock; 	/* udp socket struct */
 	window_t main_window; 	/* main window struct */

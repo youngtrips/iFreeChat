@@ -69,9 +69,26 @@ int read_cfg(const char *cfgfile, ifreechat_t *ifc) {
 				}
 				p = p->next;
 			}
+		} else if (!xmlStrcmp(curNode->name, (const xmlChar*)"network")) {
+			p = curNode->xmlChildrenNode;
+			while(p != NULL) {
+				if (p->type == XML_ELEMENT_NODE) {
+					szKey = xmlNodeGetContent(p);
+					if (!xmlStrcmp(p->name, (const xmlChar*)"listen_ip")) {
+						strcpy(ifc->ipaddr, szKey);
+					} else if (!xmlStrcmp(p->name, (const xmlChar*)"multicast_ip")) {
+						strcpy(ifc->multicast_ip, szKey);
+					} else if (!xmlStrcmp(p->name, (const xmlChar*)"port")) {
+						ifc->port = atoi(szKey);
+					}
+				}
+			}
 		}
 		curNode = curNode->next;
 	}
 	xmlFreeDoc(doc);
 	return 0;
 }
+
+
+

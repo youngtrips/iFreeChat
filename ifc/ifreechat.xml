@@ -2,7 +2,8 @@
 
 <ifreechat>
 	<network>
-		<ip>0.0.0.0</ip>
+		<listen_ip>0.0.0.0</listen_ip>
+		<multicast_ip>226.81.9.8</multicast_ip>
 		<port>2425</port>
 	</network>
 	<user>
@@ -17,7 +18,6 @@
 		<name>test-group</name>
 		<id>12345</id>
 		<info>hello world...</info>
-		<multicast_addr>226.81.9.8</multicast_addr>
 	</group>
 
 	<history>
