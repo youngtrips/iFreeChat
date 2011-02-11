@@ -71,11 +71,11 @@ int main(int argc, char *argv[]) {
 
 	init_udp_socket(ifc);
 	udp_start_listen(ifc);
-	online_broadcast(ifc);
 
 	init_window(ifc, "glade/ui.glade");
 	show_window(ifc);
 
+	online_broadcast(ifc);
 	gdk_threads_enter();
 	gtk_main();
 	gdk_threads_leave();

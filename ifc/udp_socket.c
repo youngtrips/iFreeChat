@@ -158,7 +158,6 @@ void *udp_listen_routine(void *arg) {
 				size = recvfrom(fd, buf, sizeof(buf), 0,
 						(struct sockaddr*)&addr, &socklen);
 				if (size > 0) {
-					printf("%s\n", buf);
 					process_message(ifc, inet_ntoa(addr.sin_addr), ntohs(addr.sin_port),
 							buf, size);
 				}

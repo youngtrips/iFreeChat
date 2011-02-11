@@ -26,11 +26,69 @@
 #include <stdio.h>
 
 #include "process_msg.h"
+#include "user.h"
 
 handle_msg_func handle_msg_func_table[MAXN_FUNC];
 
+int get_avatar_id_from_version(const char *version) {
+	char *p;
+	p = strrchr(version, '_'); p++;
+	return atoi(p);
+}
+
+void get_mac_from_version(const char *version, char *mac) {
+	char *p;
+	char *q;
+	if (!strncmp(version + 2, "iptux", 5)) {
+		strcpy(mac, "000000000000");
+		return;
+	}
+	p = strchr(version, '#'); p++;
+	q = strchr(p, '#'); q++;
+	for(p = mac;*q != '#'; p++, q++) {
+		*p = *q;
+	}
+	*p = '\0';
+}
 
 int buddy_entry_func(ifreechat_t *ifc, msg_t *msg) {
+	const char *no_group = "no group";
+	char avatar[64];
+	char macaddr[20];
+	char *encode;
+	char *nickname;
+	char *category;
+	char *p;
+	int avatar_id;
+	user_t *user;
+
+	nickname = string_validate(msg->data, "gbk", &encode);
+	p = strchr(msg->data, '\0'); p++;
+	category = string_validate(p, "gbk", &encode);
+
+	if (category == NULL) 
+		category = no_group;
+	if (nickname == NULL)
+		nickname = msg->username;
+
+	avatar_id = get_avatar_id_from_version(msg->version);
+	get_mac_from_version(msg->version, macaddr);
+	printf("mac: [%s]\n", macaddr);
+	if (avatar_id == 0) {
+		strcpy(avatar, "pixmaps/avatar/default.png");
+	} else {
+		sprintf(avatar, "pixmaps/avatar/%d.bmp", avatar_id);
+	}
+
+	user = new_user(
+			nickname, 		msg->username, 
+			msg->hostname, 	avatar,
+			msg->ip, 		macaddr,
+			"hello", 		category, 
+			"GBK"
+			);
+
+	add_user_to_treeview((ifc->main_window).contact_treeview, user);
 
 	return 0;
 }
@@ -40,7 +98,7 @@ int buddy_exit_func(ifreechat_t *ifc, msg_t *msg) {
 	return 0;
 }
 
-//1_lbt4_12#128#001EEC0E0C0B#0#0#0:1297408327:ydf:YDF-4F61952E5CE:6291459:ydf
+//1_lbt4_12#128#001EEC0E0C0B#0#0#0:1297408327:xdx:sdq-4F61952E5CE:6291459:zdq
 msg_t *parse_message(void *data, size_t size) {
 	char *base;
 	msg_t *msg;
@@ -88,7 +146,7 @@ msg_t *parse_message(void *data, size_t size) {
 
 	//data
 	msg->data = base;
-	strcpy(msg->data, p);
+	memcpy(msg->data, p, size - (p - (char*)data));
 
 	return msg;
 }
@@ -97,6 +155,7 @@ msg_t *parse_message(void *data, size_t size) {
 void process_message(ifreechat_t *ifc, char *ip, uint16_t port, 
 		void *data, size_t size) {
 	msg_t *msg;
+	uint32_t cmd;
 
 	msg = parse_message(data, size);
 	if (msg == NULL) {
@@ -106,13 +165,12 @@ void process_message(ifreechat_t *ifc, char *ip, uint16_t port,
 	strcpy(msg->ip, ip);
 	msg->port = port;
 
-	printf("[%s]\n", msg->version);
-	printf("[%s]\n", msg->packet_no);
-	printf("[%s]\n", msg->username);
-	printf("[%s]\n", msg->hostname);
-	printf("[%s]\n", msg->cmd);
-	printf("[%s]\n", msg->data);
-	printf("\n");
+	cmd = atoi(msg->cmd);
+	switch(cmd & 0x000000ff) {
+		case CMD_ANSENTRY:
+			buddy_entry_func(ifc, msg);
+			break;
+	}
 
 	free(msg);
 }
