@@ -188,6 +188,7 @@ int udp_send_msg(ifreechat_t *ifc, const char *ip, unsigned port,
 		const void *data, size_t size) {
 	struct sockaddr_in addr;
 	udp_socket_t *usock;
+	int ret;
 
 	addr.sin_family = AF_INET;
 	addr.sin_addr.s_addr = inet_addr(ip);
@@ -195,8 +196,13 @@ int udp_send_msg(ifreechat_t *ifc, const char *ip, unsigned port,
 
 	usock = (udp_socket_t*)ifc->usock;
 
-	return sendto(usock->sock, (void*)data, size, 0,
+	ret = sendto(usock->sock, (void*)data, size, 0,
 				(struct sockaddr*)&addr, sizeof(addr));
+	if (ret < 0) {
+		fprintf(stderr, "sendto() error: %s@%s:%d\n",
+				strerror(errno), __FILE__, __LINE__);
+	}
+	return ret;
 }
 
 

@@ -136,6 +136,7 @@ void pchatbox_insert_msg(pchatbox_t *chatbox, char *msg) {
 void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 
 	pchatbox_t *pchatbox;
+	ifreechat_t *ifc;
 	user_t *user;
 	char buf[65535];
 	char *msg;
@@ -151,6 +152,7 @@ void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 	GtkTextMark *mark;
 
 	pchatbox = (pchatbox_t*)(chatbox);
+	ifc = (ifreechat_t*)pchatbox->ifreechat;
 	user = pchatbox->remote;
 
 	input_textview = pchatbox->input_textview;
@@ -191,5 +193,5 @@ void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 			0x120,
 			msg);
 	printf("buf: %s\n", buf);
-	udp_send_msg((ifreechat_t*)chatbox->ifreechat, user->ipaddr, 9090, buf, strlen(buf));
+	udp_send_msg((ifreechat_t*)chatbox->ifreechat, user->ipaddr, ifc->port, buf, strlen(buf));
 }

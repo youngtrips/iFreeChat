@@ -23,4 +23,3 @@ $(OBJS): %.o: %.c
 
 clean:
 	rm *.o -f
-	rm $(TARGET) -f

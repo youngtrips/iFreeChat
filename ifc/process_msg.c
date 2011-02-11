@@ -105,6 +105,15 @@ int on_buddy_exit(ifreechat_t *ifc, msg_t *msg) {
 }
 
 void send_reply_msg(ifreechat_t *ifc, msg_t *msg) {
+	char buf[1024];
+	memset(buf, 0, sizeof(buf));
+	sprintf(buf, "1_lbt4_12#128#001A73261837#0#0#0:%u:%s:%s:%u:%s",
+			time(NULL),
+			msg->username,
+			msg->hostname,
+			CMD_RECVMSG,
+			msg->packet_no);
+	udp_send_msg(ifc, msg->ip, msg->port, buf, strlen(buf));
 }
 
 int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
@@ -123,7 +132,7 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 
 	gtk_status_icon_set_blinking(((ifc->main_window).icon), TRUE);
 
-	printf("msg: %s\n", msg->data);
+	printf("recv msg: %s\n", msg->data);
 	dlist_foreach(p, &(ifc->pchatbox)) {
 		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, pchatbox_node);
 		user = chatbox->remote;
