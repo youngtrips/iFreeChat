@@ -79,6 +79,7 @@ int on_buddy_entry(ifreechat_t *ifc, msg_t *msg) {
 	avatar_id = get_avatar_id_from_version(msg->version);
 	get_mac_from_version(msg->version, macaddr);
 	printf("mac: [%s]\n", macaddr);
+	printf("ip: [%s]\n", msg->ip);
 	if (avatar_id == 0) {
 		strcpy(avatar, "pixmaps/avatar/default.png");
 	} else {
@@ -110,13 +111,26 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 	uint32_t cmd;
 	char *encode;
 	char *data;
+	dlist_t *p;
+	pchatbox_t *chatbox;
+	user_t *user;
+
 	init_dlist_node(&(msg->node));
 	dlist_add_tail(&(ifc->mlist), &(msg->node));
-	data = (char*)string_validate(msg->data, "gbk", &encode);
-	if (data) 
-		strcpy(msg->data, data);
+//	data = (char*)string_validate(msg->data, "gbk", &encode);
+//	if (data) 
+//		strcpy(msg->data, data);
 
 	printf("msg: %s\n", msg->data);
+	dlist_foreach(p, &(ifc->pchatbox)) {
+		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, pchatbox_node);
+		user = chatbox->remote;
+		if (!strcmp(user->ipaddr, msg->ip)) {
+			pchatbox_insert_msg(chatbox, msg->data);
+			break;
+		}
+	}
+
 	cmd = atoi(msg->cmd);
 	if (cmd & OPT_SENDCHECK) {
 		send_reply_msg(ifc, msg);
@@ -139,6 +153,7 @@ msg_t *parse_message(void *data, size_t size) {
 	base = (char*)malloc(cap);
 	if (base == NULL)
 		return NULL;
+	memset(base, 0, cap);
 
 	p = (char*)data;
 	msg = (msg_t*)base; base += sizeof(msg_t);

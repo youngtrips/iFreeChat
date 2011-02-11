@@ -230,6 +230,9 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	win->signature_button = (GtkButton*)gtk_button_new_with_label(ifc->signature);
 	gtk_button_set_relief(win->signature_button, GTK_RELIEF_NONE);
 
+	win->icon = gtk_status_icon_new_from_file("pixmaps/icon.png");
+	gtk_widget_show((GtkWidget*)win->icon);
+
 	gtk_widget_hide((GtkWidget*)win->nickname_entry);
 	gtk_widget_hide((GtkWidget*)win->signature_entry);
 

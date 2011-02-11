@@ -100,10 +100,43 @@ void close_pchatbox(GtkWidget *widget, void *arg) {
 	free(pchatbox);
 }
 
+void pchatbox_insert_msg(pchatbox_t *chatbox, char *msg) {
+	char buf[65535];
+	pchatbox_t *pchatbox;
+	GtkTextView *output_textview;
+	
+
+	GtkTextBuffer *output_buffer;
+	GtkTextIter start;
+	GtkTextIter end;
+	GtkTextMark *mark;
+
+	pchatbox = (pchatbox_t*)(chatbox);
+
+	output_textview = pchatbox->display_textview;
+
+	output_buffer = gtk_text_view_get_buffer(output_textview);
+
+	sprintf(buf, "%s:\n", (chatbox->remote)->nickname);
+	gtk_text_buffer_get_end_iter(output_buffer, &end);
+	gtk_text_buffer_insert_with_tags_by_name(output_buffer, &end,
+			buf, -1, "blue_fg", "lmarg", "title_font", NULL);
+
+	sprintf(buf, "%s\n", msg);
+	gtk_text_buffer_get_end_iter(output_buffer, &end);
+	gtk_text_buffer_insert(output_buffer, &end, buf, strlen(buf));
+	
+	gtk_text_buffer_get_end_iter(output_buffer, &end);
+	mark = gtk_text_buffer_create_mark(output_buffer, NULL, &end, FALSE);
+	gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(output_textview), mark,
+		0.0, TRUE, 0.0, 0.0);
+	gtk_text_buffer_delete_mark(output_buffer, mark);
+}
 
 void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 
 	pchatbox_t *pchatbox;
+	user_t *user;
 	char buf[65535];
 	char *msg;
 
@@ -118,6 +151,7 @@ void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 	GtkTextMark *mark;
 
 	pchatbox = (pchatbox_t*)(chatbox);
+	user = pchatbox->remote;
 
 	input_textview = pchatbox->input_textview;
 	output_textview = pchatbox->display_textview;
@@ -149,4 +183,13 @@ void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 	gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(output_textview), mark,
 		0.0, TRUE, 0.0, 0.0);
 	gtk_text_buffer_delete_mark(output_buffer, mark);
+
+	sprintf(buf, "1_lbt4_13#128#0016D31F56A6#0#0#0:%u:%s:%s:%u:%s",
+			time(NULL),
+			user->username,
+			user->hostname,
+			0x120,
+			msg);
+	printf("buf: %s\n", buf);
+	udp_send_msg((ifreechat_t*)chatbox->ifreechat, user->ipaddr, 9090, buf, strlen(buf));
 }
