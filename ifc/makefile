@@ -8,7 +8,8 @@ OBJS=ifreechat.o \
 	 utils.o \
 	 broadcast.o \
 	 process_msg.o \
-	 encoding.o
+	 encoding.o \
+	 emotion_box.o
 
 CC=gcc
 TARGET=ifreechat

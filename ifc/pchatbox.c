@@ -32,6 +32,20 @@
 void close_pchatbox(GtkWidget *widget, gpointer arg);
 void on_send_message(GtkWidget *widget, pchatbox_t *chatbox);
 
+void chose_face(GtkWidget *widget, gpointer data) {
+
+	pchatbox_t *dlg = (pchatbox_t*)data;
+	int x , y , ex , ey , root_x , root_y;
+
+	gtk_widget_translate_coordinates(widget , dlg->window , 0 , 0 , &ex , &ey );
+	gtk_window_get_position(GTK_WINDOW(dlg->window) , &root_x , &root_y);
+
+	x = root_x + ex + 3;
+	y = root_y + ey + 46;
+
+	emotion_chose_dialg_init(dlg, x, y);
+}
+
 pchatbox_t *new_pchatbox(ifreechat_t *ifc, user_t *user) {
 	pchatbox_t *pchatbox;
 	dlist_t *pchatbox_list;
@@ -58,6 +72,7 @@ pchatbox_t *new_pchatbox(ifreechat_t *ifc, user_t *user) {
 	pchatbox->close_button 		= (GtkButton*)glade_xml_get_widget(xml, "close_btn");
 	pchatbox->nickname_label 	= (GtkLabel*)glade_xml_get_widget(xml, "nickname_label");
 	pchatbox->signature_label 	= (GtkLabel*)glade_xml_get_widget(xml, "signature_label");
+	pchatbox->chose_face_button	= (GtkToolButton*)glade_xml_get_widget(xml, "chose_face_button");
 	pchatbox->remote			= user;
 	pchatbox->ifreechat			= (void*)ifc;
 
@@ -90,6 +105,9 @@ pchatbox_t *new_pchatbox(ifreechat_t *ifc, user_t *user) {
 
 	g_signal_connect(GTK_OBJECT(pchatbox->send_button),
 			"clicked", GTK_SIGNAL_FUNC(on_send_message), pchatbox);
+
+	g_signal_connect(G_OBJECT(pchatbox->chose_face_button), 
+			"clicked", G_CALLBACK(chose_face), pchatbox);
 
 	gtk_widget_show_all(pchatbox->window);	
 	return pchatbox;

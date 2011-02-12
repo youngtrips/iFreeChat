@@ -34,10 +34,14 @@ typedef struct pchatbox_t {
 	GtkTextView *input_textview;
 	GtkButton *send_button;
 	GtkButton *close_button;
+	GtkToolButton *chose_face_button;
 
 	GtkImage *avatar_image;
 	GtkLabel *nickname_label;
 	GtkLabel *signature_label;
+
+	GtkWindow *emo;
+
 
 	user_t *remote;
 	void *ifreechat;

@@ -135,7 +135,7 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkToolButton" id="toolbutton4">
+                      <widget class="GtkToolButton" id="chose_face_button">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">toolbutton4</property>
                         <property name="use_underline">True</property>
