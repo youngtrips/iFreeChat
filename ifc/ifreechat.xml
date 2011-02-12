@@ -4,13 +4,13 @@
 	<network>
 		<listen_ip>0.0.0.0</listen_ip>
 		<multicast_ip>226.81.9.8</multicast_ip>
-		<port>9090</port>
+		<port>2425</port>
 	</network>
 	<user>
-		<nickname>python</nickname>
-		<username>haskell</username>
-		<hostname>erlang</hostname>
-		<category>code</category>
+		<nickname>Administrator</nickname>
+		<username>Administrator</username>
+		<hostname>pc1223145</hostname>
+		<category>测试</category>
 		<avatar_type>0</avatar_type>
 		<avatar_id>2</avatar_id>
 		<custom_avatar>pixmaps/avatar/default.png</custom_avatar>

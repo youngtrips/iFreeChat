@@ -35,6 +35,9 @@ handle_msg_func handle_msg_func_table[MAXN_FUNC];
 
 int get_avatar_id_from_version(const char *version) {
 	char *p;
+	if (0 != strncmp(version, "1_lbt", 5)) {
+		return 0;
+	}
 	p = strrchr(version, '_'); p++;
 	return atoi(p);
 }
@@ -42,7 +45,7 @@ int get_avatar_id_from_version(const char *version) {
 void get_mac_from_version(const char *version, char *mac) {
 	char *p;
 	char *q;
-	if (!strncmp(version + 2, "iptux", 5)) {
+	if (0 != strncmp(version, "1_lbt", 5)) {
 		strcpy(mac, "000000000000");
 		return;
 	}
@@ -68,6 +71,8 @@ int on_buddy_entry(ifreechat_t *ifc, msg_t *msg) {
 	user_t *user;
 	char buf[1024];
 
+	if (!strncmp(msg->version, "1_iptux",7))
+		return;
 	nickname = (char*)string_validate(msg->data, "gbk", &encode);
 	if (strlen(msg->data) == 0) {
 		nickname = msg->username;
@@ -89,6 +94,7 @@ int on_buddy_entry(ifreechat_t *ifc, msg_t *msg) {
 
 	avatar_id = get_avatar_id_from_version(msg->version);
 	get_mac_from_version(msg->version, macaddr);
+
 	if (avatar_id == 0) {
 		strcpy(avatar, "pixmaps/avatar/default.png");
 	} else {
