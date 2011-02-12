@@ -11,7 +11,8 @@ OBJS=ifreechat.o \
 	 encoding.o \
 	 emotion_box.o \
 	 group_listview.o \
-	 listview.o
+	 listview.o \
+	 treeview.o
 
 CC=gcc
 TARGET=ifreechat
