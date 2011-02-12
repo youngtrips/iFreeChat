@@ -25,6 +25,7 @@ typedef struct msg_t {
 	char *cmd;
 	char *data;
 	char *buf;
+	void *user;
 }msg_t;
 
 #endif

@@ -162,6 +162,21 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 //		strcpy(msg->data, data);
 
 	gtk_status_icon_set_blinking(((ifc->main_window).icon), TRUE);
+	pthread_mutex_lock(&(ifc->ulist_lock));
+	user = NULL;
+	dlist_foreach(p, &(ifc->ulist)) {
+		user = (user_t*)dlist_entry(p, user_t, unode);
+		if (!strcmp(user->ipaddr, msg->ip)) {
+			msg->user = (void*)user;
+			break;
+		}
+	}
+	pthread_mutex_unlock(&(ifc->ulist_lock));
+	if (user == NULL) {
+		printf("no such user...\n");
+		free(msg);
+		return;
+	}
 
 	pthread_mutex_lock(&(ifc->pchatbox_lock));
 	dlist_foreach(p, &(ifc->pchatbox)) {

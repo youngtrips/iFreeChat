@@ -224,24 +224,12 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 	pthread_mutex_unlock(&(ifc->pchatbox_lock));
 
 	if (chatbox == NULL) {
-		user = NULL;
-		pthread_mutex_lock(&(ifc->ulist_lock));
-		dlist_foreach(p, &(ifc->ulist)) {
-			user = (user_t*)dlist_entry(p, user_t, unode);
-			if (!strcmp(user->ipaddr, msg->ip)) {
-				break;
-			}
-		}
-		pthread_mutex_unlock(&(ifc->ulist_lock));
-		if (user) {
-			chatbox = (pchatbox_t*)new_pchatbox(ifc, user);
-			if (chatbox == NULL) {
-				printf("create chatbox error...\n");
-			} else {
-				pchatbox_insert_msg(chatbox, user->nickname, msg->data);
-			}
+		user = (user_t*)msg->user;
+		chatbox = (pchatbox_t*)new_pchatbox(ifc, user);
+		if (chatbox == NULL) {
+			printf("create chatbox error...\n");
 		} else {
-			printf("no such user...\n");
+			pchatbox_insert_msg(chatbox, user->nickname, msg->data);
 		}
 	}
 	
