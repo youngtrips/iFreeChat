@@ -108,16 +108,16 @@ int on_buddy_entry(ifreechat_t *ifc, msg_t *msg) {
 	pthread_mutex_unlock(&(ifc->ulist_lock));
 	add_user_to_treeview((ifc->main_window).contact_treeview, user);
 
-//	if (cmd & CMD_BR_ENTRY) {
-//		memset(buf, 0, sizeof(buf));
-//		sprintf(buf, "1_lbt4_12#128#001A73261837#0#0#0:%u:%s:%s:%u:%s",
-//				time(NULL),
-//				ifc->username,
-//				ifc->hostname,
-//				0x103,
-//				ifc->nickname);
-//		udp_send_msg(ifc, msg->ip, msg->port, buf, strlen(buf));
-//	}
+	if ((cmd & CMD_BR_ENTRY) && strcmp(msg->username, ifc->username) != 0) {
+		memset(buf, 0, sizeof(buf));
+		sprintf(buf, "1_lbt4_12#128#001A73261837#0#0#0:%lu:%s:%s:%u:%s",
+				time(NULL),
+				ifc->username,
+				ifc->hostname,
+				0x103,
+				ifc->nickname);
+		udp_send_msg(ifc, msg->ip, msg->port, buf, strlen(buf));
+	}
 	return 0;
 }
 
