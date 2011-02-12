@@ -22,7 +22,9 @@
  */
 
 #include <stdio.h>
+
 #include "gtk_common.h"
+#include "group.h"
 
 enum {
 	PIXBUF_COL,
@@ -31,43 +33,13 @@ enum {
 	COL_NUM
 };
 
-GtkListStore *create_group_listview_model() {
-	GtkListStore *model;
-	GtkTreeIter iter;
-	GdkPixbuf *pixbuf;
-	int i;
-
-	model = gtk_list_store_new(COL_NUM,
-			GDK_TYPE_PIXBUF,
-			G_TYPE_STRING,
-			G_TYPE_POINTER
-			);
-
-	/* just for test*/
-	pixbuf = gdk_pixbuf_new_from_file("pixmaps/icon.png", NULL);
-	for(i = 0;i < 30; i++) {
-		gtk_list_store_append(model, &iter);
-		gtk_list_store_set(model, &iter,
-				PIXBUF_COL, pixbuf,
-				TITLE_COL, "test group",
-				-1);
-	}
-
-	return model;
+void add_group_to_listview(GtkTreeView *listview, group_t *gp) {
 }
 
-void init_group_listview(GtkTreeView *tv) {
-
-	GtkCellRenderer *renderer;
-	GtkTreeViewColumn *col;
-	
-	renderer = gtk_cell_renderer_pixbuf_new();
-	col = gtk_tree_view_column_new_with_attributes("", renderer,
-			"pixbuf", PIXBUF_COL, NULL);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(tv), col);
-
-	renderer = gtk_cell_renderer_text_new();
-	col = gtk_tree_view_column_new_with_attributes("", renderer,
-			"text", TITLE_COL, NULL);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(tv), col);
+void del_group_from_listview(GtkTreeView *listview, group_t *gp) {
 }
+
+void group_listview_ondoubleclicked(GtkTreeView *listview,
+		GtkTreePath *path, GtkTreeViewColumn *col, gpointer data) {
+}
+

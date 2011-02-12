@@ -10,7 +10,8 @@ OBJS=ifreechat.o \
 	 process_msg.o \
 	 encoding.o \
 	 emotion_box.o \
-	 group_listview.o
+	 group_listview.o \
+	 listview.o
 
 CC=gcc
 TARGET=ifreechat
