@@ -9,7 +9,8 @@ OBJS=ifreechat.o \
 	 broadcast.o \
 	 process_msg.o \
 	 encoding.o \
-	 emotion_box.o
+	 emotion_box.o \
+	 group_listview.o
 
 CC=gcc
 TARGET=ifreechat

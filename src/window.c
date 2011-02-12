@@ -245,6 +245,7 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	window_t *win;
 	GladeXML *xml;
 	GtkTreeStore *contact_store;
+	GtkListStore *group_store;
 	GtkButton *btn1;
 	GtkButton *btn2;
 	char file[1024];
@@ -332,6 +333,11 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	/* initial contact_treeview */
 	init_treeview(win->contact_treeview);
 
+
+	group_store = create_group_listview_model();
+	gtk_tree_view_set_model(win->group_treeview, (GtkTreeModel*)group_store);
+	gtk_tree_view_set_headers_visible(win->group_treeview, FALSE);
+	init_group_listview(win->group_treeview);
 	return 0;
 }
 
