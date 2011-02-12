@@ -25,6 +25,7 @@
 #define __IFREECHAT_H
 
 #include <stdint.h>
+#include <pthread.h>
 
 #include "pchatbox.h"
 #include "gchatbox.h"
@@ -55,6 +56,13 @@ typedef struct ifreechat_t {
 	dlist_t ulist; 			/* user list */
 	dlist_t glist; 			/* group list */
 	dlist_t mlist; 			/* unread message list */
+
+	pthread_mutex_t pchatbox_lock;
+	pthread_mutex_t gchatbox_lock;
+	pthread_mutex_t ulist_lock;
+	pthread_mutex_t glist_lock;
+	pthread_mutex_t mlist_lock;
+
 }ifreechat_t;
 
 #endif

@@ -24,6 +24,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <pthread.h>
 
 #include "dlist.h"
 #include "process_msg.h"
@@ -124,8 +125,10 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 	pchatbox_t *chatbox;
 	user_t *user;
 
-	init_dlist_node(&(msg->node));
-	dlist_add_tail(&(ifc->mlist), &(msg->node));
+	pthread_mutex_lock(&(ifc->mlist_lock));
+	dlist_add_tail(&(msg->node), &(ifc->mlist));
+	pthread_mutex_unlock(&(ifc->mlist_lock));
+
 //	data = (char*)string_validate(msg->data, "gbk", &encode);
 //	if (data) 
 //		strcpy(msg->data, data);
@@ -168,6 +171,8 @@ msg_t *parse_message(void *data, size_t size) {
 
 	p = (char*)data;
 	msg = (msg_t*)base; base += sizeof(msg_t);
+
+	init_dlist_node(&(msg->node));
 
 	//ip
 	msg->ip = base;	base += 20;
@@ -229,6 +234,6 @@ void process_message(ifreechat_t *ifc, char *ip, uint16_t port,
 			break;
 	}
 
-	free(msg);
+//	free(msg);
 }
 

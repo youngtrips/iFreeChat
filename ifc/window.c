@@ -192,20 +192,29 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 	ifreechat_t *ifc;
 	pchatbox_t *chatbox;
 	msg_t *msg;
+	dlist_t *msg_node;
 	dlist_t *p;
 	user_t *user;
 
 	ifc = (ifreechat_t*)data;
-	printf("ifc: %x\n", (unsigned long)ifc);
-	p = (ifc->mlist).next;
-	msg = (msg_t*)dlist_entry(p, msg_t, node);
+
+	msg_node = (ifc->mlist).next;
+	if (msg_node == &(ifc->mlist)) {
+		gtk_status_icon_set_blinking((ifc->main_window).icon, FALSE);
+		return;
+	}
+	pthread_mutex_lock(&(ifc->mlist_lock));
+	dlist_del(msg_node);
+	pthread_mutex_unlock(&(ifc->mlist_lock));
+	
+	msg = (msg_t*)dlist_entry(msg_node, msg_t, node);
 
 	chatbox = NULL;
 	dlist_foreach(p, &(ifc->pchatbox)) {
 		chatbox = dlist_entry(p, pchatbox_t, pchatbox_node);
 		user = chatbox->remote;
 		if (!strcmp(user->ipaddr, msg->ip)) {
-			gtk_window_present(chatbox->window);
+			gtk_window_present((GtkWindow*)chatbox->window);
 			break;
 		}
 	}
@@ -221,12 +230,12 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 			chatbox = new_pchatbox(ifc, user);
 		pchatbox_insert_msg(chatbox, msg);
 	}
-	p = (ifc->mlist).next;
-	dlist_del(p);
 	
 	if (&(ifc->mlist) == (ifc->mlist).next) {
 		gtk_status_icon_set_blinking((ifc->main_window).icon, FALSE);
 	}
+
+	free(msg);
 }
 
 int init_window(ifreechat_t *ifc , const char *uifile) {

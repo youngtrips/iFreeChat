@@ -23,6 +23,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 
 #include "user.h"
 #include "pchatbox.h"
@@ -61,7 +62,9 @@ int new_pchatbox(ifreechat_t *ifc, user_t *user) {
 	pchatbox->ifreechat			= (void*)ifc;
 
 	init_dlist_node(&(pchatbox->pchatbox_node));
+	pthread_mutex_lock(&(ifc->pchatbox_lock));
 	dlist_add_tail(&(pchatbox->pchatbox_node), &(ifc->pchatbox));
+	pthread_mutex_unlock(&(ifc->pchatbox_lock));
 
 	sprintf(title, "Chat with %s", user->nickname);
 	gtk_window_set_title((GtkWindow*)pchatbox->window, title);
