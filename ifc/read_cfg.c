@@ -60,10 +60,16 @@ int read_cfg(const char *cfgfile, ifreechat_t *ifc) {
 						strcpy(ifc->username, szKey);
 					} else if (!xmlStrcmp(p->name, (const xmlChar*)"hostname")) {
 						strcpy(ifc->hostname, szKey);
-					} else if (!xmlStrcmp(p->name, (const xmlChar*)"avatar")) {
-						strcpy(ifc->avatar, szKey);
+					} else if (!xmlStrcmp(p->name, (const xmlChar*)"avatar_type")) {
+						ifc->avatar_type = atoi(szKey);
+					} else if (!xmlStrcmp(p->name, (const xmlChar*)"avatar_id")) {
+						ifc->avatar_id = atoi(szKey);
+					} else if (!xmlStrcmp(p->name, (const xmlChar*)"custom_avatar")) {
+						strcpy(ifc->custom_avatar, szKey);
 					} else if (!xmlStrcmp(p->name, (const xmlChar*)"signature")) {
 						strcpy(ifc->signature, szKey);
+					} else if (!xmlStrcmp(p->name, (const xmlChar*)"category")) {
+						strcpy(ifc->category, szKey);
 					}
 					xmlFree(szKey);
 				}

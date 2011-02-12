@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <pthread.h>
 
+#include "gtk_common.h"
 #include "dlist.h"
 #include "process_msg.h"
 #include "user.h"
@@ -63,24 +64,31 @@ int on_buddy_entry(ifreechat_t *ifc, msg_t *msg) {
 	char *category;
 	char *p;
 	int avatar_id;
+	uint32_t cmd;
 	user_t *user;
+	char buf[1024];
 
 	nickname = (char*)string_validate(msg->data, "gbk", &encode);
-	p = strchr(msg->data, '\0'); p++;
-	category = (char*)string_validate(p, "gbk", &encode);
-
-	if (category == NULL) 
-		category = (char*)no_group;
-	if (nickname == NULL)
+	if (strlen(msg->data) == 0) {
 		nickname = msg->username;
-	if (!strcmp(msg->ip, ifc->ipaddr)) {
-		category = (char*)my_group;
+	} else {
+		nickname = (char*)string_validate(msg->data, "gbk", &encode);
+		if (nickname == NULL)
+			nickname = msg->data;
 	}
+
+	p = strchr(msg->data, '\0'); p++;
+	if (strlen(p) == 0) {
+		category = (char*)no_group;
+	} else {
+		category = (char*)string_validate(p, "gbk", &encode);
+		if (category == NULL)
+			category = p;
+	}
+	cmd = atoi(msg->cmd);
 
 	avatar_id = get_avatar_id_from_version(msg->version);
 	get_mac_from_version(msg->version, macaddr);
-	printf("mac: [%s]\n", macaddr);
-	printf("ip: [%s]\n", msg->ip);
 	if (avatar_id == 0) {
 		strcpy(avatar, "pixmaps/avatar/default.png");
 	} else {
@@ -95,8 +103,21 @@ int on_buddy_entry(ifreechat_t *ifc, msg_t *msg) {
 			"GBK"
 			);
 
+	pthread_mutex_lock(&(ifc->ulist_lock));
+	dlist_add_tail(&(user->unode), &(ifc->ulist));
+	pthread_mutex_unlock(&(ifc->ulist_lock));
 	add_user_to_treeview((ifc->main_window).contact_treeview, user);
 
+//	if (cmd & CMD_BR_ENTRY) {
+//		memset(buf, 0, sizeof(buf));
+//		sprintf(buf, "1_lbt4_12#128#001A73261837#0#0#0:%u:%s:%s:%u:%s",
+//				time(NULL),
+//				ifc->username,
+//				ifc->hostname,
+//				0x103,
+//				ifc->nickname);
+//		udp_send_msg(ifc, msg->ip, msg->port, buf, strlen(buf));
+//	}
 	return 0;
 }
 
@@ -108,7 +129,8 @@ int on_buddy_exit(ifreechat_t *ifc, msg_t *msg) {
 void send_reply_msg(ifreechat_t *ifc, msg_t *msg) {
 	char buf[1024];
 	memset(buf, 0, sizeof(buf));
-	sprintf(buf, "1_lbt4_12#128#001A73261837#0#0#0:%u:%s:%s:%u:%s",
+	sprintf(buf, "1_lbt4_%d#128#001A73261837#0#0#0:%lu:%s:%s:%u:%s",
+			ifc->avatar_id,
 			time(NULL),
 			msg->username,
 			msg->hostname,
@@ -135,15 +157,18 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 
 	gtk_status_icon_set_blinking(((ifc->main_window).icon), TRUE);
 
-	printf("recv msg: %s\n", msg->data);
+	pthread_mutex_lock(&(ifc->pchatbox_lock));
 	dlist_foreach(p, &(ifc->pchatbox)) {
 		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, pchatbox_node);
 		user = chatbox->remote;
 		if (!strcmp(user->ipaddr, msg->ip)) {
-			pchatbox_insert_msg(chatbox, msg->data);
+			gdk_threads_enter();
+			pchatbox_insert_msg(chatbox, user->nickname, msg->data);
+			gdk_threads_leave();
 			break;
 		}
 	}
+	pthread_mutex_unlock(&(ifc->pchatbox_lock));
 
 	cmd = atoi(msg->cmd);
 	if (cmd & OPT_SENDCHECK) {
@@ -228,6 +253,7 @@ void process_message(ifreechat_t *ifc, char *ip, uint16_t port,
 		case CMD_BR_ENTRY:
 		case CMD_ANSENTRY:
 			on_buddy_entry(ifc, msg);
+			free(msg);
 			break;
 		case CMD_SENDMSG:
 			on_buddy_sendmsg(ifc, msg);

@@ -32,7 +32,7 @@
 void close_pchatbox(GtkWidget *widget, gpointer arg);
 void on_send_message(GtkWidget *widget, pchatbox_t *chatbox);
 
-int new_pchatbox(ifreechat_t *ifc, user_t *user) {
+pchatbox_t *new_pchatbox(ifreechat_t *ifc, user_t *user) {
 	pchatbox_t *pchatbox;
 	dlist_t *pchatbox_list;
 
@@ -42,7 +42,7 @@ int new_pchatbox(ifreechat_t *ifc, user_t *user) {
 
 	xml = glade_xml_new("glade/pchatbox.glade", NULL, NULL);
 	if (xml == NULL) {
-		return -1;
+		return NULL;
 	}
 
 	glade_xml_signal_autoconnect(xml);
@@ -62,6 +62,7 @@ int new_pchatbox(ifreechat_t *ifc, user_t *user) {
 	pchatbox->ifreechat			= (void*)ifc;
 
 	init_dlist_node(&(pchatbox->pchatbox_node));
+
 	pthread_mutex_lock(&(ifc->pchatbox_lock));
 	dlist_add_tail(&(pchatbox->pchatbox_node), &(ifc->pchatbox));
 	pthread_mutex_unlock(&(ifc->pchatbox_lock));
@@ -91,19 +92,26 @@ int new_pchatbox(ifreechat_t *ifc, user_t *user) {
 			"clicked", GTK_SIGNAL_FUNC(on_send_message), pchatbox);
 
 	gtk_widget_show_all(pchatbox->window);	
-	return 0;
+	return pchatbox;
 }
 
 void close_pchatbox(GtkWidget *widget, void *arg) {
 	pchatbox_t *pchatbox;
+	ifreechat_t *ifc;
 
 	pchatbox = (pchatbox_t*)arg;
+	ifc = (ifreechat_t*)pchatbox->ifreechat;
+
 	gtk_widget_destroy(pchatbox->window);
+
+	pthread_mutex_lock(&(ifc->pchatbox_lock));
 	dlist_del(&(pchatbox->pchatbox_node));
+	pthread_mutex_unlock(&(ifc->pchatbox_lock));
+
 	free(pchatbox);
 }
 
-void pchatbox_insert_msg(pchatbox_t *chatbox, char *msg) {
+void pchatbox_insert_msg(pchatbox_t *chatbox, char *sender, char *msg) {
 	char buf[65535];
 	pchatbox_t *pchatbox;
 	GtkTextView *output_textview;
@@ -120,7 +128,7 @@ void pchatbox_insert_msg(pchatbox_t *chatbox, char *msg) {
 
 	output_buffer = gtk_text_view_get_buffer(output_textview);
 
-	sprintf(buf, "%s:\n", (chatbox->remote)->nickname);
+	sprintf(buf, "%s:\n", sender);
 	gtk_text_buffer_get_end_iter(output_buffer, &end);
 	gtk_text_buffer_insert_with_tags_by_name(output_buffer, &end,
 			buf, -1, "blue_fg", "lmarg", "title_font", NULL);
@@ -174,7 +182,7 @@ void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 	msg = gtk_text_buffer_get_text(input_buffer, &start, &end, TRUE);
 	gtk_text_buffer_delete(input_buffer, &start, &end);
 
-	sprintf(buf, "Me:\n");
+	sprintf(buf, "%s:\n", ifc->nickname);
 	gtk_text_buffer_get_end_iter(output_buffer, &end);
 	gtk_text_buffer_insert_with_tags_by_name(output_buffer, &end,
 			buf, -1, "blue_fg", "lmarg", "title_font", NULL);
@@ -189,7 +197,7 @@ void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 		0.0, TRUE, 0.0, 0.0);
 	gtk_text_buffer_delete_mark(output_buffer, mark);
 
-	sprintf(buf, "1_lbt4_13#128#0016D31F56A6#0#0#0:%u:%s:%s:%u:%s",
+	sprintf(buf, "1_lbt4_13#128#0016D31F56A6#0#0#0:%lu:%s:%s:%u:%s",
 			time(NULL),
 			user->username,
 			user->hostname,

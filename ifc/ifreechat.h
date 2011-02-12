@@ -39,7 +39,12 @@ typedef struct ifreechat_t {
 	char nickname[64];
 	char username[64];
 	char hostname[64];
-	char avatar[64];
+	char category[64];
+
+	int avatar_type;
+	int avatar_id;
+	char custom_avatar[128];
+
 	char ipaddr[20];
 	char macaddr[20];
 	char signature[128];

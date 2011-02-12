@@ -7,11 +7,14 @@
 		<port>9090</port>
 	</network>
 	<user>
-		<nickname>test</nickname>
-		<username>test</username>
-		<hostname>testa</hostname>
-		<avatar>pixmaps/avatar/default.png</avatar>
-		<signature>hello</signature>
+		<nickname>python</nickname>
+		<username>haskell</username>
+		<hostname>erlang</hostname>
+		<category>code</category>
+		<avatar_type>0</avatar_type>
+		<avatar_id>2</avatar_id>
+		<custom_avatar>pixmaps/avatar/default.png</custom_avatar>
+		<signature>hello java</signature>
 	</user>
 
 	<group>

@@ -22,6 +22,8 @@
  */
 
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "gtk_common.h"
 #include "window.h"
@@ -179,7 +181,7 @@ gboolean on_nickname_entry_activate(GtkWidget* widget , gpointer data) {
 
 	win = (window_t*)data;
 
-	nickname = gtk_entry_get_text(win->nickname_entry);
+	nickname = (gchar*)gtk_entry_get_text(win->nickname_entry);
 	gtk_button_set_label(win->nickname_button, nickname);
 	gtk_widget_hide((GtkWidget*)win->nickname_entry);
 	gtk_widget_show((GtkWidget*)win->nickname_button);
@@ -210,25 +212,37 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 	msg = (msg_t*)dlist_entry(msg_node, msg_t, node);
 
 	chatbox = NULL;
+	pthread_mutex_lock(&(ifc->pchatbox_lock));
 	dlist_foreach(p, &(ifc->pchatbox)) {
-		chatbox = dlist_entry(p, pchatbox_t, pchatbox_node);
+		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, pchatbox_node);
 		user = chatbox->remote;
 		if (!strcmp(user->ipaddr, msg->ip)) {
 			gtk_window_present((GtkWindow*)chatbox->window);
 			break;
 		}
 	}
+	pthread_mutex_unlock(&(ifc->pchatbox_lock));
 
 	if (chatbox == NULL) {
 		user = NULL;
+		pthread_mutex_lock(&(ifc->ulist_lock));
 		dlist_foreach(p, &(ifc->ulist)) {
-			user = dlist_entry(p, user_t, unode);
-			if (!strcmp(user->ipaddr, msg->ip))
+			user = (user_t*)dlist_entry(p, user_t, unode);
+			if (!strcmp(user->ipaddr, msg->ip)) {
 				break;
+			}
 		}
-		if (user)
-			chatbox = new_pchatbox(ifc, user);
-		pchatbox_insert_msg(chatbox, msg);
+		pthread_mutex_unlock(&(ifc->ulist_lock));
+		if (user) {
+			chatbox = (pchatbox_t*)new_pchatbox(ifc, user);
+			if (chatbox == NULL) {
+				printf("create chatbox error...\n");
+			} else {
+				pchatbox_insert_msg(chatbox, user->nickname, msg->data);
+			}
+		} else {
+			printf("no such user...\n");
+		}
 	}
 	
 	if (&(ifc->mlist) == (ifc->mlist).next) {
@@ -245,6 +259,7 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	GtkTreeStore *contact_store;
 	GtkButton *btn1;
 	GtkButton *btn2;
+	char file[1024];
 
 	if (ifc == NULL || uifile == NULL) {
 		printf("wrong args...\n");
@@ -272,7 +287,13 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	win->history_treeview 	= (GtkTreeView*)glade_xml_get_widget(xml, 	"history_treeview");
 
 	/* initial avatar */
-	gtk_image_set_from_file(win->avatar, ifc->avatar);
+	if (ifc->avatar_type == 0) {
+		/* use internal avatar */
+		sprintf(file, "pixmaps/avatar/%d.bmp", ifc->avatar_id);
+		gtk_image_set_from_file(win->avatar, file);
+	} else {
+		gtk_image_set_from_file(win->avatar, ifc->custom_avatar);
+	}
 
 	/* initial nickname */
 	win->nickname_button = (GtkButton*)gtk_button_new_with_label(ifc->nickname);
@@ -284,13 +305,10 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 
 	/* trayicon */
 	win->icon = gtk_status_icon_new_from_file("pixmaps/icon.png");
-	gtk_widget_show((GtkWidget*)win->icon);
 	g_signal_connect(GTK_STATUS_ICON (win->icon), 
 			"activate", 
 			G_CALLBACK(tray_icon_activated), 
 			(gpointer)ifc);
-	printf("ifc: %x\n", (unsigned long)ifc);
-
 
 	gtk_widget_hide((GtkWidget*)win->nickname_entry);
 	gtk_widget_hide((GtkWidget*)win->signature_entry);
