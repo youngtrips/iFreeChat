@@ -86,7 +86,7 @@ pchatbox_t *new_pchatbox(ifreechat_t *ifc, user_t *user) {
 	gtk_window_set_title((GtkWindow*)pchatbox->window, title);
 	gtk_image_set_from_file(pchatbox->avatar_image, user->avatar);
 	gtk_label_set_text(pchatbox->nickname_label, user->nickname);
-	gtk_label_set_text(pchatbox->signature_label, user->signature);
+	gtk_label_set_text(pchatbox->signature_label, ""/*user->signature*/);
 
 
 	display_buffer = gtk_text_view_get_buffer(pchatbox->display_textview);
