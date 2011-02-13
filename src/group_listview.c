@@ -25,6 +25,7 @@
 
 #include "gtk_common.h"
 #include "group.h"
+#include "group_listview.h"
 
 enum {
 	PIXBUF_COL,
@@ -53,7 +54,32 @@ void add_group_to_listview(GtkTreeView *listview, group_t *gp) {
 void del_group_from_listview(GtkTreeView *listview, group_t *gp) {
 }
 
-void group_listview_ondoubleclicked(GtkTreeView *listview,
+void group_treeview_ondoubleclicked(GtkTreeView *tree_view,
 		GtkTreePath *path, GtkTreeViewColumn *col, gpointer data) {
-}
 
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	ifreechat_t *ifc;
+	dlist_t *p;
+	gchatbox_t *chatbox;
+	group_t *group;
+
+	ifc = (ifreechat_t*)data;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view));
+	gtk_tree_model_get_iter(model, &iter, path);
+	gtk_tree_model_get(model, &iter, 
+			URI_COL, &group,
+			-1);
+
+	dlist_foreach(p, &(ifc->gchatbox)) {
+		chatbox = (gchatbox_t*)dlist_entry(p, gchatbox_t, gchatbox_node);
+		if (group->group_id == chatbox->group->group_id) {
+			gtk_window_present((GtkWindow*)chatbox->window);
+			return;
+		}
+	}
+
+	/* create new private chatbox */
+	new_gchatbox(ifc, group);
+}

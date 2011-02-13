@@ -35,6 +35,7 @@
 #include "msg.h"
 #include "pchatbox.h"
 #include "treeview.h"
+#include "group_listview.h"
 #include "pair.h"
 
 void on_nickname_btn_clicked(GtkWidget *widget, gpointer data) {
@@ -273,5 +274,8 @@ void show_window(ifreechat_t *ifc) {
 	g_signal_connect(GTK_OBJECT(win->contact_treeview), 
 			"row_activated", 
 			GTK_SIGNAL_FUNC(contact_treeview_ondoubleclicked), (gpointer)ifc);
+	g_signal_connect(GTK_OBJECT(win->group_treeview), 
+			"row_activated", 
+			GTK_SIGNAL_FUNC(group_treeview_ondoubleclicked), (gpointer)ifc);
 	gtk_widget_show(win->window);
 }

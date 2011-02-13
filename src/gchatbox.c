@@ -1,7 +1,7 @@
 /*
- * Author: youngtrips(youngtrips@163.com)
- * Created Time:  2011-02-10
- * File Name: pchatbox.c
+ * Author: youngtrips
+ * Created Time:  2011-02-13
+ * File Name: gchatbox.c
  * Description: 
  *
  * This program is free software; you can redistribute it and/or
@@ -25,19 +25,21 @@
 #include <string.h>
 #include <pthread.h>
 #include <time.h>
+#include <openssl/blowfish.h>
 
+#include "group.h"
 #include "user.h"
-#include "pchatbox.h"
+#include "gchatbox.h"
 #include "ifreechat.h"
 #include "emotion_box.h"
 
-static void close_pchatbox(GtkWidget *widget, gpointer arg);
+static void close_gchatbox(GtkWidget *widget, gpointer arg);
 static void on_close_button(GtkWidget *widget, gpointer data); 
-static void on_send_message(GtkWidget *widget, pchatbox_t *chatbox);
+static void on_send_message(GtkWidget *widget, gchatbox_t *chatbox);
 
 static void chose_face(GtkWidget *widget, gpointer data) {
 
-	pchatbox_t *dlg = (pchatbox_t*)data;
+	gchatbox_t *dlg = (gchatbox_t*)data;
 	int x , y , ex , ey , root_x , root_y;
 
 	gtk_widget_translate_coordinates(widget , dlg->window , 0 , 0 , &ex , &ey );
@@ -49,50 +51,51 @@ static void chose_face(GtkWidget *widget, gpointer data) {
 	emotion_chose_dialg_init(dlg, x, y);
 }
 
-pchatbox_t *new_pchatbox(ifreechat_t *ifc, user_t *user) {
-	pchatbox_t *pchatbox;
-	dlist_t *pchatbox_list;
+gchatbox_t *new_gchatbox(ifreechat_t *ifc, group_t *group) {
+	gchatbox_t *gchatbox;
+	dlist_t *gchatbox_list;
 
 	char title[128];
 	GladeXML *xml;
 	GtkTextBuffer *display_buffer;
 
-	xml = glade_xml_new("glade/pchatbox.glade", NULL, NULL);
+	xml = glade_xml_new("glade/gchatbox.glade", NULL, NULL);
 	if (xml == NULL) {
 		return NULL;
 	}
 
 	glade_xml_signal_autoconnect(xml);
 
-	pchatbox = (pchatbox_t*)malloc(sizeof(pchatbox_t));
+	gchatbox = (gchatbox_t*)malloc(sizeof(gchatbox_t));
 
 	/* load widgets from xml */
-	pchatbox->window 			= glade_xml_get_widget(xml, "chat_window");
-	pchatbox->display_textview 	= (GtkTextView*)glade_xml_get_widget(xml, "display_textview");
-	pchatbox->input_textview 	= (GtkTextView*)glade_xml_get_widget(xml, "input_textview");
-	pchatbox->avatar_image 		= (GtkImage*)glade_xml_get_widget(xml, "avatar_image");
-	pchatbox->send_button 		= (GtkButton*)glade_xml_get_widget(xml, "send_btn");
-	pchatbox->close_button 		= (GtkButton*)glade_xml_get_widget(xml, "close_btn");
-	pchatbox->nickname_label 	= (GtkLabel*)glade_xml_get_widget(xml, "nickname_label");
-	pchatbox->signature_label 	= (GtkLabel*)glade_xml_get_widget(xml, "signature_label");
-	pchatbox->chose_face_button	= (GtkToolButton*)glade_xml_get_widget(xml, "chose_face_button");
-	pchatbox->remote			= user;
-	pchatbox->ifreechat			= (void*)ifc;
+	gchatbox->window 			= glade_xml_get_widget(xml, "chat_window");
+	gchatbox->display_textview 	= (GtkTextView*)glade_xml_get_widget(xml, "display_textview");
+	gchatbox->input_textview 	= (GtkTextView*)glade_xml_get_widget(xml, "input_textview");
+	gchatbox->avatar_image 		= (GtkImage*)glade_xml_get_widget(xml, "avatar_image");
+	gchatbox->send_button 		= (GtkButton*)glade_xml_get_widget(xml, "send_btn");
+	gchatbox->close_button 		= (GtkButton*)glade_xml_get_widget(xml, "close_btn");
+	gchatbox->gpname_label	 	= (GtkLabel*)glade_xml_get_widget(xml, "nickname_label");
+	gchatbox->gpinfo_label 		= (GtkLabel*)glade_xml_get_widget(xml, "signature_label");
+	gchatbox->chose_face_button	= (GtkToolButton*)glade_xml_get_widget(xml, "chose_face_button");
+	gchatbox->ifreechat			= (void*)ifc;
+	gchatbox->group				= group;
 
-	init_dlist_node(&(pchatbox->pchatbox_node));
+	init_dlist_node(&(gchatbox->gchatbox_node));
 
-	pthread_mutex_lock(&(ifc->pchatbox_lock));
-	dlist_add_tail(&(pchatbox->pchatbox_node), &(ifc->pchatbox));
-	pthread_mutex_unlock(&(ifc->pchatbox_lock));
+	pthread_mutex_lock(&(ifc->gchatbox_lock));
+	dlist_add_tail(&(gchatbox->gchatbox_node), &(ifc->glist));
+	pthread_mutex_unlock(&(ifc->gchatbox_lock));
 
-	sprintf(title, "Chat with %s", user->nickname);
-	gtk_window_set_title((GtkWindow*)pchatbox->window, title);
-	gtk_image_set_from_file(pchatbox->avatar_image, user->avatar);
-	gtk_label_set_text(pchatbox->nickname_label, user->nickname);
-	gtk_label_set_text(pchatbox->signature_label, ""/*user->signature*/);
+	sprintf(title, "Group Room %s", group->group_name);
+	gtk_window_set_title((GtkWindow*)gchatbox->window, title);
+
+//	gtk_image_set_from_file(gchatbox->avatar_image, user->avatar);
+	gtk_label_set_text(gchatbox->gpname_label, group->group_name);
+	gtk_label_set_text(gchatbox->gpinfo_label, group->group_info);
 
 
-	display_buffer = gtk_text_view_get_buffer(pchatbox->display_textview);
+	display_buffer = gtk_text_view_get_buffer(gchatbox->display_textview);
 
 	gtk_text_buffer_create_tag(display_buffer, "lmarg",
 			"left_margin", 5, NULL);
@@ -101,48 +104,48 @@ pchatbox_t *new_pchatbox(ifreechat_t *ifc, user_t *user) {
 	gtk_text_buffer_create_tag(display_buffer, "title_font",
 			"font", "Sans 9", NULL);
 
-	g_signal_connect(GTK_OBJECT(pchatbox->window), 
-			"destroy", G_CALLBACK(close_pchatbox), (gpointer)pchatbox);
+	g_signal_connect(GTK_OBJECT(gchatbox->window), 
+			"destroy", G_CALLBACK(close_gchatbox), (gpointer)gchatbox);
 
-	g_signal_connect(GTK_OBJECT(pchatbox->close_button), 
-			"clicked", G_CALLBACK(on_close_button), (gpointer)pchatbox);
+	g_signal_connect(GTK_OBJECT(gchatbox->close_button), 
+			"clicked", G_CALLBACK(on_close_button), (gpointer)gchatbox);
 
-	g_signal_connect(GTK_OBJECT(pchatbox->send_button),
-			"clicked", GTK_SIGNAL_FUNC(on_send_message), pchatbox);
+	g_signal_connect(GTK_OBJECT(gchatbox->send_button),
+			"clicked", GTK_SIGNAL_FUNC(on_send_message), gchatbox);
 
-	g_signal_connect(G_OBJECT(pchatbox->chose_face_button), 
-			"clicked", G_CALLBACK(chose_face), pchatbox);
+	g_signal_connect(G_OBJECT(gchatbox->chose_face_button), 
+			"clicked", G_CALLBACK(chose_face), gchatbox);
 
-	gtk_widget_show_all(pchatbox->window);	
-	return pchatbox;
+	gtk_widget_show_all(gchatbox->window);	
+	return gchatbox;
 }
 
 static void on_close_button(GtkWidget *widget, gpointer data) {
-	pchatbox_t *pchatbox;
-	pchatbox = (pchatbox_t*)data;
-	gtk_widget_destroy(pchatbox->window);
+	gchatbox_t *gchatbox;
+	gchatbox = (gchatbox_t*)data;
+	gtk_widget_destroy(gchatbox->window);
 }
 
-static void close_pchatbox(GtkWidget *widget, gpointer data) {
-	pchatbox_t *pchatbox;
+static void close_gchatbox(GtkWidget *widget, gpointer data) {
+	gchatbox_t *gchatbox;
 	ifreechat_t *ifc;
 	GtkWidget *p;
 
-	pchatbox = (pchatbox_t*)data;
-	ifc = (ifreechat_t*)pchatbox->ifreechat;
-	gtk_widget_destroyed(pchatbox->window, &p);
+	gchatbox = (gchatbox_t*)data;
+	ifc = (ifreechat_t*)gchatbox->ifreechat;
+	gtk_widget_destroyed(gchatbox->window, &p);
 	if (p != NULL) {
-		gtk_widget_destroy(pchatbox->window);
+		gtk_widget_destroy(gchatbox->window);
 	}
-	pthread_mutex_lock(&(ifc->pchatbox_lock));
-	dlist_del(&(pchatbox->pchatbox_node));
-	pthread_mutex_unlock(&(ifc->pchatbox_lock));
-	free(pchatbox);
+	pthread_mutex_lock(&(ifc->gchatbox_lock));
+	dlist_del(&(gchatbox->gchatbox_node));
+	pthread_mutex_unlock(&(ifc->gchatbox_lock));
+	free(gchatbox);
 }
 
-void pchatbox_insert_msg(pchatbox_t *chatbox, char *sender, time_t *tm, char *msg) {
+void gchatbox_insert_msg(gchatbox_t *chatbox, char *sender, time_t *tm, char *msg) {
 	char buf[65535];
-	pchatbox_t *pchatbox;
+	gchatbox_t *gchatbox;
 	GtkTextView *output_textview;
 	
 
@@ -151,9 +154,9 @@ void pchatbox_insert_msg(pchatbox_t *chatbox, char *sender, time_t *tm, char *ms
 	GtkTextIter end;
 	GtkTextMark *mark;
 
-	pchatbox = (pchatbox_t*)(chatbox);
+	gchatbox = (gchatbox_t*)(chatbox);
 
-	output_textview = pchatbox->display_textview;
+	output_textview = gchatbox->display_textview;
 
 	output_buffer = gtk_text_view_get_buffer(output_textview);
 
@@ -171,7 +174,7 @@ void pchatbox_insert_msg(pchatbox_t *chatbox, char *sender, time_t *tm, char *ms
 	gtk_text_buffer_delete_mark(output_buffer, mark);
 }
 
-void insert_msg_with_emotion_to_textview(GtkTextView *textview, const char *msg) {
+void ginsert_msg_with_emotion_to_textview(GtkTextView *textview, const char *msg) {
 	char file[1024];
 	char tmp[4];
 	char *buf;
@@ -229,12 +232,19 @@ void insert_msg_with_emotion_to_textview(GtkTextView *textview, const char *msg)
 	free(buf);
 }
 
-static void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
+static void on_send_message(GtkWidget *widget, gchatbox_t *chatbox) {
 
-	pchatbox_t *pchatbox;
+	gchatbox_t *gchatbox;
 	ifreechat_t *ifc;
-	user_t *user;
+	group_t *group;
 	char buf[65535];
+	char plain[1024];
+	char crypt[1024];
+	unsigned char ivec[8];
+	BF_KEY key;
+	size_t size;
+	int len;
+
 	char *msg;
 	time_t pno;
 
@@ -249,13 +259,13 @@ static void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 	GtkTextMark *mark;
 	GdkPixbuf *pixbuf;
 
-	pchatbox = (pchatbox_t*)(chatbox);
-	ifc = (ifreechat_t*)pchatbox->ifreechat;
-	user = pchatbox->remote;
+	gchatbox = (gchatbox_t*)(chatbox);
+	ifc = (ifreechat_t*)gchatbox->ifreechat;
+	group = gchatbox->group;
 
 	pno = time(NULL);
-	input_textview = pchatbox->input_textview;
-	output_textview = pchatbox->display_textview;
+	input_textview = gchatbox->input_textview;
+	output_textview = gchatbox->display_textview;
 
 	input_buffer = gtk_text_view_get_buffer(input_textview);
 	output_buffer = gtk_text_view_get_buffer(output_textview);
@@ -283,15 +293,27 @@ static void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 		0.0, TRUE, 0.0, 0.0);
 	gtk_text_buffer_delete_mark(output_buffer, mark);
 
+
+	BF_set_key(&key, 12, ifc->macaddr);
+	sprintf(plain, "QUNMSGMARK#%lx#%s",
+			group->group_id,
+			msg);
+	printf("plain: [%s]\n", plain);
+	len = strlen(plain);
+	BF_cbc_encrypt(plain, crypt, len, &key, ivec, BF_ENCRYPT);
+
 //	printf("msg: [%s]\n", msg);
-	sprintf(buf, "1_lbt4_%d#128#%s#0#0#0:%lu:%s:%s:%u:%s",
+	sprintf(buf, "1_lbt4_%d#128#%s#0#0#%d:%lu:%s:%s:%u:",
 			ifc->avatar_id,
 			ifc->macaddr,
+			len,
 			pno,
 			ifc->username,
 			ifc->hostname,
-			0x120,
-			msg);
-//	printf("buf: %s\n", buf);
-	udp_send_msg((ifreechat_t*)chatbox->ifreechat, user->ipaddr, ifc->port, buf, strlen(buf));
+			4194339);
+	size = strlen(buf);
+	memcpy(buf + size, crypt, len + 1);
+	size += len + 1;
+	printf("buf: %s\n", buf);
+	udp_send_msg((ifreechat_t*)chatbox->ifreechat, "226.81.9.8", ifc->port, buf, size);
 }

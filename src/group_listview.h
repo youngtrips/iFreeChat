@@ -1,7 +1,7 @@
 /*
- * Author: youngtrips(youngtrips@163.com)
- * Created Time:  2011-02-10
- * File Name: gchatbox.h
+ * Author: youngtrips
+ * Created Time:  2011-02-13
+ * File Name: group_listview.h
  * Description: 
  *
  * This program is free software; you can redistribute it and/or
@@ -21,31 +21,13 @@
  *
  */
 
-#ifndef __GCHATBOX_H
-#define __GCHATBOX_H
+#ifndef __GROUP_LISTVIEW_H
+#define __GROUP_LISTVIEW_H
 
 #include "gtk_common.h"
-#include "group.h"
+#include "ifreechat.h"
 
-typedef struct gchatbox_t {
-	GtkWidget *window;
-	GtkTextView *display_textview;
-	GtkTextView *input_textview;
-	GtkButton *send_button;
-	GtkButton *close_button;
-	GtkToolButton *chose_face_button;
-
-	GtkImage *avatar_image;
-	GtkLabel *gpname_label;
-	GtkLabel *gpinfo_label;
-
-	GtkWindow *emo;
-
-	group_t *group;
-	void *ifreechat;
-
-	dlist_t gchatbox_node;
-
-}gchatbox_t;
+void group_treeview_ondoubleclicked(GtkTreeView *tree_view,
+		GtkTreePath *path, GtkTreeViewColumn *col, gpointer data);
 
 #endif
