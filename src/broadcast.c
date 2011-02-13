@@ -15,8 +15,9 @@ void online_broadcast(ifreechat_t *ifc) {
 
 	printf("post online message...\n");
 	memset(buf, 0, sizeof(buf));
-	sprintf(buf, "1_lbt4_%d#128#001A73261837#0#0#0:%lu:%s:%s:%u:%s",
+	sprintf(buf, "1_lbt4_%d#128#%s#0#0#0:%lu:%s:%s:%u:%s",
 			ifc->avatar_id,
+			ifc->macaddr,
 			time(NULL),
 			ifc->username,
 			ifc->hostname,
@@ -41,8 +42,9 @@ void offline_broadcast(ifreechat_t *ifc) {
 
 	printf("post online message...\n");
 	memset(buf, 0, sizeof(buf));
-	sprintf(buf, "1_lbt4_%d#128#001A73261837#0#0#0:%lu:%s:%s:%u:%s",
+	sprintf(buf, "1_lbt4_%d#128#%s#0#0#0:%lu:%s:%s:%u:%s",
 			ifc->avatar_id,
+			ifc->macaddr,
 			time(NULL),
 			ifc->username,
 			ifc->hostname,

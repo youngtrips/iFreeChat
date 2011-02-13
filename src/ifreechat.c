@@ -52,6 +52,7 @@ ifreechat_t *init_ifreechat() {
 	pthread_mutex_init(&(ifc->glist_lock), NULL);
 	pthread_mutex_init(&(ifc->mlist_lock), NULL);
 
+	strcpy(ifc->cfgfile, "ifreechat.xml");
 	return ifc;
 }
 
@@ -70,8 +71,8 @@ int main(int argc, char *argv[]) {
 	gtk_init(&argc, &argv);
 
 	ifc = init_ifreechat();
-	if (read_cfg("ifreechat.xml", ifc) < 0) {
-		fprintf(stderr, "read cfg: ifreechat.xml error.\n");
+	if (read_cfg(ifc) < 0) {
+		fprintf(stderr, "read cfg: %s error.\n", ifc->cfgfile);
 		goto err;
 	}
 

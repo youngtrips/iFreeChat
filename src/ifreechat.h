@@ -36,6 +36,7 @@
 
 typedef struct ifreechat_t {
 
+	char cfgfile[1024];
 	char nickname[64];
 	char username[64];
 	char hostname[64];

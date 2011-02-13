@@ -24,6 +24,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "gtk_common.h"
 #include "window.h"
@@ -35,6 +36,10 @@
 #include "pchatbox.h"
 #include "treeview.h"
 
+typedef struct pair_t {
+	void *first;
+	void *second;
+}pair_t;
 
 void on_nickname_btn_clicked(GtkWidget *widget, gpointer data) {
 	window_t *win;
@@ -58,12 +63,24 @@ gboolean on_nickname_entry_focus_out(GtkWidget* widget,
 
 gboolean on_nickname_entry_activate(GtkWidget* widget , gpointer data) {
 
+	pair_t *update_nickname_arg;
+	ifreechat_t *ifc;
 	window_t *win;
 	gchar *nickname;
 
-	win = (window_t*)data;
+	update_nickname_arg = (pair_t*)data;
+
+	ifc = (ifreechat_t*)update_nickname_arg->first;
+	win = (window_t*)update_nickname_arg->second;
 
 	nickname = (gchar*)gtk_entry_get_text(win->nickname_entry);
+	/* save to config file */
+	update_cfg(ifc, "user", "nickname", nickname);
+	strcpy(ifc->nickname, nickname);
+
+	/* to broadcast others with my new nickname*/
+	online_broadcast(ifc);
+
 	gtk_button_set_label(win->nickname_button, nickname);
 	gtk_widget_hide((GtkWidget*)win->nickname_entry);
 	gtk_widget_show((GtkWidget*)win->nickname_button);
@@ -79,6 +96,7 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 	dlist_t *msg_node;
 	dlist_t *p;
 	user_t *user;
+	time_t tm;
 
 	ifc = (ifreechat_t*)data;
 
@@ -92,6 +110,7 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 	pthread_mutex_unlock(&(ifc->mlist_lock));
 	
 	msg = (msg_t*)dlist_entry(msg_node, msg_t, node);
+	tm = (time_t)atoi(msg->packet_no);
 
 	chatbox = NULL;
 	pthread_mutex_lock(&(ifc->pchatbox_lock));
@@ -111,7 +130,7 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 		if (chatbox == NULL) {
 			printf("create chatbox error...\n");
 		} else {
-			pchatbox_insert_msg(chatbox, user->nickname, msg->data);
+			pchatbox_insert_msg(chatbox, user->nickname, &tm, msg->data);
 		}
 	}
 	
@@ -133,6 +152,7 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	GtkButton *btn1;
 	GtkButton *btn2;
 	char file[1024];
+	pair_t *update_nickname_arg;
 
 	if (ifc == NULL || uifile == NULL) {
 		printf("wrong args...\n");
@@ -202,10 +222,14 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 			"focus-out-event",
 			GTK_SIGNAL_FUNC(on_nickname_entry_focus_out),
 			(gpointer)win);
+
+	update_nickname_arg = (pair_t*)malloc(sizeof(pair_t));
+	update_nickname_arg->first 	= (void*)ifc;
+	update_nickname_arg->second = (void*)win;
 	g_signal_connect(G_OBJECT(win->nickname_entry),
 			"activate",
 			G_CALLBACK(on_nickname_entry_activate),
-			(gpointer)win);
+			(gpointer)update_nickname_arg);
 
 	/* initial contact treeview model */
 	contact_store = create_contact_treevie_model();

@@ -26,6 +26,6 @@
 
 #include "ifreechat.h"
 
-int read_cfg(const char *cfgfile, ifreechat_t *ifc);
+int read_cfg(ifreechat_t *ifc);
 
 #endif

@@ -28,14 +28,14 @@
 
 #include "read_cfg.h"
 
-int read_cfg(const char *cfgfile, ifreechat_t *ifc) {
+int read_cfg(ifreechat_t *ifc) {
 
 	xmlDocPtr doc;
 	xmlNodePtr curNode;
 	xmlNodePtr p;
 	xmlChar *szKey;
 
-	doc = xmlReadFile(cfgfile,
+	doc = xmlReadFile(ifc->cfgfile,
 			"UTF-8", XML_PARSE_RECOVER);
 	if (doc == NULL) {
 		return -1;
@@ -82,6 +82,8 @@ int read_cfg(const char *cfgfile, ifreechat_t *ifc) {
 					szKey = xmlNodeGetContent(p);
 					if (!xmlStrcmp(p->name, (const xmlChar*)"listen_ip")) {
 						strcpy(ifc->ipaddr, szKey);
+					} else if (!xmlStrcmp(p->name, (const xmlChar*)"mac")) {
+						strcpy(ifc->macaddr, szKey);
 					} else if (!xmlStrcmp(p->name, (const xmlChar*)"multicast_ip")) {
 						strcpy(ifc->multicast_ip, szKey);
 					} else if (!xmlStrcmp(p->name, (const xmlChar*)"port")) {
@@ -95,9 +97,58 @@ int read_cfg(const char *cfgfile, ifreechat_t *ifc) {
 		curNode = curNode->next;
 	}
 	xmlFreeDoc(doc);
-	printf("ok...\n");
+	printf("load config ok...\n");
 	return 0;
 }
 
+
+int update_cfg(ifreechat_t *ifc, const char *category, 
+		const char *name, const char *value) {
+
+	xmlDocPtr doc;
+	xmlNodePtr curNode;
+	xmlNodePtr p;
+	xmlChar *szKey;
+	int flag;
+
+	printf("category: [%s]\n", category);
+	printf("name: [%s] --> value:[%s]\n", name, value);
+	doc = xmlReadFile(ifc->cfgfile,
+			"UTF-8", XML_PARSE_RECOVER);
+	if (doc == NULL) {
+		return -1;
+	}
+	curNode = xmlDocGetRootElement(doc);
+
+	if (NULL == curNode) {
+		xmlFreeDoc(doc);
+		return -1;
+	}
+
+	flag = 0;
+	curNode = curNode->xmlChildrenNode;
+	while(curNode != NULL) {
+		if (!xmlStrcmp(curNode->name, (const xmlChar*)category)) {
+			p = curNode->xmlChildrenNode;
+			while(p != NULL) {
+				if (p->type == XML_ELEMENT_NODE) {
+					if (!xmlStrcmp(p->name, (const xmlChar*)name)) {
+						flag = 1;
+						xmlNodeSetContent(p, (const xmlChar*)value);
+						break;
+					} 
+				}
+				p = p->next;
+			}
+		}
+		if (flag == 1)
+			break;
+		curNode = curNode->next;
+	}
+	xmlSaveFormatFile(ifc->cfgfile, doc, 1);
+	xmlFreeDoc(doc);
+	printf("update config ok...\n");
+	return 0;
+}
 
 
