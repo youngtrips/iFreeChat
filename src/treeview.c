@@ -26,6 +26,7 @@
 #include "gtk_common.h"
 #include "ifreechat.h"
 #include "user.h"
+#include "pair.h"
 
 enum {
 	PIXBUF_COL,
@@ -70,12 +71,6 @@ typedef struct get_category_arg_t {
 	GtkTreeIter *iter;
 	int flag;
 }get_category_arg_t;
-
-typedef struct get_userinfo_arg_t {
-	char *category;
-	GtkTreeIter *citer;
-	GtkTreeIter *uiter;
-}get_userinfo_arg_t;
 
 gboolean gtk_treeview_get_category(GtkTreeModel *model,
 		GtkTreePath *path, GtkTreeIter *iter, gpointer data) {
@@ -136,11 +131,6 @@ int add_user_to_treeview(GtkTreeView *treeview, user_t *user) {
 	return 0;
 }
 
-typedef struct pair_t {
-	void *first;
-	void *second;
-}pair_t;
-
 gboolean update_userinfo_func(GtkTreeModel *model,
 		GtkTreePath *path, GtkTreeIter *iter, gpointer data) {
 	pair_t *arg;
@@ -181,8 +171,7 @@ int update_user_to_treeview(GtkTreeView *treeview, user_t *user) {
 	if (treeview == NULL || user == NULL)
 		return -1;
 
-	arg.first = (void*)user;
-	arg.second = NULL;
+	make_pair(&arg, (void*)user, NULL);
 
 	model = gtk_tree_view_get_model(treeview);
 	gtk_tree_model_foreach(model, update_userinfo_func, (gpointer)&arg);

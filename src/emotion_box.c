@@ -234,7 +234,7 @@ void emotion_chose_dialg_init(pchatbox_t *chatbox, int x, int y) {
 			if(!img)
 				continue;
 			eventbox = gtk_event_box_new();
-			gtk_widget_set_tooltip_markup(eventbox , emotion_list[k].desc);
+			gtk_widget_set_tooltip_text(eventbox , emotion_list[k].desc);
 			gtk_container_add(GTK_CONTAINER(eventbox) , img);
 
 			emotion_arg = (struct args*)malloc(sizeof(struct args));

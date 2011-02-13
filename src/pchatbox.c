@@ -32,6 +32,7 @@
 #include "emotion_box.h"
 
 void close_pchatbox(GtkWidget *widget, gpointer arg);
+void on_close_button(GtkWidget *widget, gpointer data); 
 void on_send_message(GtkWidget *widget, pchatbox_t *chatbox);
 
 void chose_face(GtkWidget *widget, gpointer data) {
@@ -100,10 +101,11 @@ pchatbox_t *new_pchatbox(ifreechat_t *ifc, user_t *user) {
 	gtk_text_buffer_create_tag(display_buffer, "title_font",
 			"font", "Sans 9", NULL);
 
-
-
 	g_signal_connect(GTK_OBJECT(pchatbox->window), 
-			"destroy", GTK_SIGNAL_FUNC(close_pchatbox), (gpointer)pchatbox);
+			"destroy", G_CALLBACK(close_pchatbox), (gpointer)pchatbox);
+
+	g_signal_connect(GTK_OBJECT(pchatbox->close_button), 
+			"clicked", G_CALLBACK(on_close_button), (gpointer)pchatbox);
 
 	g_signal_connect(GTK_OBJECT(pchatbox->send_button),
 			"clicked", GTK_SIGNAL_FUNC(on_send_message), pchatbox);
@@ -115,19 +117,26 @@ pchatbox_t *new_pchatbox(ifreechat_t *ifc, user_t *user) {
 	return pchatbox;
 }
 
-void close_pchatbox(GtkWidget *widget, void *arg) {
+void on_close_button(GtkWidget *widget, gpointer data) {
+	pchatbox_t *pchatbox;
+	pchatbox = (pchatbox_t*)data;
+	gtk_widget_destroy(pchatbox->window);
+}
+
+void close_pchatbox(GtkWidget *widget, gpointer data) {
 	pchatbox_t *pchatbox;
 	ifreechat_t *ifc;
+	GtkWidget *p;
 
-	pchatbox = (pchatbox_t*)arg;
+	pchatbox = (pchatbox_t*)data;
 	ifc = (ifreechat_t*)pchatbox->ifreechat;
-
-	gtk_widget_destroy(pchatbox->window);
-
+	gtk_widget_destroyed(pchatbox->window, &p);
+	if (p != NULL) {
+		gtk_widget_destroy(pchatbox->window);
+	}
 	pthread_mutex_lock(&(ifc->pchatbox_lock));
 	dlist_del(&(pchatbox->pchatbox_node));
 	pthread_mutex_unlock(&(ifc->pchatbox_lock));
-
 	free(pchatbox);
 }
 

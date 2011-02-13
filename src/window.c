@@ -35,11 +35,7 @@
 #include "msg.h"
 #include "pchatbox.h"
 #include "treeview.h"
-
-typedef struct pair_t {
-	void *first;
-	void *second;
-}pair_t;
+#include "pair.h"
 
 void on_nickname_btn_clicked(GtkWidget *widget, gpointer data) {
 	window_t *win;
@@ -85,6 +81,7 @@ gboolean on_nickname_entry_activate(GtkWidget* widget , gpointer data) {
 	gtk_widget_hide((GtkWidget*)win->nickname_entry);
 	gtk_widget_show((GtkWidget*)win->nickname_button);
 
+	free(update_nickname_arg);
 	return TRUE;
 }
 
@@ -224,8 +221,8 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 			(gpointer)win);
 
 	update_nickname_arg = (pair_t*)malloc(sizeof(pair_t));
-	update_nickname_arg->first 	= (void*)ifc;
-	update_nickname_arg->second = (void*)win;
+	make_pair(update_nickname_arg, (void*)ifc, (void*)win);
+
 	g_signal_connect(G_OBJECT(win->nickname_entry),
 			"activate",
 			G_CALLBACK(on_nickname_entry_activate),

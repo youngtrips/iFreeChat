@@ -163,6 +163,7 @@
                         <property name="height_request">50</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="has_focus">True</property>
                         <property name="wrap_mode">word-char</property>
                       </widget>
                     </child>
