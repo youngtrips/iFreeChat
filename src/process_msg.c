@@ -71,6 +71,7 @@ int on_buddy_entry(ifreechat_t *ifc, msg_t *msg) {
 	uint32_t cmd;
 	user_t *user;
 	char buf[1024];
+	dlist_t *plist;
 
 	if (!strncmp(msg->version, "1_iptux",7))
 		return;
@@ -102,6 +103,26 @@ int on_buddy_entry(ifreechat_t *ifc, msg_t *msg) {
 		sprintf(avatar, "pixmaps/avatar/%d.bmp", avatar_id);
 	}
 
+	pthread_mutex_lock(&(ifc->ulist_lock));
+	dlist_foreach(plist, &(ifc->ulist)) {
+		user = (user_t*)dlist_entry(plist, user_t, unode);
+		if (!strcmp(user->ipaddr, msg->ip)) {
+			/* update user info */
+			strcpy(user->nickname, nickname);
+			strcpy(user->username, msg->username);
+			strcpy(user->hostname, msg->hostname);
+			strcpy(user->macaddr,  macaddr);
+			strcpy(user->category, category);
+			strcpy(user->avatar, avatar);
+			break;
+		}
+	}
+	pthread_mutex_unlock(&(ifc->ulist_lock));
+	if (plist != &(ifc->ulist)) {
+		update_user_to_treeview((ifc->main_window).contact_treeview, user);
+		return;
+	}
+
 	user = new_user(
 			nickname, 		msg->username, 
 			msg->hostname, 	avatar,
@@ -113,6 +134,7 @@ int on_buddy_entry(ifreechat_t *ifc, msg_t *msg) {
 	pthread_mutex_lock(&(ifc->ulist_lock));
 	dlist_add_tail(&(user->unode), &(ifc->ulist));
 	pthread_mutex_unlock(&(ifc->ulist_lock));
+
 	add_user_to_treeview((ifc->main_window).contact_treeview, user);
 
 	if ((cmd & CMD_BR_ENTRY) && strcmp(msg->username, ifc->username) != 0) {

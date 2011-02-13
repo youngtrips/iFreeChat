@@ -71,6 +71,12 @@ typedef struct get_category_arg_t {
 	int flag;
 }get_category_arg_t;
 
+typedef struct get_userinfo_arg_t {
+	char *category;
+	GtkTreeIter *citer;
+	GtkTreeIter *uiter;
+}get_userinfo_arg_t;
+
 gboolean gtk_treeview_get_category(GtkTreeModel *model,
 		GtkTreePath *path, GtkTreeIter *iter, gpointer data) {
 	get_category_arg_t *arg;
@@ -127,6 +133,60 @@ int add_user_to_treeview(GtkTreeView *treeview, user_t *user) {
 			URI_COL, (void*)user,
 			-1);
 	gdk_pixbuf_unref(pixbuf);
+	return 0;
+}
+
+typedef struct pair_t {
+	void *first;
+	void *second;
+}pair_t;
+
+gboolean update_userinfo_func(GtkTreeModel *model,
+		GtkTreePath *path, GtkTreeIter *iter, gpointer data) {
+	pair_t *arg;
+	user_t *user;
+
+	char *old_category;
+	char *new_category;
+	char *ipaddr;
+	GdkPixbuf *pixbuf;
+
+	arg = (pair_t*)data;
+	user = (user_t*)arg->first;
+
+	if (gtk_tree_path_get_depth(path) > 1) {
+		gtk_tree_model_get(model, iter, 
+				TEXT_COL, 	&old_category,
+			   	IP_COL,		&ipaddr,
+				-1);
+		if (!strcmp(ipaddr, user->ipaddr)) {
+			pixbuf = (GdkPixbuf*)gdk_pixbuf_new_from_file(user->avatar, NULL);
+			gtk_tree_store_set((GtkTreeStore*)model, iter,
+					PIXBUF_COL, pixbuf,
+					TEXT_COL, user->nickname,
+					IP_COL, user->ipaddr,
+					MAC_COL, user->macaddr,
+					-1);
+			gdk_pixbuf_unref(pixbuf);
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+int update_user_to_treeview(GtkTreeView *treeview, user_t *user) {
+	GtkTreeModel *model;
+	pair_t arg;
+
+	if (treeview == NULL || user == NULL)
+		return -1;
+
+	arg.first = (void*)user;
+	arg.second = NULL;
+
+	model = gtk_tree_view_get_model(treeview);
+	gtk_tree_model_foreach(model, update_userinfo_func, (gpointer)&arg);
+
 	return 0;
 }
 
