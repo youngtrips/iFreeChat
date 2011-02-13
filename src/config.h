@@ -1,7 +1,7 @@
 /*
  * Author: youngtrips
  * Created Time:  2011-02-10
- * File Name: read_cfg.h
+ * File Name: config.h
  * Description: 
  *
  * This program is free software; you can redistribute it and/or
@@ -21,8 +21,8 @@
  *
  */
 
-#ifndef __READ_CFG_H
-#define __READ_CFG_H
+#ifndef __CONIFG_H
+#define __CONFIG_H
 
 #include "ifreechat.h"
 

@@ -2,7 +2,7 @@ OBJS=ifreechat.o \
 	 group.o \
 	 user.o \
 	 window.o \
-	 read_cfg.o \
+	 config.o \
 	 pchatbox.o \
 	 udp_socket.o \
 	 utils.o \

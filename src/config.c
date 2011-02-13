@@ -1,7 +1,7 @@
 /*
  * Author: youngtrips
  * Created Time:  2011-02-10
- * File Name: read_cfg.c
+ * File Name: config.c
  * Description: 
  *
  * This program is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@
 #include <libxml/tree.h>
 
 #include "group.h"
-#include "read_cfg.h"
+#include "config.h"
 
 int read_cfg(ifreechat_t *ifc) {
 
