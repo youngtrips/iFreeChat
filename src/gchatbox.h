@@ -28,28 +28,6 @@
 #include "group.h"
 #include "chatbox.h"
 
-/*
-typedef struct gchatbox_t {
-	GtkWidget *window;
-	GtkTextView *display_textview;
-	GtkTextView *input_textview;
-	GtkButton *send_button;
-	GtkButton *close_button;
-	GtkToolButton *chose_face_button;
-
-	GtkImage *avatar_image;
-	GtkLabel *gpname_label;
-	GtkLabel *gpinfo_label;
-
-	GtkWindow *emo;
-
-	group_t *group;
-	void *ifreechat;
-
-	dlist_t gchatbox_node;
-
-}gchatbox_t;
-*/
 typedef chatbox_t gchatbox_t;
 
 #endif

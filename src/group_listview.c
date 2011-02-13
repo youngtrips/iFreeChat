@@ -73,8 +73,8 @@ void group_treeview_ondoubleclicked(GtkTreeView *tree_view,
 			-1);
 
 	dlist_foreach(p, &(ifc->gchatbox)) {
-		chatbox = (gchatbox_t*)dlist_entry(p, gchatbox_t, gchatbox_node);
-		if (group->group_id == chatbox->group->group_id) {
+		chatbox = (gchatbox_t*)dlist_entry(p, gchatbox_t, chatbox_node);
+		if (group->group_id == ((group_t*)chatbox->data)->group_id) {
 			gtk_window_present((GtkWindow*)chatbox->window);
 			return;
 		}

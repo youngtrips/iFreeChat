@@ -31,4 +31,8 @@ typedef struct emotion_t {
 
 extern emotion_t emotion_list[96];
 
+char *replace_emotion(char *str);
+
+void emotion_chose_dialg_init(pchatbox_t *chatbox, int x, int y);
+
 #endif
