@@ -44,14 +44,14 @@ GtkListStore *create_listview_model() {
 			);
 
 	/* just for test*/
-	pixbuf = gdk_pixbuf_new_from_file("pixmaps/icon.png", NULL);
-	for(i = 0;i < 30; i++) {
-		gtk_list_store_append(model, &iter);
-		gtk_list_store_set(model, &iter,
-				PIXBUF_COL, pixbuf,
-				TITLE_COL, "test group",
-				-1);
-	}
+//	pixbuf = gdk_pixbuf_new_from_file("pixmaps/icon.png", NULL);
+//	for(i = 0;i < 30; i++) {
+//		gtk_list_store_append(model, &iter);
+//		gtk_list_store_set(model, &iter,
+//				PIXBUF_COL, pixbuf,
+//				TITLE_COL, "test group",
+//				-1);
+//	}
 
 	return model;
 }

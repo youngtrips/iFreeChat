@@ -151,6 +151,9 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	char file[1024];
 	pair_t *update_nickname_arg;
 
+	dlist_t *p;
+	group_t *gp;
+
 	if (ifc == NULL || uifile == NULL) {
 		printf("wrong args...\n");
 		return -1;
@@ -243,6 +246,13 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	gtk_tree_view_set_model(win->group_treeview, (GtkTreeModel*)group_store);
 	gtk_tree_view_set_headers_visible(win->group_treeview, FALSE);
 	init_listview(win->group_treeview);
+
+	/* add default group to listview */
+	dlist_foreach(p, &(ifc->glist)) {
+		gp = (group_t*)dlist_entry(p, group_t, gnode);
+		add_group_to_listview(win->group_treeview, gp);
+	}
+
 
 	history_store = create_listview_model();
 	gtk_tree_view_set_model(win->history_treeview, (GtkTreeModel*)history_store);

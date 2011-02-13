@@ -26,6 +26,7 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
+#include "group.h"
 #include "read_cfg.h"
 
 int read_cfg(ifreechat_t *ifc) {
@@ -34,6 +35,12 @@ int read_cfg(ifreechat_t *ifc) {
 	xmlNodePtr curNode;
 	xmlNodePtr p;
 	xmlChar *szKey;
+
+	char gpname[128];
+	char gpinfo[128];
+	uint32_t gpid;
+
+	group_t *gp;
 
 	doc = xmlReadFile(ifc->cfgfile,
 			"UTF-8", XML_PARSE_RECOVER);
@@ -92,6 +99,25 @@ int read_cfg(ifreechat_t *ifc) {
 					xmlFree(szKey);
 				}
 				p = p->next;
+			}
+		} else if (!xmlStrcmp(curNode->name, (const xmlChar*)"group")) {
+			p = curNode->xmlChildrenNode;
+			while(p != NULL) {
+				if (p->type == XML_ELEMENT_NODE) {
+					szKey = xmlNodeGetContent(p);
+					if (!xmlStrcmp(p->name, (const xmlChar*)"name")) {
+						strcpy(gpname, szKey);
+					} else if (!xmlStrcmp(p->name, (const xmlChar*)"id")) {
+						gpid = strtoul(szKey, NULL, 16);
+					} else if (!xmlStrcmp(p->name, (const xmlChar*)"info")) {
+						strcpy(gpinfo, szKey);
+					}
+				}
+				p = p->next;
+			}
+			gp = new_group(gpname, gpinfo, gpid);
+			if (gp) {
+				dlist_add_tail(&(gp->gnode), &(ifc->glist));
 			}
 		}
 		curNode = curNode->next;
