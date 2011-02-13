@@ -21,6 +21,8 @@
  *
  */
 
+#include <string.h>
+
 #include "gtk_common.h"
 #include "ifreechat.h"
 #include "user.h"

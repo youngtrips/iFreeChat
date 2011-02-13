@@ -24,10 +24,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <pthread.h>
+#include <time.h>
 
 #include "user.h"
 #include "pchatbox.h"
 #include "ifreechat.h"
+#include "emotion_box.h"
 
 void close_pchatbox(GtkWidget *widget, gpointer arg);
 void on_send_message(GtkWidget *widget, pchatbox_t *chatbox);
@@ -96,7 +98,7 @@ pchatbox_t *new_pchatbox(ifreechat_t *ifc, user_t *user) {
 	gtk_text_buffer_create_tag(display_buffer, "blue_fg",
 			"foreground", "blue", NULL);
 	gtk_text_buffer_create_tag(display_buffer, "title_font",
-			"font", "Sans Italic 12", NULL);
+			"font", "Sans 9", NULL);
 
 
 
@@ -129,7 +131,7 @@ void close_pchatbox(GtkWidget *widget, void *arg) {
 	free(pchatbox);
 }
 
-void pchatbox_insert_msg(pchatbox_t *chatbox, char *sender, char *msg) {
+void pchatbox_insert_msg(pchatbox_t *chatbox, char *sender, time_t *tm, char *msg) {
 	char buf[65535];
 	pchatbox_t *pchatbox;
 	GtkTextView *output_textview;
@@ -146,20 +148,76 @@ void pchatbox_insert_msg(pchatbox_t *chatbox, char *sender, char *msg) {
 
 	output_buffer = gtk_text_view_get_buffer(output_textview);
 
-	sprintf(buf, "%s:\n", sender);
+	sprintf(buf, "%s(%s):\n", sender, my_ctime(tm));
 	gtk_text_buffer_get_end_iter(output_buffer, &end);
 	gtk_text_buffer_insert_with_tags_by_name(output_buffer, &end,
 			buf, -1, "blue_fg", "lmarg", "title_font", NULL);
 
-	sprintf(buf, "%s\n", msg);
-	gtk_text_buffer_get_end_iter(output_buffer, &end);
-	gtk_text_buffer_insert(output_buffer, &end, buf, strlen(buf));
+	insert_msg_with_emotion_to_textview(output_textview, msg);
 	
 	gtk_text_buffer_get_end_iter(output_buffer, &end);
 	mark = gtk_text_buffer_create_mark(output_buffer, NULL, &end, FALSE);
 	gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(output_textview), mark,
 		0.0, TRUE, 0.0, 0.0);
 	gtk_text_buffer_delete_mark(output_buffer, mark);
+}
+
+void insert_msg_with_emotion_to_textview(GtkTextView *textview, const char *msg) {
+	char file[1024];
+	char tmp[4];
+	char *buf;
+	char *str;
+	char *p;
+	char *q;
+	int id;
+	int i;
+	int j;
+	int n;
+
+	GtkTextChildAnchor *anchor;
+	GtkTextBuffer *buffer;
+	GtkTextIter iter;
+	GtkWidget *img;
+
+	buffer = gtk_text_view_get_buffer(textview);
+	gtk_text_buffer_get_end_iter(buffer, &iter);
+
+	buf = (char*)malloc(strlen(msg) + 1);
+	strcpy(buf, msg);
+	str = replace_emotion(buf);
+
+	i = 0; j = 0;
+	while(str[i] != '\0') {
+		if (str[i] == '#') {
+			p = str + i + 1;
+			q = strchr(p, '#');
+			if (q != NULL) {
+				n = q - p;
+				if (n == 1 || n == 2) {
+					strncpy(tmp, p, n);
+					tmp[n] = '\0';
+					id = atoi(tmp);
+					if (id >= 0 && id < 96) {
+						gtk_text_buffer_insert(buffer, &iter, str + j, i - j);
+						j = i + n + 2;
+						i += n + 1;
+						sprintf(file, "pixmaps/faces/%d.gif", id + 1);
+						img = gtk_image_new_from_file(file);
+						gtk_widget_show(img);
+						anchor = gtk_text_buffer_create_child_anchor(buffer, &iter);
+						gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(textview),
+								img, anchor);
+					}
+				}
+			}
+		}
+		i++;
+	}
+	if (j < strlen(str)) {
+		gtk_text_buffer_insert(buffer, &iter, str + j, strlen(str + j));
+	}
+	gtk_text_buffer_insert(buffer, &iter, "\n",  1);
+	free(buf);
 }
 
 void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
@@ -169,6 +227,7 @@ void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 	user_t *user;
 	char buf[65535];
 	char *msg;
+	time_t pno;
 
 	GtkTextView *input_textview;
 	GtkTextView *output_textview;
@@ -179,11 +238,13 @@ void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 	GtkTextIter start;
 	GtkTextIter end;
 	GtkTextMark *mark;
+	GdkPixbuf *pixbuf;
 
 	pchatbox = (pchatbox_t*)(chatbox);
 	ifc = (ifreechat_t*)pchatbox->ifreechat;
 	user = pchatbox->remote;
 
+	pno = time(NULL);
 	input_textview = pchatbox->input_textview;
 	output_textview = pchatbox->display_textview;
 
@@ -200,27 +261,26 @@ void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 	msg = gtk_text_buffer_get_text(input_buffer, &start, &end, TRUE);
 	gtk_text_buffer_delete(input_buffer, &start, &end);
 
-	sprintf(buf, "%s:\n", ifc->nickname);
+	sprintf(buf, "%s(%s):\n", ifc->nickname, my_ctime(&pno));
 	gtk_text_buffer_get_end_iter(output_buffer, &end);
 	gtk_text_buffer_insert_with_tags_by_name(output_buffer, &end,
 			buf, -1, "blue_fg", "lmarg", "title_font", NULL);
 
-	sprintf(buf, "%s\n", msg);
-	gtk_text_buffer_get_end_iter(output_buffer, &end);
-	gtk_text_buffer_insert(output_buffer, &end, buf, strlen(buf));
-	
+	insert_msg_with_emotion_to_textview(output_textview, msg);
+
 	gtk_text_buffer_get_end_iter(output_buffer, &end);
 	mark = gtk_text_buffer_create_mark(output_buffer, NULL, &end, FALSE);
 	gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(output_textview), mark,
 		0.0, TRUE, 0.0, 0.0);
 	gtk_text_buffer_delete_mark(output_buffer, mark);
 
+//	printf("msg: [%s]\n", msg);
 	sprintf(buf, "1_lbt4_13#128#0016D31F56A6#0#0#0:%lu:%s:%s:%u:%s",
-			time(NULL),
+			pno,
 			user->username,
 			user->hostname,
 			0x120,
 			msg);
-	printf("buf: %s\n", buf);
+//	printf("buf: %s\n", buf);
 	udp_send_msg((ifreechat_t*)chatbox->ifreechat, user->ipaddr, ifc->port, buf, strlen(buf));
 }

@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <errno.h>
+#include <time.h>
 
 #include "utils.h"
 
@@ -159,3 +160,13 @@ char *ip2str (uint32_t ip, char *buf)
     return buf;
 }
 
+
+char *my_ctime(time_t *tm) {
+	char *p;
+	char *q;
+
+	p = ctime(tm);
+	q = strchr(p, '\n');
+	*q = '\0';
+	return p;
+}

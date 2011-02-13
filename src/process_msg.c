@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
+#include <time.h>
 
 #include "gtk_common.h"
 #include "dlist.h"
@@ -152,6 +153,7 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 	dlist_t *p;
 	pchatbox_t *chatbox;
 	user_t *user;
+	time_t tm;
 
 	pthread_mutex_lock(&(ifc->mlist_lock));
 	dlist_add_tail(&(msg->node), &(ifc->mlist));
@@ -178,13 +180,14 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 		return;
 	}
 
+	tm = (time_t)atoi(msg->packet_no);
 	pthread_mutex_lock(&(ifc->pchatbox_lock));
 	dlist_foreach(p, &(ifc->pchatbox)) {
 		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, pchatbox_node);
 		user = chatbox->remote;
 		if (!strcmp(user->ipaddr, msg->ip)) {
 			gdk_threads_enter();
-			pchatbox_insert_msg(chatbox, user->nickname, msg->data);
+			pchatbox_insert_msg(chatbox, user->nickname, &tm, msg->data);
 			gdk_threads_leave();
 			break;
 		}
@@ -199,7 +202,6 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 }
 
 
-//1_lbt4_12#128#001EEC0E0C0B#0#0#0:1297408327:xdx:sdq-4F61952E5CE:6291459:zdq
 msg_t *parse_message(void *data, size_t size) {
 	char *base;
 	msg_t *msg;

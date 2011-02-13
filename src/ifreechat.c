@@ -85,6 +85,7 @@ int main(int argc, char *argv[]) {
 	gdk_threads_enter();
 	gtk_main();
 	gdk_threads_leave();
+	offline_broadcast(ifc);
 err:
 	udp_stop_listen(ifc);
 	ifreechat_destroy(ifc);
