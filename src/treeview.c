@@ -201,8 +201,8 @@ void contact_treeview_ondoubleclicked(GtkTreeView *tree_view,
 			-1);
 
 	dlist_foreach(p, &(ifc->pchatbox)) {
-		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, pchatbox_node);
-		if (!strcmp(user->ipaddr, chatbox->remote->ipaddr)) {
+		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, chatbox_node);
+		if (!strcmp(user->ipaddr, ((user_t*)chatbox->data)->ipaddr)) {
 			gtk_window_present((GtkWindow*)chatbox->window);
 			return;
 		}

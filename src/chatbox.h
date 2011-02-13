@@ -1,7 +1,7 @@
 /*
  * Author: youngtrips(youngtrips@163.com)
  * Created Time:  2011-02-10
- * File Name: gchatbox.h
+ * File Name: chatbox.h
  * Description: 
  *
  * This program is free software; you can redistribute it and/or
@@ -21,15 +21,18 @@
  *
  */
 
-#ifndef __GCHATBOX_H
-#define __GCHATBOX_H
+#ifndef __CHATBOX_H
+#define __CHATBOX_H
 
 #include "gtk_common.h"
-#include "group.h"
-#include "chatbox.h"
+#include "dlist.h"
 
-/*
-typedef struct gchatbox_t {
+typedef enum chatbox_type_t {
+	PCHATBOX,
+	GCHATBOX
+}chatbox_type_t;
+
+typedef struct chatbox_t {
 	GtkWidget *window;
 	GtkTextView *display_textview;
 	GtkTextView *input_textview;
@@ -38,18 +41,19 @@ typedef struct gchatbox_t {
 	GtkToolButton *chose_face_button;
 
 	GtkImage *avatar_image;
-	GtkLabel *gpname_label;
-	GtkLabel *gpinfo_label;
+
+	GtkLabel *first_label;
+	GtkLabel *second_label;
 
 	GtkWindow *emo;
 
-	group_t *group;
 	void *ifreechat;
+	void *data;
 
-	dlist_t gchatbox_node;
+	chatbox_type_t type;
 
-}gchatbox_t;
-*/
-typedef chatbox_t gchatbox_t;
+	dlist_t chatbox_node;
+
+}chatbox_t;
 
 #endif

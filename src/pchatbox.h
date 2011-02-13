@@ -27,7 +27,9 @@
 #include "gtk_common.h"
 #include "dlist.h"
 #include "user.h"
+#include "chatbox.h"
 
+/*
 typedef struct pchatbox_t {
 	GtkWidget *window;
 	GtkTextView *display_textview;
@@ -49,5 +51,8 @@ typedef struct pchatbox_t {
 	dlist_t pchatbox_node;
 
 }pchatbox_t;
+*/
+
+typedef chatbox_t pchatbox_t;
 
 #endif

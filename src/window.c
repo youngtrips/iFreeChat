@@ -113,8 +113,8 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 	chatbox = NULL;
 	pthread_mutex_lock(&(ifc->pchatbox_lock));
 	dlist_foreach(p, &(ifc->pchatbox)) {
-		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, pchatbox_node);
-		user = chatbox->remote;
+		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, chatbox_node);
+		user = (user_t*)chatbox->data;
 		if (!strcmp(user->ipaddr, msg->ip)) {
 			gtk_window_present((GtkWindow*)chatbox->window);
 			break;
@@ -128,7 +128,7 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 		if (chatbox == NULL) {
 			printf("create chatbox error...\n");
 		} else {
-			pchatbox_insert_msg(chatbox, user->nickname, &tm, msg->data);
+			chatbox_insert_msg(chatbox, user->nickname, &tm, msg->data);
 		}
 	}
 	

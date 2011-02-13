@@ -208,11 +208,11 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 	tm = (time_t)atoi(msg->packet_no);
 	pthread_mutex_lock(&(ifc->pchatbox_lock));
 	dlist_foreach(p, &(ifc->pchatbox)) {
-		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, pchatbox_node);
-		user = chatbox->remote;
+		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, chatbox_node);
+		user = (user_t*)chatbox->data;
 		if (!strcmp(user->ipaddr, msg->ip)) {
 			gdk_threads_enter();
-			pchatbox_insert_msg(chatbox, user->nickname, &tm, msg->data);
+			chatbox_insert_msg(chatbox, user->nickname, &tm, msg->data);
 			gdk_threads_leave();
 			break;
 		}
