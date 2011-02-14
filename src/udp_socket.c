@@ -58,9 +58,9 @@ int init_udp_socket(ifreechat_t *ifc) {
 	}
 
 	/* set nonblocking */
-	if (setnonblocking(usock->sock) < 0) {
-		goto err;
-	}
+//	if (setnonblocking(usock->sock) < 0) {
+//		goto err;
+//	}
 
 	ifc->usock = usock;
 	return 0;
@@ -108,7 +108,7 @@ int udp_stop_listen(ifreechat_t *ifc) {
 void *udp_listen_routine(void *arg) {
 	ifreechat_t *ifc;
 	udp_socket_t *usock;
-	struct epoll_event events[16];
+	struct epoll_event events[1024];
 	struct epoll_event ev;
 	struct sockaddr_in addr;
 	socklen_t socklen;
@@ -125,13 +125,13 @@ void *udp_listen_routine(void *arg) {
 	if (usock == NULL)
 		return NULL;
 
-	epfd = epoll_create(8);
+	epfd = epoll_create(128);
 	if (epfd < 0) {
 		fprintf(stderr, "epoll_create() error: %s@%s:%d\n",
 				strerror(errno), __FILE__, __LINE__);
 		return NULL;
 	}
-	ev.events = EPOLLIN | EPOLLET;
+	ev.events = EPOLLIN;
 	ev.data.fd = usock->sock;
 	if (epoll_ctl(epfd, EPOLL_CTL_ADD, usock->sock, &ev) < 0) {
 	   fprintf(stderr, "epoll_ctl() error: %s@%s:%d\n",
@@ -150,7 +150,7 @@ void *udp_listen_routine(void *arg) {
 		}
 		for(i = 0;i < nfds; i++) {
 			fd = events[i].data.fd;
-			if (events[i].events & (EPOLLIN | EPOLLET)) {
+			if (events[i].events & EPOLLIN) {
 				/* recv message, and put it to queue */
 				memset(&addr, 0, sizeof(addr));
 				memset(buf, 0, sizeof(buf));
