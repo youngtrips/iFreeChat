@@ -31,6 +31,7 @@
 #include "dlist.h"
 #include "process_msg.h"
 #include "user.h"
+#include "blowfish.h"
 
 handle_msg_func handle_msg_func_table[MAXN_FUNC];
 
@@ -235,11 +236,24 @@ int on_buddy_sendgpmsg(ifreechat_t *ifc, msg_t *msg) {
 	uint32_t cmd;
 	char *encode;
 	char *data;
+	char *plain;
+	size_t size;
+	size_t msg_len;
+
 	dlist_t *p;
 	pchatbox_t *chatbox;
 	user_t *user;
 	time_t tm;
+	CBlowFish *bf;
+	
+	user = (user_t*)msg->user;
 
+	bf = CreateBlowFish(user->macaddr, strlen(user->macaddr));
+	plain = (char*)malloc(strlen(msg->data) + 1);
+	size = BlowFish_Decrypt(bf, msg->data, plain, msg_len);
+
+
+	DestroyBlowFish(bf);
 	return 0;
 }
 
