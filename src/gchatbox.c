@@ -32,6 +32,7 @@
 #include "gchatbox.h"
 #include "ifreechat.h"
 #include "emotion_box.h"
+#include "blowfish.h"
 
 void on_send_gpmessage(GtkWidget *widget, gchatbox_t *chatbox);
 
@@ -68,7 +69,7 @@ void on_send_gpmessage(GtkWidget *widget, gchatbox_t *chatbox) {
 	group_t *group;
 	char buf[65535];
 	char plain[1024];
-	char crypt[1024];
+	char cipher[1024];
 	unsigned char ivec[8];
 	BF_KEY key;
 	size_t size;
@@ -79,6 +80,7 @@ void on_send_gpmessage(GtkWidget *widget, gchatbox_t *chatbox) {
 
 	GtkTextView *input_textview;
 	GtkTextView *output_textview;
+	CBlowFish *bf;
 	
 
 	GtkTextBuffer *input_buffer;
@@ -122,14 +124,15 @@ void on_send_gpmessage(GtkWidget *widget, gchatbox_t *chatbox) {
 		0.0, TRUE, 0.0, 0.0);
 	gtk_text_buffer_delete_mark(output_buffer, mark);
 
+	bf = CreateBlowFish(ifc->macaddr, strlen(ifc->macaddr));
 
-	BF_set_key(&key, 12, ifc->macaddr);
+//	BF_set_key(&key, 12, ifc->macaddr);
 	sprintf(plain, "QUNMSGMARK#%lx#%s",
 			group->group_id,
 			msg);
 	printf("plain: [%s]\n", plain);
 	len = strlen(plain);
-	BF_cbc_encrypt(plain, crypt, len, &key, ivec, BF_ENCRYPT);
+	len = BlowFish_Encrypt(bf, plain, cipher, len);
 
 //	printf("msg: [%s]\n", msg);
 	sprintf(buf, "1_lbt4_%d#128#%s#0#0#%d:%lu:%s:%s:%u:",
@@ -141,8 +144,9 @@ void on_send_gpmessage(GtkWidget *widget, gchatbox_t *chatbox) {
 			ifc->hostname,
 			4194339);
 	size = strlen(buf);
-	memcpy(buf + size, crypt, len + 1);
+	memcpy(buf + size, cipher, len + 1);
 	size += len + 1;
 	printf("buf: %s\n", buf);
-	udp_send_msg((ifreechat_t*)chatbox->ifreechat, "226.81.9.8", ifc->port, buf, size);
+	udp_send_msg((ifreechat_t*)chatbox->ifreechat, ifc->multicast_ip, ifc->port, buf, size);
+	DestroyBlowFish(bf);
 }

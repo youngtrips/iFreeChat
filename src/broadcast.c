@@ -8,6 +8,7 @@
 #include "process_msg.h"
 #include "group.h"
 #include "dlist.h"
+#include "blowfish.h"
 
 #define BROADCAST_ADDR	"255.255.255.255"
 #define MULTICAST_ADDR	"226.81.9.8"
@@ -23,6 +24,7 @@ void online_broadcast(ifreechat_t *ifc) {
 	group_t *gp;
 	dlist_t *p;
 	BF_KEY key;
+	CBlowFish *bf;
 
 	BF_set_key(&key, 12, ifc->macaddr);
 
@@ -48,14 +50,17 @@ void online_broadcast(ifreechat_t *ifc) {
 	udp_send_msg(ifc, BROADCAST_ADDR, ifc->port, buf, size);
 
 	//post group info
-	/*
+	
+	bf = CreateBlowFish(ifc->macaddr, strlen(ifc->macaddr));
 	dlist_foreach(p, &(ifc->glist)) {
 		gp = (group_t*)dlist_entry(p, group_t, gnode);
-		sprintf(plain, "QUNMSGMARK#%lx#abcdef",
+		sprintf(plain, "QUNMSGMARK#%lx#",
 				gp->group_id);
 		len = strlen(plain);
-		BF_cbc_encrypt(plain, cipher, len, &key, ivec, BF_ENCRYPT);
+		len = BlowFish_Encrypt(bf, plain, cipher, len);
+//		BF_cbc_encrypt(plain, cipher, len, &key, ivec, BF_ENCRYPT);
 		printf("plain: %s\n", plain);
+		printf("len: %d\n", len);
 
 		memset(buf, 0, sizeof(buf));
 		sprintf(buf, "1_lbt4_%d#128#%s#0#0#%d:%lu:%s:%s:%u:",
@@ -71,7 +76,8 @@ void online_broadcast(ifreechat_t *ifc) {
 		size += len + 1;
 		udp_send_msg(ifc, MULTICAST_ADDR, ifc->port, buf, size);
 	}
-	*/	
+	DestroyBlowFish(bf);
+	
 }
 
 void offline_broadcast(ifreechat_t *ifc) {
