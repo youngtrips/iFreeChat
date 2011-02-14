@@ -14,7 +14,8 @@ OBJS=ifreechat.o \
 	 listview.o \
 	 treeview.o \
 	 gchatbox.o \
-	 chatbox.o
+	 chatbox.o \
+	 category.o
 
 CC=gcc
 TARGET=ifreechat

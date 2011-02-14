@@ -16,7 +16,7 @@ void online_broadcast(ifreechat_t *ifc) {
 	unsigned char ivec[8];
 	char buf[8192];
 	char plain[512];
-	char crypt[512];
+	char cipher[512];
 	size_t size;
 	int len;
 	int i;
@@ -48,13 +48,14 @@ void online_broadcast(ifreechat_t *ifc) {
 	udp_send_msg(ifc, BROADCAST_ADDR, ifc->port, buf, size);
 
 	//post group info
+	/*
 	dlist_foreach(p, &(ifc->glist)) {
 		gp = (group_t*)dlist_entry(p, group_t, gnode);
-		sprintf(plain, "QUNMSGMARK#%lx#%s",
-				gp->group_id,
-				gp->group_name);
+		sprintf(plain, "QUNMSGMARK#%lx#abcdef",
+				gp->group_id);
 		len = strlen(plain);
-		BF_cbc_encrypt(plain, crypt, len, &key, ivec, BF_ENCRYPT);
+		BF_cbc_encrypt(plain, cipher, len, &key, ivec, BF_ENCRYPT);
+		printf("plain: %s\n", plain);
 
 		memset(buf, 0, sizeof(buf));
 		sprintf(buf, "1_lbt4_%d#128#%s#0#0#%d:%lu:%s:%s:%u:",
@@ -66,11 +67,11 @@ void online_broadcast(ifreechat_t *ifc) {
 				ifc->hostname,
 				0x2000c9);
 		size = strlen(buf);
-		memcpy(buf + size, crypt, len + 1);
+		memcpy(buf + size, cipher, len + 1);
 		size += len + 1;
 		udp_send_msg(ifc, MULTICAST_ADDR, ifc->port, buf, size);
 	}
-	
+	*/	
 }
 
 void offline_broadcast(ifreechat_t *ifc) {

@@ -1,7 +1,7 @@
 /*
- * Author: youngtrips
- * Created Time:  2011-01-26
- * File Name: window.h
+ * Author: youngtrips(youngtrips@163.com)
+ * Created Time:  2011-02-14
+ * File Name: category.h
  * Description: 
  *
  * This program is free software; you can redistribute it and/or
@@ -21,38 +21,17 @@
  *
  */
 
-#ifndef __WINDOW_H
-#define __WINDOW_H
+#ifndef __CATEGORY_H
+#define __CATEGORY_H
 
 #include "gtk_common.h"
-#include "user.h"
-#include "group.h"
+#include "dlist.h"
 
-typedef struct window_t {
-	GtkWidget *window;
-	GtkStatusIcon *icon;
-
-	GtkImage *avatar;
-
-	GtkEntry *nickname_entry;
-	GtkEntry *signature_entry;
-	GtkButton *nickname_button;
-	GtkButton *signature_button;
-	GtkEntry *search;
-
-	GtkVBox *topbox;
-
-	GtkTreeView *contact_treeview;
-	GtkTreeView *group_treeview;
-	GtkTreeView *history_treeview;
-
-}window_t;
-
-
-int del_user_from_treeview(GtkTreeView *treeview, user_t *user);
-
-int add_group_to_treeview(GtkTreeView *treeview, group_t *group);
-
-int del_group_from_treeview(GtkTreeView *treeview, group_t *group);
+typedef struct category_t {
+	char name[128];
+	int count;
+	GtkTreeIter iter;
+	dlist_t cnode;
+}category_t;
 
 #endif

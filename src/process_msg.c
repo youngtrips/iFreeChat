@@ -119,7 +119,8 @@ int on_buddy_entry(ifreechat_t *ifc, msg_t *msg) {
 	}
 	pthread_mutex_unlock(&(ifc->ulist_lock));
 	if (plist != &(ifc->ulist)) {
-		update_user_to_treeview((ifc->main_window).contact_treeview, user);
+		printf("update...\n");
+//		update_user_to_treeview((ifc->main_window).contact_treeview, user);
 		return;
 	}
 
@@ -135,7 +136,9 @@ int on_buddy_entry(ifreechat_t *ifc, msg_t *msg) {
 	dlist_add_tail(&(user->unode), &(ifc->ulist));
 	pthread_mutex_unlock(&(ifc->ulist_lock));
 
-	add_user_to_treeview((ifc->main_window).contact_treeview, user);
+	gdk_threads_enter();
+	add_user_to_treeview(ifc, (ifc->main_window).contact_treeview, user);
+	gdk_threads_leave();
 
 	if ((cmd & CMD_BR_ENTRY) && strcmp(msg->username, ifc->username) != 0) {
 		memset(buf, 0, sizeof(buf));

@@ -2,7 +2,7 @@
 <ifreechat>
 	<network>
 		<listen_ip>0.0.0.0</listen_ip>
-		<mac>001A73261837</mac>
+		<mac>0022155B190C</mac>
 		<multicast_ip>226.81.9.8</multicast_ip>
 		<port>2425</port>
 	</network>
@@ -18,8 +18,8 @@
 	</user>
 
 	<group>
-		<name>test</name>
-		<id>ffd3916c</id>
+		<name>程序</name>
+		<id>bfa6cac7</id>
 		<info>test group...</info>
 	</group>
 

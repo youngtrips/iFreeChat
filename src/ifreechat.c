@@ -44,6 +44,7 @@ ifreechat_t *init_ifreechat() {
 	init_dlist_node(&(ifc->gchatbox));
 	init_dlist_node(&(ifc->ulist));
 	init_dlist_node(&(ifc->glist));
+	init_dlist_node(&(ifc->clist));
 	init_dlist_node(&(ifc->mlist));
 
 	pthread_mutex_init(&(ifc->pchatbox_lock), NULL);

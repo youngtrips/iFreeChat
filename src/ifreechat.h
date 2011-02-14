@@ -61,6 +61,7 @@ typedef struct ifreechat_t {
 	dlist_t gchatbox; 		/* group chat box */
 	dlist_t ulist; 			/* user list */
 	dlist_t glist; 			/* group list */
+	dlist_t clist; 			/* category list */
 	dlist_t mlist; 			/* unread message list */
 
 	pthread_mutex_t pchatbox_lock;

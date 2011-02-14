@@ -1,7 +1,7 @@
 /*
- * Author: youngtrips
- * Created Time:  2011-01-26
- * File Name: window.h
+ * Author: youngtrips(youngtrips@163.com)
+ * Created Time:  2011-02-14
+ * File Name: category.c
  * Description: 
  *
  * This program is free software; you can redistribute it and/or
@@ -21,38 +21,21 @@
  *
  */
 
-#ifndef __WINDOW_H
-#define __WINDOW_H
+#include "ifreechat.h"
+#include "category.h"
 
-#include "gtk_common.h"
-#include "user.h"
-#include "group.h"
+category_t *new_category(const char *name) {
+	category_t *cat;
 
-typedef struct window_t {
-	GtkWidget *window;
-	GtkStatusIcon *icon;
+	cat = (category_t*)malloc(sizeof(category_t));
+	if (cat == NULL) 
+		return NULL;
 
-	GtkImage *avatar;
+	strcpy(cat->name, name);
+	cat->count = 0;
+	init_dlist_node(&(cat->cnode));
 
-	GtkEntry *nickname_entry;
-	GtkEntry *signature_entry;
-	GtkButton *nickname_button;
-	GtkButton *signature_button;
-	GtkEntry *search;
-
-	GtkVBox *topbox;
-
-	GtkTreeView *contact_treeview;
-	GtkTreeView *group_treeview;
-	GtkTreeView *history_treeview;
-
-}window_t;
+	return cat;
+}
 
 
-int del_user_from_treeview(GtkTreeView *treeview, user_t *user);
-
-int add_group_to_treeview(GtkTreeView *treeview, group_t *group);
-
-int del_group_from_treeview(GtkTreeView *treeview, group_t *group);
-
-#endif

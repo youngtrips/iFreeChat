@@ -21,12 +21,14 @@
  *
  */
 
+#include <stdlib.h>
 #include <string.h>
 
 #include "gtk_common.h"
 #include "ifreechat.h"
 #include "user.h"
 #include "pair.h"
+#include "category.h"
 
 enum {
 	PIXBUF_COL,
@@ -66,60 +68,44 @@ GtkTreeStore *create_contact_treevie_model() {
 	return store;
 }
 
-typedef struct get_category_arg_t {
-	char *category;
-	GtkTreeIter *iter;
-	int flag;
-}get_category_arg_t;
-
-gboolean gtk_treeview_get_category(GtkTreeModel *model,
-		GtkTreePath *path, GtkTreeIter *iter, gpointer data) {
-	get_category_arg_t *arg;
-	char *category;
-
-	arg = (get_category_arg_t*)data;
-
-	if (gtk_tree_path_get_depth(path) == 1) {
-		gtk_tree_model_get(model, iter, TEXT_COL, &category, -1);
-		if (!strcmp(category, arg->category)) {
-			arg->flag = 1;
-			memcpy(arg->iter, iter, sizeof(GtkTreeIter));
-			return TRUE;
-		}
-	}
-	return FALSE;
-}
-
-int add_user_to_treeview(GtkTreeView *treeview, user_t *user) {
-	GtkTreeIter category_iter;
+int add_user_to_treeview(ifreechat_t *ifc, GtkTreeView *treeview, user_t *user) {
 	GtkTreeIter user_iter;
 	GtkTreeModel *model;
 	GdkPixbuf *pixbuf;
-	get_category_arg_t arg;
+	category_t *cat;
+	dlist_t *p;
+	char title[128];
 
 	if (treeview == NULL || user == NULL)
 		return -1;
 
-	arg.category = user->category;
-	arg.flag = 0;
-	arg.iter = &category_iter;
-
-	model = gtk_tree_view_get_model(treeview);
-
-	gtk_tree_model_foreach(model, gtk_treeview_get_category, (gpointer)&arg);
-
-	if (arg.flag == 0) {
-		/* new category */
-		gtk_tree_store_append((GtkTreeStore*)model, &category_iter, NULL);
-		gtk_tree_store_set((GtkTreeStore*)model, &category_iter,
-				PIXBUF_COL, NULL,
-				TEXT_COL, user->category,
-				-1);
+	model = (GtkTreeModel*)gtk_tree_view_get_model(treeview);
+	cat == NULL;
+	dlist_foreach(p, &(ifc->clist)) {
+		cat = (category_t*)dlist_entry(p, category_t, cnode);
+		if (!strcmp(cat->name, user->category))
+			break;
 	}
 
-	printf("avatar: [%s]\n", user->avatar);
+	if (p == &(ifc->clist)) {
+		/* new category */
+		cat = (category_t*)new_category(user->category);
+		gtk_tree_store_append((GtkTreeStore*)model, &(cat->iter), NULL);
+		gtk_tree_store_set((GtkTreeStore*)model, &(cat->iter),
+				PIXBUF_COL, NULL,
+				TEXT_COL, cat->name,
+				-1);
+		dlist_add_tail(&(cat->cnode), &(ifc->clist));
+	}
+
+	cat->count++;
+	sprintf(title, "%s[%d]", cat->name, cat->count);
+	gtk_tree_store_set((GtkTreeStore*)model, &(cat->iter),
+			TEXT_COL, title,
+			-1);
+
 	pixbuf = (GdkPixbuf*)gdk_pixbuf_new_from_file(user->avatar, NULL);
-	gtk_tree_store_append((GtkTreeStore*)model, &user_iter, &category_iter);
+	gtk_tree_store_append((GtkTreeStore*)model, &user_iter, &(cat->iter));
 	gtk_tree_store_set((GtkTreeStore*)model, &user_iter,
 			PIXBUF_COL, pixbuf,
 			TEXT_COL, user->nickname,
