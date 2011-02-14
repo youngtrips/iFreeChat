@@ -240,8 +240,6 @@ int on_buddy_sendgpmsg(ifreechat_t *ifc, msg_t *msg) {
 	user_t *user;
 	time_t tm;
 
-	printf("data: %s\n", msg->data);
-
 	return 0;
 }
 

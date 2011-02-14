@@ -130,7 +130,6 @@ void on_send_gpmessage(GtkWidget *widget, gchatbox_t *chatbox) {
 	sprintf(plain, "QUNMSGMARK#%lx#%s",
 			group->group_id,
 			msg);
-	printf("plain: [%s]\n", plain);
 	len = strlen(plain);
 	len = BlowFish_Encrypt(bf, plain, cipher, len);
 
@@ -146,7 +145,6 @@ void on_send_gpmessage(GtkWidget *widget, gchatbox_t *chatbox) {
 	size = strlen(buf);
 	memcpy(buf + size, cipher, len + 1);
 	size += len + 1;
-	printf("buf: %s\n", buf);
 	udp_send_msg((ifreechat_t*)chatbox->ifreechat, ifc->multicast_ip, ifc->port, buf, size);
 	DestroyBlowFish(bf);
 }
