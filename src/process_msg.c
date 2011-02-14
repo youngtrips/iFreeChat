@@ -231,6 +231,20 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 	return 0;
 }
 
+int on_buddy_sendgpmsg(ifreechat_t *ifc, msg_t *msg) {
+	uint32_t cmd;
+	char *encode;
+	char *data;
+	dlist_t *p;
+	pchatbox_t *chatbox;
+	user_t *user;
+	time_t tm;
+
+	printf("data: %s\n", msg->data);
+
+	return 0;
+}
+
 
 msg_t *parse_message(void *data, size_t size) {
 	char *base;
@@ -311,8 +325,9 @@ void process_message(ifreechat_t *ifc, char *ip, uint16_t port,
 		case CMD_SENDMSG:
 			on_buddy_sendmsg(ifc, msg);
 			break;
+		case CMD_GPMSG:
+			on_buddy_sendgpmsg(ifc, msg);
+			break;
 	}
-
-//	free(msg);
 }
 
