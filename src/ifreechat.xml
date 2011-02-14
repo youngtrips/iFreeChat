@@ -4,10 +4,10 @@
 		<listen_ip>0.0.0.0</listen_ip>
 		<mac>0022155B190C</mac>
 		<multicast_ip>226.81.9.8</multicast_ip>
-		<port>2425</port>
+		<port>9090</port>
 	</network>
 	<user>
-		<nickname>ee</nickname>
+		<nickname>asd</nickname>
 		<username>Administrator</username>
 		<hostname>pc1223145</hostname>
 		<category>2012</category>

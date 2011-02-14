@@ -101,6 +101,8 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 	msg_node = (ifc->mlist).next;
 	if (msg_node == &(ifc->mlist)) {
 		gtk_status_icon_set_blinking((ifc->main_window).icon, FALSE);
+		gtk_widget_show(GTK_WIDGET((ifc->main_window).window));
+		gtk_window_deiconify(GTK_WINDOW((ifc->main_window).window));
 		return;
 	}
 	pthread_mutex_lock(&(ifc->mlist_lock));
@@ -264,12 +266,31 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 }
 
 
+
+static gboolean window_state_event (GtkWidget *widget, GdkEventWindowState *event, gpointer trayIcon)
+{
+    if(event->changed_mask == GDK_WINDOW_STATE_ICONIFIED && 
+			(event->new_window_state == GDK_WINDOW_STATE_ICONIFIED || 
+			 event->new_window_state == (GDK_WINDOW_STATE_ICONIFIED | GDK_WINDOW_STATE_MAXIMIZED))) {
+        gtk_widget_hide (GTK_WIDGET(widget));
+        gtk_status_icon_set_visible(GTK_STATUS_ICON(trayIcon), TRUE);
+    } else if(event->changed_mask == GDK_WINDOW_STATE_WITHDRAWN &&
+			(event->new_window_state == GDK_WINDOW_STATE_ICONIFIED || 
+			 event->new_window_state == (GDK_WINDOW_STATE_ICONIFIED | GDK_WINDOW_STATE_MAXIMIZED))) {
+        gtk_status_icon_set_visible(GTK_STATUS_ICON(trayIcon), FALSE);
+    }
+    return TRUE;
+}
+
+
 void show_window(ifreechat_t *ifc) {
 
 	window_t *win;
 
 	win = &(ifc->main_window);
 	g_signal_connect(G_OBJECT(win->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+	g_signal_connect(G_OBJECT(win->window), "window-state-event", G_CALLBACK (window_state_event), win->icon);
+
 	
 	g_signal_connect(GTK_OBJECT(win->contact_treeview), 
 			"row_activated", 
@@ -279,3 +300,5 @@ void show_window(ifreechat_t *ifc) {
 			GTK_SIGNAL_FUNC(group_treeview_ondoubleclicked), (gpointer)ifc);
 	gtk_widget_show(win->window);
 }
+
+
