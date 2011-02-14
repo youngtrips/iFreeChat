@@ -183,6 +183,8 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 	user_t *user;
 	time_t tm;
 
+	printf("data: %s\n", msg->data);
+
 	pthread_mutex_lock(&(ifc->mlist_lock));
 	dlist_add_tail(&(msg->node), &(ifc->mlist));
 	pthread_mutex_unlock(&(ifc->mlist_lock));
