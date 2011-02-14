@@ -28,6 +28,11 @@
 		<id>F8916B47</id>
 		<info>test group...</info>
 	</group>
+	<group>
+		<name>test</name>
+		<id>ffd3916c</id>
+		<info>test group...</info>
+	</group>
 
 	<history>
 		<file>ifreechat.chat</file>

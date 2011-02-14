@@ -93,6 +93,7 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 	msg_t *msg;
 	dlist_t *msg_node;
 	dlist_t *p;
+	group_t *group;
 	user_t *user;
 	time_t tm;
 
@@ -110,26 +111,53 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 	pthread_mutex_unlock(&(ifc->mlist_lock));
 	
 	msg = (msg_t*)dlist_entry(msg_node, msg_t, node);
-	tm = (time_t)atoi(msg->packet_no);
+//	tm = (time_t)atoi(msg->packet_no);
+	tm = time(NULL);
 
-	chatbox = NULL;
-	pthread_mutex_lock(&(ifc->pchatbox_lock));
-	dlist_foreach(p, &(ifc->pchatbox)) {
-		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, chatbox_node);
-		user = (user_t*)chatbox->data;
-		if (!strcmp(user->ipaddr, msg->ip)) {
-			gtk_window_present((GtkWindow*)chatbox->window);
-			break;
+	if (msg->gpid == 0) {
+		chatbox = NULL;
+		pthread_mutex_lock(&(ifc->pchatbox_lock));
+		dlist_foreach(p, &(ifc->pchatbox)) {
+			chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, chatbox_node);
+			user = (user_t*)chatbox->data;
+			if (!strcmp(user->ipaddr, msg->ip)) {
+				gtk_window_present((GtkWindow*)chatbox->window);
+				break;
+			}
 		}
-	}
-	pthread_mutex_unlock(&(ifc->pchatbox_lock));
+		pthread_mutex_unlock(&(ifc->pchatbox_lock));
 
-	if (chatbox == NULL) {
-		user = (user_t*)msg->user;
-		chatbox = (pchatbox_t*)new_pchatbox(ifc, user);
 		if (chatbox == NULL) {
-			printf("create chatbox error...\n");
-		} else {
+			user = (user_t*)msg->user;
+			chatbox = (pchatbox_t*)new_pchatbox(ifc, user);
+			if (chatbox == NULL) {
+				printf("create chatbox error...\n");
+			} else {
+				chatbox_insert_msg(chatbox, user->nickname, &tm, msg->data);
+			}
+		}
+	} else {
+		chatbox = NULL;
+		pthread_mutex_lock(&(ifc->gchatbox_lock));
+		dlist_foreach(p, &(ifc->gchatbox)) {
+			chatbox = (gchatbox_t*)dlist_entry(p, gchatbox_t, chatbox_node);
+			group = (group_t*)chatbox->data;
+			if (group->group_id == msg->gpid) {
+				gtk_window_present((GtkWindow*)chatbox->window);
+				break;
+			}
+		}
+		pthread_mutex_unlock(&(ifc->gchatbox_lock));
+
+		if (chatbox == NULL) {
+
+			dlist_foreach(p, &(ifc->glist)) {
+				group = (group_t*)dlist_entry(p, group_t, gnode);
+				if (group->group_id == msg->gpid)
+					break;
+			}
+			user = (user_t*)msg->user;
+			chatbox = (gchatbox_t*)new_gchatbox(ifc, group);
 			chatbox_insert_msg(chatbox, user->nickname, &tm, msg->data);
 		}
 	}

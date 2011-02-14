@@ -186,6 +186,7 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 
 	printf("data: %s\n", msg->data);
 
+	msg->gpid = 0;
 	pthread_mutex_lock(&(ifc->mlist_lock));
 	dlist_add_tail(&(msg->node), &(ifc->mlist));
 	pthread_mutex_unlock(&(ifc->mlist_lock));
@@ -232,27 +233,114 @@ int on_buddy_sendmsg(ifreechat_t *ifc, msg_t *msg) {
 	return 0;
 }
 
+int get_gpmsg_size(const char *version) {
+	char *p;
+	char *q;
+
+	p = version;
+	q = strchr(p, '#'); p = ++q;
+	q = strchr(p, '#'); p = ++q;
+	q = strchr(p, '#'); p = ++q;
+	q = strchr(p, '#'); p = ++q;
+	q = strchr(p, '#'); p = ++q;
+	return atoi(p);
+}
+
+uint32_t get_group_id(const char *msg) {
+	uint32_t id;
+	char *p;
+	char *q;
+	
+	printf("msg: [%s]\n", msg);
+	p = strchr(msg, '#'); p++;
+	q = strchr(p, '#'); *q = '\0';
+
+	printf("[%s]\n", p);
+	id = strtoul(p, NULL, 16);
+	*q = '#';
+	return id;
+}
+
+
 int on_buddy_sendgpmsg(ifreechat_t *ifc, msg_t *msg) {
 	uint32_t cmd;
+	uint32_t gpid;
 	char *encode;
 	char *data;
 	char *plain;
-	size_t size;
-	size_t msg_len;
+	char *pmsg;
+	size_t gpmsg_size;
 
 	dlist_t *p;
-	pchatbox_t *chatbox;
+	gchatbox_t *chatbox;
+	group_t *group;
 	user_t *user;
 	time_t tm;
 	CBlowFish *bf;
 	
-	user = (user_t*)msg->user;
+	if (!strcmp(msg->username, ifc->username)) {
+		return;
+	}
+
+	tm = time(NULL);
+	pthread_mutex_lock(&(ifc->ulist_lock));
+	dlist_foreach(p, &(ifc->ulist)) {
+		user = (user_t*)dlist_entry(p, user_t, unode);
+		if (!strcmp(user->ipaddr, msg->ip)) {
+			break;
+		}
+	}
+	pthread_mutex_unlock(&(ifc->ulist_lock));
+	if (p == &(ifc->ulist)) {
+		printf("no such user(ip=%s)\n", msg->ip);
+		return -1;
+	}
+
+	gpmsg_size = get_gpmsg_size(msg->version);
 
 	bf = CreateBlowFish(user->macaddr, strlen(user->macaddr));
-	plain = (char*)malloc(strlen(msg->data) + 1);
-	size = BlowFish_Decrypt(bf, msg->data, plain, msg_len);
+	plain = (char*)malloc(gpmsg_size + 1);
 
+	gpmsg_size = BlowFish_Decrypt(bf, msg->data, plain, gpmsg_size);
+	data = (char*)string_validate(plain, "gbk", &encode);
+	if (data == NULL)
+		data = plain;
+	gpid = get_group_id(data);
 
+	pthread_mutex_lock(&(ifc->glist_lock));
+	dlist_foreach(p, &(ifc->glist)) {
+		group = (group_t*)dlist_entry(p, group_t, gnode);
+		if (group->group_id == gpid)
+			break;
+	}
+	pthread_mutex_unlock(&(ifc->glist_lock));
+	if (p == &(ifc->glist)) {
+		printf("no such group...\n");
+	} else {
+		pmsg = strchr(data, '#'); data = pmsg + 1;
+		pmsg = strchr(data, '#'); pmsg++;
+		msg->user = user;
+		msg->gpid = gpid;
+		strcpy(msg->data, pmsg);
+
+		pthread_mutex_lock(&(ifc->mlist_lock));
+		dlist_add_tail(&(msg->node), &(ifc->mlist));
+		pthread_mutex_unlock(&(ifc->mlist_lock));
+		gtk_status_icon_set_blinking(((ifc->main_window).icon), TRUE);
+		
+		pthread_mutex_lock(&(ifc->gchatbox_lock));
+		dlist_foreach(p, &(ifc->gchatbox)) {
+			chatbox = (gchatbox_t*)dlist_entry(p, gchatbox_t, chatbox_node);
+			if (((group_t*)chatbox->data)->group_id == gpid) {
+				gdk_threads_enter();
+				chatbox_insert_msg(chatbox, user->nickname, &tm, pmsg);
+				gdk_threads_leave();
+				break;
+			}
+		}
+		pthread_mutex_unlock(&(ifc->gchatbox_lock));
+	}
+	free(plain);
 	DestroyBlowFish(bf);
 	return 0;
 }

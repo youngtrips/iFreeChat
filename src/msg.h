@@ -15,6 +15,7 @@
 
 typedef struct msg_t {
 	dlist_t node; 
+	uint32_t gpid;
 	uint16_t port;
 	size_t buf_size;
 	char *ip;

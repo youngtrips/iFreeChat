@@ -47,7 +47,7 @@ gchatbox_t *new_gchatbox(ifreechat_t *ifc, group_t *group) {
 	init_chatbox(ifc, gchatbox, GCHATBOX, (void*)group);
 
 	pthread_mutex_lock(&(ifc->gchatbox_lock));
-	dlist_add_tail(&(gchatbox->chatbox_node), &(ifc->glist));
+	dlist_add_tail(&(gchatbox->chatbox_node), &(ifc->gchatbox));
 	pthread_mutex_unlock(&(ifc->gchatbox_lock));
 
 	sprintf(title, "Group Room %s", group->group_name);

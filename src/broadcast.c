@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <string.h>
-#include <openssl/blowfish.h>
 
 #include "ifreechat.h"
 #include "udp_socket.h"
@@ -23,10 +22,7 @@ void online_broadcast(ifreechat_t *ifc) {
 	int i;
 	group_t *gp;
 	dlist_t *p;
-	BF_KEY key;
 	CBlowFish *bf;
-
-	BF_set_key(&key, 12, ifc->macaddr);
 
 	printf("post online message...\n");
 	memset(buf, 0, sizeof(buf));
@@ -58,9 +54,6 @@ void online_broadcast(ifreechat_t *ifc) {
 				gp->group_id);
 		len = strlen(plain);
 		len = BlowFish_Encrypt(bf, plain, cipher, len);
-//		BF_cbc_encrypt(plain, cipher, len, &key, ivec, BF_ENCRYPT);
-		printf("plain: %s\n", plain);
-		printf("len: %d\n", len);
 
 		memset(buf, 0, sizeof(buf));
 		sprintf(buf, "1_lbt4_%d#128#%s#0#0#%d:%lu:%s:%s:%u:",
