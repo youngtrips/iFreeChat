@@ -277,7 +277,7 @@ static gboolean window_state_event (GtkWidget *widget, GdkEventWindowState *even
     } else if(event->changed_mask == GDK_WINDOW_STATE_WITHDRAWN &&
 			(event->new_window_state == GDK_WINDOW_STATE_ICONIFIED || 
 			 event->new_window_state == (GDK_WINDOW_STATE_ICONIFIED | GDK_WINDOW_STATE_MAXIMIZED))) {
-        gtk_status_icon_set_visible(GTK_STATUS_ICON(trayIcon), FALSE);
+        gtk_status_icon_set_visible(GTK_STATUS_ICON(trayIcon), TRUE);
     }
     return TRUE;
 }
