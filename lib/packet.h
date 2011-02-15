@@ -26,7 +26,10 @@
 
 #include <stdint.h>
 
+#include "mem_pool.h"
+
 typedef struct packet_t {
+	uint32_t mtime;
 	uint32_t ip;
 	uint16_t port;
 	uint32_t size;

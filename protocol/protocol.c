@@ -1,7 +1,7 @@
 /*
  * Author: youngtrips
  * Created Time:  2011-02-15
- * File Name: packet.c
+ * File Name: protocol.c
  * Description: 
  *
  * This program is free software; you can redistribute it and/or
@@ -21,33 +21,11 @@
  *
  */
 
-#include <string.h>
-#include <time.h>
+#include <stdio.h>
 
-#include "mem_pool.h"
-#include "packet.h"
+#include "protocol.h"
 
-packet_t *new_packet(mem_pool_t *pool, uint32_t ip, uint16_t port, 
-		const char *data, uint32_t size) {
-	size_t tot_size;
-	char *base;
+int main() {
 
-	packet_t *pkt;
-
-	tot_size = sizeof(packet_t) + size + 1;
-	base = (char*)mem_pool_alloc(pool, tot_size);
-	if (base == NULL)
-		return NULL;
-	pkt = (packet_t*)base; base += sizeof(packet_t);
-	pkt->mtime = (uint32_t)time(NULL);
-	pkt->ip = ip;
-	pkt->port = port;
-	pkt->size = size;
-	pkt->data = base;
-	memcpy(pkt->data, data, size);
-	return pkt;
-}
-
-void free_packet(mem_pool_t *pool, packet_t *packet) {
-	mem_pool_free(pool, packet);
+	return 0;
 }

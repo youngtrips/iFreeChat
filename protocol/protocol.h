@@ -1,7 +1,7 @@
 /*
  * Author: youngtrips
  * Created Time:  2011-02-15
- * File Name: packet.c
+ * File Name: protocol.h
  * Description: 
  *
  * This program is free software; you can redistribute it and/or
@@ -21,33 +21,25 @@
  *
  */
 
-#include <string.h>
-#include <time.h>
 
-#include "mem_pool.h"
+#ifndef __PROTOCOL_H
+#define __PROTOCOL_H
+
+#include "dlist.h"
 #include "packet.h"
+#include "msg.h"
 
-packet_t *new_packet(mem_pool_t *pool, uint32_t ip, uint16_t port, 
-		const char *data, uint32_t size) {
-	size_t tot_size;
-	char *base;
+typedef int (*build_packet_func)(packet_t *pkt, const msg_t *msg);
+typedef int (*parse_packet_func)(const packet_t *pkt, msg_t *msg);
 
-	packet_t *pkt;
+typedef struct protocol_t {
+	char protocol_name[16];
+	char protocol_version[16];
 
-	tot_size = sizeof(packet_t) + size + 1;
-	base = (char*)mem_pool_alloc(pool, tot_size);
-	if (base == NULL)
-		return NULL;
-	pkt = (packet_t*)base; base += sizeof(packet_t);
-	pkt->mtime = (uint32_t)time(NULL);
-	pkt->ip = ip;
-	pkt->port = port;
-	pkt->size = size;
-	pkt->data = base;
-	memcpy(pkt->data, data, size);
-	return pkt;
-}
+	build_packet_func build_func;
+	parse_packet_func parse_func;
 
-void free_packet(mem_pool_t *pool, packet_t *packet) {
-	mem_pool_free(pool, packet);
-}
+	dlist_t node;
+}protocol_t;
+
+#endif
