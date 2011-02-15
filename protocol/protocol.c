@@ -22,8 +22,23 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "protocol.h"
+
+int protocol_register(protocol_t *proto, const char *name, const char *version,
+		build_packet_func build_func,
+		parse_packet_func parse_func,
+		handle_message_func handle) {
+	if (proto == NULL)
+		return -1;
+	strcpy(proto->protocol_name, 	name);
+	strcpy(proto->protocol_version, version);
+	proto->build_func 	= build_func;
+	proto->parse_func 	= parse_func;
+	proto->handle 		= handle;
+	return 0;
+}
 
 int main() {
 
