@@ -25,6 +25,17 @@ void online_broadcast(ifreechat_t *ifc) {
 	CBlowFish *bf;
 
 	printf("post online message...\n");
+
+	memset(buf, 0, sizeof(buf));
+	sprintf(buf, "1_lbt4_%d#128#%s#0#0#0:%lu:%s:%s:0:",
+			ifc->avatar_id,
+			ifc->macaddr,
+			time(NULL),
+			ifc->username,
+			ifc->hostname);
+	size = strlen(buf) + 1;
+	udp_send_msg(ifc, BROADCAST_ADDR, ifc->port, buf, size);
+
 	memset(buf, 0, sizeof(buf));
 	sprintf(buf, "1_lbt4_%d#128#%s#0#0#0:%lu:%s:%s:%u:%s",
 			ifc->avatar_id,
