@@ -293,6 +293,7 @@ int on_buddy_sendgpmsg(ifreechat_t *ifc, msg_t *msg) {
 	pthread_mutex_unlock(&(ifc->ulist_lock));
 	if (p == &(ifc->ulist)) {
 		printf("no such user(ip=%s)\n", msg->ip);
+		free(msg);
 		return -1;
 	}
 
