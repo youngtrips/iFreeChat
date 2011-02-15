@@ -28,19 +28,23 @@
 
 int protocol_register(protocol_t *proto, const char *name, const char *version,
 		build_packet_func build_func,
-		parse_packet_func parse_func,
-		handle_message_func handle) {
-	if (proto == NULL)
+		parse_packet_func parse_func) {
+	if (proto == NULL || name == NULL || version == NULL ||
+			build_func == NULL || parse_func == NULL)
 		return -1;
 	strcpy(proto->protocol_name, 	name);
 	strcpy(proto->protocol_version, version);
 	proto->build_func 	= build_func;
 	proto->parse_func 	= parse_func;
-	proto->handle 		= handle;
 	return 0;
 }
 
-int main() {
-
-	return 0;
+int protocol_build_packet(protocol_t *proto, packet_t *pkt, const msg_t *msg) {
+	return proto->build_func(pkt, msg);
 }
+
+int protocol_parse_packet(protocol_t *proto, const packet_t *pkt, msg_t *msg) {
+	return proto->parse_func(pkt, msg);
+}
+
+

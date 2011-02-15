@@ -31,7 +31,6 @@
 
 typedef int (*build_packet_func)(packet_t *pkt, const msg_t *msg);
 typedef int (*parse_packet_func)(const packet_t *pkt, msg_t *msg);
-typedef int (*handle_message_func)(const msg_t *msg);
 
 typedef struct protocol_t {
 	char protocol_name[16];
@@ -39,22 +38,17 @@ typedef struct protocol_t {
 
 	build_packet_func build_func;
 	parse_packet_func parse_func;
-	handle_message_func handle;
 
 	dlist_t node;
 }protocol_t;
 
 int protocol_register(protocol_t *proto, const char *name, const char *version,
 		build_packet_func build_func,
-		parse_packet_func parse_func,
-		handle_message_func handle);
-
+		parse_packet_func parse_func);
 
 int protocol_build_packet(protocol_t *proto, packet_t *pkt, const msg_t *msg);
 
 int protocol_parse_packet(protocol_t *proto, const packet_t *pkt, msg_t *msg);
-
-int protocol_handle_message(protocol_t *proto, const msg_t *msg);
 
 #endif
 
