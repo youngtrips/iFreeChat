@@ -26,7 +26,7 @@ unsigned int hash_string(const unsigned char *buf, int len) {
     return hash;
 }
 
-hash_t *create_hash(size_t hsize, key_type_t ktype) {
+hash_t *create_hash(size_t hsize, int ktype) {
 	char *base;
 	size_t size;
 	int i;
@@ -64,7 +64,7 @@ void hash_entry_free(hash_entry_t *entry) {
 	}
 }
 
-void hash_entry_set_key(hash_entry_t *entry, key_type_t ktype, 
+void hash_entry_set_key(hash_entry_t *entry, int ktype, 
 		const void *key) {
 	size_t size;
 
@@ -120,7 +120,7 @@ int hash_insert(hash_t *h, const void *key, const void *val) {
 	return 0;
 }
 
-int hash_key_equal(key_type_t ktype, const void *k1, const void *k2) {
+int hash_key_equal(int ktype, const void *k1, const void *k2) {
 	if (ktype == KEY_INT) {
 		return *((unsigned int*)k1) == *((unsigned int*)k2);
 	}

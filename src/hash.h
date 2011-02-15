@@ -36,22 +36,22 @@ typedef struct hash_entry_t {
 	dlist_t node;
 }hash_entry_t;
 
-typedef enum key_type_t {
+enum {
 	KEY_INT,
 	KEY_STR
-}key_type_t;
+};
 
 
 typedef struct hash_t {
 	hash_entry_t **hash_entry;
 	size_t hash_size;
-	key_type_t ktype;
+	int ktype;
 #ifdef USE_LOCK
 	pthread_mutex_t lock;
 #endif
 }hash_t;
 
-hash_t *create_hash(size_t size, key_type_t ktype);
+hash_t *create_hash(size_t size, int ktype);
 
 int hash_insert(hash_t *h, const void *key, const void *val);
 
