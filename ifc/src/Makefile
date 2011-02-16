@@ -52,7 +52,8 @@ am_ifreechat_OBJECTS = ifreechat-ifreechat.$(OBJEXT) \
 	ifreechat-handle_message.$(OBJEXT)
 ifreechat_OBJECTS = $(am_ifreechat_OBJECTS)
 am__DEPENDENCIES_1 =
-ifreechat_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+ifreechat_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -192,11 +193,14 @@ top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
 ifreechat_CPPFLAGS = $(LIBXML_CFLAGS) $(GTK_CFLAGS) \
+				   $(GLIB_CFLAGS) $(LIBGLADE_CFLAGS) \
 				 -I ../include -I ../include/mem_pool \
 				 -I ../include/net -I ../include/net \
 				 -I ../include/protocol
 
-ifreechat_LDADD = $(LIBXML_LIBS) $(GTK_LIBS) -lpthread
+ifreechat_LDADD = $(LIBXML_LIBS) $(GTK_LIBS) \
+				  $(GLIB_LIBS) $(LIBGLADE_CFLAGS) -lpthread
+
 ifreechat_SOURCES = ifreechat.c \
 					group.c \
 					user.c \
