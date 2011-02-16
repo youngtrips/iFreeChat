@@ -1,4 +1,4 @@
-SUBDIRS = lib src include
+SUBDIRS = lib include src
 
 EXTRA_DIST = config.rpath  m4/ChangeLog  LICENSE License.OpenSSL 
 

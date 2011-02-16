@@ -11599,7 +11599,7 @@ fi
 done
 
 
-ac_config_files="$ac_config_files Makefile lib/Makefile src/Makefile src/net/Makefile src/protocol/Makefile src/ui/Makefile"
+ac_config_files="$ac_config_files Makefile lib/Makefile src/Makefile src/net/Makefile src/protocol/Makefile src/ui/Makefile include/Makefile include/blowfish/Makefile include/net/Makefile include/protocol/Makefile include/mem_pool/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -12575,6 +12575,11 @@ do
     "src/net/Makefile") CONFIG_FILES="$CONFIG_FILES src/net/Makefile" ;;
     "src/protocol/Makefile") CONFIG_FILES="$CONFIG_FILES src/protocol/Makefile" ;;
     "src/ui/Makefile") CONFIG_FILES="$CONFIG_FILES src/ui/Makefile" ;;
+    "include/Makefile") CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
+    "include/blowfish/Makefile") CONFIG_FILES="$CONFIG_FILES include/blowfish/Makefile" ;;
+    "include/net/Makefile") CONFIG_FILES="$CONFIG_FILES include/net/Makefile" ;;
+    "include/protocol/Makefile") CONFIG_FILES="$CONFIG_FILES include/protocol/Makefile" ;;
+    "include/mem_pool/Makefile") CONFIG_FILES="$CONFIG_FILES include/mem_pool/Makefile" ;;
 
   *) as_fn_error "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

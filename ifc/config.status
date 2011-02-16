@@ -404,7 +404,7 @@ on `(hostname || uname -n) 2>/dev/null | sed 1q`
 "
 
 # Files that config.status was made for.
-config_files=" Makefile lib/Makefile src/Makefile src/net/Makefile src/protocol/Makefile src/ui/Makefile"
+config_files=" Makefile lib/Makefile src/Makefile src/net/Makefile src/protocol/Makefile src/ui/Makefile include/Makefile include/blowfish/Makefile include/net/Makefile include/protocol/Makefile include/mem_pool/Makefile"
 config_headers=" config.h"
 config_commands=" depfiles libtool"
 
@@ -744,6 +744,11 @@ do
     "src/net/Makefile") CONFIG_FILES="$CONFIG_FILES src/net/Makefile" ;;
     "src/protocol/Makefile") CONFIG_FILES="$CONFIG_FILES src/protocol/Makefile" ;;
     "src/ui/Makefile") CONFIG_FILES="$CONFIG_FILES src/ui/Makefile" ;;
+    "include/Makefile") CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
+    "include/blowfish/Makefile") CONFIG_FILES="$CONFIG_FILES include/blowfish/Makefile" ;;
+    "include/net/Makefile") CONFIG_FILES="$CONFIG_FILES include/net/Makefile" ;;
+    "include/protocol/Makefile") CONFIG_FILES="$CONFIG_FILES include/protocol/Makefile" ;;
+    "include/mem_pool/Makefile") CONFIG_FILES="$CONFIG_FILES include/mem_pool/Makefile" ;;
 
   *) as_fn_error "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
