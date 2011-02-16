@@ -23,7 +23,20 @@
 
 #include "ifreechat.h"
 
+static int init_freechat(ifreechat_t **ifc) {
+	return 0;
+}
+
+static void destroy_freechat(ifreechat_t *ifc) {
+}
+
 int main() {
 
+	ifreechat_t *ifc;
+
+	if (init_freechat(&ifc) < 0)
+		return 1;
+
+	destroy_freechat(ifc);
 	return 0;
 }

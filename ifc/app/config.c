@@ -26,8 +26,11 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
+#include "ifreechat.h"
 #include "group.h"
 #include "config.h"
+
+#define CFG	"ifreechat.xml"
 
 int read_cfg(ifreechat_t *ifc) {
 
@@ -36,14 +39,12 @@ int read_cfg(ifreechat_t *ifc) {
 	xmlNodePtr p;
 	xmlChar *szKey;
 
+	group_entry_t *gpentry;
 	char gpname[128];
 	char gpinfo[128];
 	uint32_t gpid;
 
-	group_t *gp;
-
-	doc = xmlReadFile(ifc->cfgfile,
-			"UTF-8", XML_PARSE_RECOVER);
+	doc = xmlReadFile(CFG, "UTF-8", XML_PARSE_RECOVER);
 	if (doc == NULL) {
 		return -1;
 	}
@@ -115,9 +116,9 @@ int read_cfg(ifreechat_t *ifc) {
 				}
 				p = p->next;
 			}
-			gp = new_group(gpname, gpinfo, gpid);
-			if (gp) {
-				dlist_add_tail(&(gp->gnode), &(ifc->glist));
+			gpentry = new_group_entry(ifc->pool, gpname, gpinfo, gpid);
+			if (gpentry) {
+				group_add_entry(ifc->group, gpentry);
 			}
 		}
 		curNode = curNode->next;
@@ -137,10 +138,7 @@ int update_cfg(ifreechat_t *ifc, const char *category,
 	xmlChar *szKey;
 	int flag;
 
-	printf("category: [%s]\n", category);
-	printf("name: [%s] --> value:[%s]\n", name, value);
-	doc = xmlReadFile(ifc->cfgfile,
-			"UTF-8", XML_PARSE_RECOVER);
+	doc = xmlReadFile(CFG, "UTF-8", XML_PARSE_RECOVER);
 	if (doc == NULL) {
 		return -1;
 	}
@@ -171,7 +169,7 @@ int update_cfg(ifreechat_t *ifc, const char *category,
 			break;
 		curNode = curNode->next;
 	}
-	xmlSaveFormatFile(ifc->cfgfile, doc, 1);
+	xmlSaveFormatFile(CFG, doc, 1);
 	xmlFreeDoc(doc);
 	printf("update config ok...\n");
 	return 0;
