@@ -24,25 +24,27 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "mem_pool.h"
 #include "group.h"
 
-group_t *new_group(const char *gpname, const char *gpinfo,
+group_entry_t *new_group_entry(mem_pool_t *pool,
+		const char *gpname, const char *gpinfo,
 		uint32_t gpid) {
 	size_t size;
 	char *base;
-	group_t *group;
+	group_entry_t *group;
 
 	size = 0;
 	size += 1 + strlen(gpname);
 	size += 1 + strlen(gpinfo);
-	size += sizeof(group_t);
+	size += sizeof(group_entry_t);
 
-	base = (char*)malloc(size);
+	base = (char*)mem_pool_alloc(pool, size);
 	if (base == NULL) {
 		return NULL;
 	}
 
-	group = (group_t*)base; base += sizeof(group_t);
+	group = (group_entry_t*)base; base += sizeof(group_t);
 	group->group_name = base; base += 1 + strlen(gpname);
 	group->group_info = base; base += 1 + strlen(gpinfo);
 
@@ -57,66 +59,122 @@ group_t *new_group(const char *gpname, const char *gpinfo,
 	return group;
 }
 
-int group_add_user(group_t *gp, user_t *user) {
-	if (gp == NULL || user == NULL)
-		return -1;
-	dlist_add_tail(&(user->gnode), &(gp->ulist));
-	return 0;
-}
-
-int group_del_user(group_t *gp, user_t *user) {
-	if (gp == NULL || user == NULL)
-		return -1;
-	dlist_del(&(user->gnode));
-	return 0;
-}
-
-user_t *group_find_user(group_t *gp, const char *ip) {
-	user_t *user;
+void free_group_entry(mem_pool_t *pool, group_entry_t *entry) {
+	gpmember_t *gpmemb;
 	dlist_t *p;
-
-	if (gp == NULL || user == NULL)
-		return NULL;
-	dlist_foreach(p, &(gp->ulist)) {
-		user = (user_t*)dlist_entry(p, user_t, gnode);
-		if (!strcmp(user->ipaddr, ip))
-			return user;
+	dlist_t *q;
+	dlist_foreach_safe(p, q, &(entry->ulist)) {
+		gpmemb = (gpmember_t*)dlist_entry(p, gpmember_t, node);
+		dlist_del(&(gpmemb->node));
+		mem_pool_free(pool, gpmemb);
 	}
-
-	return NULL;
+	dlist_del(&(entry->gnode));
+	mem_pool_free(pool, entry);
 }
 
-
-int add_group(dlist_t *glist, group_t *gp) {
-	if (glist == NULL || gp == NULL) {
-		return -1;
-	}
-
-	dlist_add_tail(&(gp->gnode), glist);
-
-	return 0;
-}
-
-int del_group(dlist_t *glist, group_t *gp) {
-	if (glist == NULL || gp == NULL) {
-		return -1;
-	}
-	dlist_del(&(gp->gnode));
-	free(gp);
-	return 0;
-}
-
-group_t *find_group(dlist_t *glist, uint32_t gpid) {
-	dlist_t *p;
+group_t *create_group(mem_pool_t *pool) {
 	group_t *gp;
 
-	dlist_foreach(p, glist) {
-		gp = (group_t*)dlist_entry(p, group_t, gnode);
-		if (gp->group_id == gpid)
-			return gp;
+	gp = (group_t*)mem_pool_alloc(pool, sizeof(group_t));
+	if (gp == NULL)
+		return NULL;
+	gp->pool = pool;
+	gp->hash = create_hash(pool, 0xffff, KEY_INT);
+	init_dlist_node(&(gp->glist));
+
+	return gp;
+}
+
+void destroy_group(group_t *gp) {
+	group_entry_t *entry;
+	mem_pool_t *pool;
+	dlist_t *p;
+	dlist_t *q;
+
+	if (gp != NULL) {
+		pool = gp->pool;
+		dlist_foreach_safe(p, q, &(gp->glist)) {
+			entry = (group_entry_t*)dlist_entry(p, group_entry_t, gnode);
+			free_group_entry(pool, entry);
+		}
+		destroy_hash(pool, gp->hash);
+		mem_pool_free(pool, gp);
+	}
+}
+
+int group_add_entry(group_t *gp, group_entry_t *entry) {
+	if (hash_insert(gp->pool, gp->hash, &(entry->group_id), (void*)entry) < 0)
+		return -1;
+	dlist_add_tail(&(entry->gnode), &(gp->glist));
+	return 0;
+}
+
+int group_del_entry(group_t *gp, group_entry_t *entry) {
+	void *res;
+	if (hash_del(gp->hash, &(entry->group_id), &res) < 0)
+	   return -1;	
+	free_group_entry(gp->pool, entry);
+	return 0;
+}
+
+group_entry_t *group_find_entry(group_t *gp, uint32_t gpid) {
+	group_entry_t *entry;
+	if (hash_find(gp->hash, &gpid, (void**)&entry) < 0)
+		return NULL;
+	return entry;
+}
+
+int group_entry_add_user(mem_pool_t *pool, group_entry_t *gp_entry, 
+		user_entry_t *user_entry) {
+	gpmember_t *gpmemb;
+	user_entry_t *u;
+	dlist_t *p;
+
+	dlist_foreach(p, &(gp_entry->ulist)) {
+		gpmemb = (gpmember_t*)dlist_entry(p, gpmember_t, node);
+		u = gpmemb->user;
+		if (!strcmp(u->ipaddr, user_entry->ipaddr))
+			return -1;
+	}
+
+	gpmemb = (gpmember_t*)mem_pool_alloc(pool, sizeof(gpmember_t));
+	gpmemb->user = user_entry;
+	init_dlist_node(&(gpmemb->node));
+	dlist_add_tail(&(gpmemb->node), &(gp_entry->ulist));
+	return 0;
+}
+
+int group_entry_del_user(mem_pool_t *pool, group_entry_t *gp_entry, 
+		user_entry_t *user_entry) {
+	gpmember_t *gpmemb;
+	user_entry_t *u;
+	dlist_t *p;
+	dlist_t *q;
+
+	dlist_foreach_safe(p, q, &(gp_entry->ulist)) {
+		gpmemb = (gpmember_t*)dlist_entry(p, gpmember_t, node);
+		u = gpmemb->user;
+		if (!strcmp(u->ipaddr, user_entry->ipaddr)) {
+			dlist_del(&(gpmemb->node));
+			mem_pool_free(pool, gpmemb);
+			return 0;
+		}
+	}
+
+	return -1;
+}
+
+user_entry_t *group_entry_find_user(group_entry_t *gp_entry, const char *ip) {
+	gpmember_t *gpmemb;
+	user_entry_t *u;
+	dlist_t *p;
+
+	dlist_foreach(p, &(gp_entry->ulist)) {
+		gpmemb = (gpmember_t*)dlist_entry(p, gpmember_t, node);
+		u = gpmemb->user;
+		if (!strcmp(u->ipaddr, ip))
+			return u; 
 	}
 	return NULL;
 }
-
-
 
