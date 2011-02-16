@@ -1,4 +1,4 @@
-noinst_LIBRARIES = libmynet.a
+noinst_LIBRARIES = libprotocol.a
 
 AM_CPPFLAGS = $(GTK_FLAGS) $(GLIB2_CFLAGS) \
 						   $(LIBGLADE_CFLAGS) -g -Wall \
@@ -8,11 +8,7 @@ AM_CPPFLAGS = $(GTK_FLAGS) $(GLIB2_CFLAGS) \
 						 -I ../../include/net \
 						 -I ../../include/protocol
 
-libmynet_a_LIBADD = 
+libprotocol_a_LIBADD = 
 
-libmynet_a_SOURCES = msg_queue.c \
-					 packet.c \
-					 udp_socket.c \
-					 utils.c \
-					 queue.c
+libprotocol_a_SOURCES = protocol.c
 

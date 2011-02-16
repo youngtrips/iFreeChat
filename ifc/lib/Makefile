@@ -49,7 +49,7 @@ ARFLAGS = cru
 libifreechat_a_AR = $(AR) $(ARFLAGS)
 libifreechat_a_DEPENDENCIES =
 am_libifreechat_a_OBJECTS = blowfish.$(OBJEXT) mem_pool.$(OBJEXT) \
-	encoding.$(OBJEXT) hash.$(OBJEXT) queue.$(OBJEXT)
+	encoding.$(OBJEXT) hash.$(OBJEXT)
 libifreechat_a_OBJECTS = $(am_libifreechat_a_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -192,15 +192,15 @@ top_srcdir = ..
 noinst_LIBRARIES = libifreechat.a
 AM_CPPFLAGS = $(GTK_FLAGS) $(GLIB2_CFLAGS) \
 						   $(LIBGLADE_CFLAGS) -g -Wall \
-						 -I ../include -I ../include/blowfish \
+						 -I ../include \
+						 -I ../include/blowfish \
 						 -I ../include/mem_pool
 
 libifreechat_a_LIBADD = 
 libifreechat_a_SOURCES = blowfish/blowfish.c \
 						  mem_pool/mem_pool.c \
 						  encoding.c \
-						  hash.c \
-						  queue.c
+						  hash.c
 
 all: all-am
 
@@ -254,7 +254,6 @@ include ./$(DEPDIR)/blowfish.Po
 include ./$(DEPDIR)/encoding.Po
 include ./$(DEPDIR)/hash.Po
 include ./$(DEPDIR)/mem_pool.Po
-include ./$(DEPDIR)/queue.Po
 
 .c.o:
 	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

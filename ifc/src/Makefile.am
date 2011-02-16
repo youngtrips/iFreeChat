@@ -1,3 +1,4 @@
+SUBDIRS = net protocol
 bin_PROGRAMS = ifreechat
 
 ifreechat_CPPFLAGS=$(LIBXML_CFLAGS) $(GTK_CFLAGS) \
@@ -7,7 +8,11 @@ ifreechat_CPPFLAGS=$(LIBXML_CFLAGS) $(GTK_CFLAGS) \
 				 -I ../include/protocol
 
 ifreechat_LDADD = $(LIBXML_LIBS) $(GTK_LIBS) \
-				  $(GLIB_LIBS) $(LIBGLADE_CFLAGS) -lpthread
+				  $(GLIB_LIBS) $(LIBGLADE_CFLAGS) \
+				  ../lib/libifreechat.a \
+				  net/libmynet.a \
+				  protocol/libprotocol.a \
+				  -lpthread
 
 ifreechat_SOURCES = ifreechat.c \
 					group.c \

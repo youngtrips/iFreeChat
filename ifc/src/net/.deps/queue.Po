@@ -1,4 +1,4 @@
-ifreechat-user.o: user.c /usr/include/stdlib.h /usr/include/features.h \
+queue.o: queue.c /usr/include/stdlib.h /usr/include/features.h \
  /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h \
  /usr/include/gnu/stubs.h /usr/include/gnu/stubs-32.h \
  /usr/lib/gcc/i686-redhat-linux/4.4.5/include/stddef.h \
@@ -9,12 +9,10 @@ ifreechat-user.o: user.c /usr/include/stdlib.h /usr/include/features.h \
  /usr/include/time.h /usr/include/sys/select.h /usr/include/bits/select.h \
  /usr/include/bits/sigset.h /usr/include/bits/time.h \
  /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h \
- /usr/include/alloca.h /usr/include/string.h /usr/include/xlocale.h \
- /usr/include/bits/string.h /usr/include/bits/string2.h \
- ../include/mem_pool/mem_pool.h /usr/include/pthread.h \
- /usr/include/sched.h /usr/include/bits/sched.h \
- /usr/include/bits/setjmp.h ../include/user.h ../include/dlist.h \
- ../include/hash.h
+ /usr/include/alloca.h ../../include/queue.h \
+ ../../include/mem_pool/mem_pool.h /usr/include/pthread.h \
+ /usr/include/sched.h /usr/include/bits/sched.h /usr/include/xlocale.h \
+ /usr/include/bits/setjmp.h
 
 /usr/include/stdlib.h:
 
@@ -62,15 +60,9 @@ ifreechat-user.o: user.c /usr/include/stdlib.h /usr/include/features.h \
 
 /usr/include/alloca.h:
 
-/usr/include/string.h:
+../../include/queue.h:
 
-/usr/include/xlocale.h:
-
-/usr/include/bits/string.h:
-
-/usr/include/bits/string2.h:
-
-../include/mem_pool/mem_pool.h:
+../../include/mem_pool/mem_pool.h:
 
 /usr/include/pthread.h:
 
@@ -78,10 +70,6 @@ ifreechat-user.o: user.c /usr/include/stdlib.h /usr/include/features.h \
 
 /usr/include/bits/sched.h:
 
+/usr/include/xlocale.h:
+
 /usr/include/bits/setjmp.h:
-
-../include/user.h:
-
-../include/dlist.h:
-
-../include/hash.h:
