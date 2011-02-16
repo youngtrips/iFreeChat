@@ -1,7 +1,7 @@
 /*
  * Author: youngtrips(youngtrips@163.com)
- * Created Time:  2011-02-10
- * File Name: ifreechat.h
+ * Created Time:  2011-02-16
+ * File Name: ifreechat.c
  * Description: 
  *
  * This program is free software; you can redistribute it and/or
@@ -21,42 +21,9 @@
  *
  */
 
-#ifndef __IFREECHAT_H
-#define __IFREECHAT_H
+#include "ifreechat.h"
 
-#include <stdint.h>
+int main() {
 
-#include "mem_pool.h"
-#include "udp_socket.h"
-#include "dlist.h"
-#include "group.h"
-#include "user.h"
-
-typedef struct ifreechat_t {
-
-	char cfgfile[1024];
-	char nickname[64];
-	char username[64];
-	char hostname[64];
-	char category[64];
-
-	int avatar_type;
-	int avatar_id;
-	char custom_avatar[128];
-
-	char ipaddr[20];
-	char macaddr[20];
-	char signature[128];
-	char default_encoding[16];
-	char current_encoding[16];
-	char multicast_ip[20];
-	uint16_t port;
-
-	mem_pool_t 		*pool;
-	udp_socket_t 	*usock;
-	group_t 		*group;
-	user_t 			*user;
-
-}ifreechat_t;
-
-#endif
+	return 0;
+}
