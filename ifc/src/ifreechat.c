@@ -71,9 +71,14 @@ int main() {
 
 	if (init_freechat(&ifc) < 0)
 		return 1;
+	if (read_cfg(ifc) < 0) {
+		printf("read config file error\n");
+		return 1;
+	}
 	init_network(ifc);
 
 	freechat_main(ifc);
 	destroy_freechat(ifc);
 	return 0;
 }
+
