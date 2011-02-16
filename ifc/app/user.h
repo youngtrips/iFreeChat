@@ -25,8 +25,10 @@
 #define __USER_H
 
 #include "dlist.h"
+#include "hash.h"
+#include "mem_pool.h"
 
-typedef struct user_node_t {
+typedef struct user_entry_t {
 	char *nickname;
 	char *username;
 	char *hostname;
@@ -38,23 +40,30 @@ typedef struct user_node_t {
 	char *encoding;
 
 	dlist_t unode; /* user list node */
-}user_node_t;
+}user_entry_t;
 
 typedef struct user_t {
 	dlist_t ulist;
 	hash_t *hash;
-};
+	mem_pool_t *pool;
+}user_t;
 
-user_t *new_user(const char *nickname, const char *username,
+user_entry_t *new_user_entry(mem_pool_t *pool,
+		const char *nickname, const char *username,
 		const char *hostname, const char *avatar, 
 		const char *ipaddr, const char *macaddr,
 		const char *signature, const char *category,
 		const char *encoding);
+void free_user_entry(mem_pool_t *pool, user_entry_t *entry);
 
-int add_user(dlist_t *ulist, user_t *user);
+user_t *create_user(mem_pool_t *pool);
 
-int del_user(dlist_t *ulist, user_t *user);
+void destroy_user(user_t *user);
 
-user_t *find_user(dlist_t *ulist, const char *ip);
+int user_add_entry(user_t *user, user_entry_t *entry);
+
+int user_del_entry(user_t *user, user_entry_t *entry);
+
+user_entry_t *user_find_entry(user_t *user, const char *key);
 
 #endif

@@ -24,15 +24,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "mem_pool.h"
 #include "user.h"
 
-user_t *new_user(const char *nickname, const char *username,
+user_entry_t *new_user_entry(mem_pool_t *pool, 
+		const char *nickname, const char *username,
 		const char *hostname, const char *avatar,
 		const char *ipaddr, const char *macaddr,
 		const char *signature, const char *category,
 		const char *encoding) {
 	char *base;
-	user_t *user;
+	user_entry_t *user;
 	size_t size;
 
 	size = 0;
@@ -45,13 +47,13 @@ user_t *new_user(const char *nickname, const char *username,
 	size += 1 + strlen(signature);
 	size += 1 + strlen(category);
 	size += 1 + strlen(encoding);
-	size += sizeof(user_t);
+	size += sizeof(user_entry_t);
 
-	base = (char*)malloc(size);
+	base = (char*)mem_pool_alloc(pool, size);
 	if (base == NULL) {
 		return NULL;
 	}
-	user = (user_t*)base; 	base += sizeof(user_t);
+	user = (user_entry_t*)base; 	base += sizeof(user_entry_t);
 	user->nickname 	= base; base += 1 + strlen(nickname);
 	user->username 	= base;	base += 1 + strlen(username);
 	user->hostname 	= base; base += 1 + strlen(hostname);
@@ -74,39 +76,66 @@ user_t *new_user(const char *nickname, const char *username,
 	strcpy(user->encoding, 	encoding);
 
 	init_dlist_node(&(user->unode));
-	init_dlist_node(&(user->gnode));
 
 	return user;
 }
 
-int add_user(dlist_t *ulist, user_t *user) {
-
-	if (ulist == NULL || user == NULL)
-		return -1;
-	dlist_add_tail(&(user->unode), ulist);
-	return 0;
+void free_user_entry(mem_pool_t *pool, user_entry_t *entry) {
+	dlist_del(&(entry->unode));
+	mem_pool_free(pool, entry);
 }
 
-int del_user(dlist_t *ulist, user_t *user) {
-	if (ulist == NULL || user == NULL)
-		return -1;
-
-	dlist_del(&(user->unode));
-	free(user);
-	return 0;
-}
-
-user_t *find_user(dlist_t *ulist, const char *ip) {
+user_t *create_user(mem_pool_t *pool) {
 	user_t *user;
-	dlist_t *p;
 
-	if (ulist == NULL || ip == NULL)
+	user = (user_t*)mem_pool_alloc(pool, sizeof(user_t));
+	if (user == NULL)
 		return NULL;
 
-	dlist_foreach(p, ulist) {
-		user = (user_t*)dlist_entry(p, user_t, unode);
-		if (!strcmp(user->ipaddr, ip))
-			return user;
+	user->pool = pool;
+	user->hash = create_hash(pool, 0xffff, KEY_STR);
+	init_dlist_node(&(user->ulist));
+
+	return user;
+}
+
+void destroy_user(user_t *user) {
+	user_entry_t *entry;
+	mem_pool_t *pool;
+	dlist_t *p;
+	dlist_t *q;
+	if (user != NULL) {
+		pool = user->pool;
+		dlist_foreach_safe(p, q, &(user->ulist)) {
+			entry = (user_entry_t*)dlist_entry(p, user_entry_t, unode);
+			free_user_entry(pool, entry);
+		}
+		destroy_hash(pool, user->hash);
+		mem_pool_free(pool, user);
 	}
-	return NULL;
+}
+
+int user_add_entry(user_t *user, user_entry_t *entry) {
+
+	if (hash_insert(user->pool, user->hash, entry->ipaddr, entry) < 0)
+		return -1;
+	dlist_add_tail(&(entry->unode), &(user->ulist));
+	return 0;
+}
+
+int user_del_entry(user_t *user, user_entry_t *entry) {
+
+	user_entry_t *res;
+	if (hash_del(user->hash, entry->ipaddr, (void**)&res) < 0)
+		return -1;
+	free_user_entry(user->pool, entry);
+	return 0;
+}
+
+user_entry_t *find_user(user_t *user, const char *key) {
+	user_entry_t *entry;
+
+	if (hash_find(user->hash, key, (void**)&entry) < 0)
+		return NULL;
+	return entry;
 }
