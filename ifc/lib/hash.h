@@ -56,7 +56,7 @@ hash_t *create_hash(mem_pool_t *pool, size_t size, int ktype);
 
 int hash_insert(mem_pool_t *pool, hash_t *h, const void *key, const void *val);
 
-int hash_del(hash_t *h, const void *key, void **val);
+int hash_del(mem_pool_t *pool, hash_t *h, const void *key, void **val);
 
 int hash_find(hash_t *h, const void *key, void **val);
 

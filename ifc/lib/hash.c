@@ -30,7 +30,6 @@ unsigned int hash_string(const unsigned char *buf, int len) {
 hash_t *create_hash(mem_pool_t *pool, size_t hsize, int ktype) {
 	char *base;
 	size_t size;
-	int i;
 	hash_t *h;
 
 	size = sizeof(hash_t) + sizeof(hash_entry_t*) * (1 + hsize);
@@ -61,7 +60,7 @@ void hash_entry_free(mem_pool_t *pool, hash_entry_t *entry) {
 	if (entry) {
 		if (entry->key)
 			mem_pool_free(pool, entry->key);
-		mem_pool_free(free, entry);
+		mem_pool_free(pool, entry);
 	}
 }
 
@@ -88,7 +87,7 @@ unsigned int hash_index(hash_t *h, const void *key) {
 	if (h->ktype == KEY_INT) {
 		idx = hash_integer(*(unsigned int*)key);
 	} else {
-		idx = hash_string((char*)key, strlen((char*)key));
+		idx = hash_string((unsigned char*)key, strlen((char*)key));
 		idx = hash_integer(idx);
 	}
 	return (idx & h->hash_size);
@@ -128,7 +127,7 @@ int hash_key_equal(int ktype, const void *k1, const void *k2) {
 	return !strcmp((char*)k1, (char*)k2);
 }
 
-int hash_del(hash_t *h, const void *key, void **val) {
+int hash_del(mem_pool_t *pool, hash_t *h, const void *key, void **val) {
 	hash_entry_t *entry;
 	hash_entry_t *next;
 	unsigned int idx;
@@ -202,7 +201,7 @@ int hash_find(hash_t *h, const void *key, void **val) {
 	return -1;
 }
 
-void destroy_hash(hash_t *h) {
+void destroy_hash(mem_pool_t *pool, hash_t *h) {
 	hash_entry_t *entry;
 	hash_entry_t *next;
 	dlist_t *p;
@@ -216,7 +215,7 @@ void destroy_hash(hash_t *h) {
 			dlist_foreach_safe(p, q, &(entry->node)) {
 				next = (hash_entry_t*)dlist_entry(p, hash_entry_t, node);
 				dlist_del(&(next->node));
-				hash_entry_free(next);
+				hash_entry_free(pool, next);
 			}
 		}
 	}

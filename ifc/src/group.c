@@ -111,7 +111,7 @@ int group_add_entry(group_t *gp, group_entry_t *entry) {
 
 int group_del_entry(group_t *gp, group_entry_t *entry) {
 	void *res;
-	if (hash_del(gp->hash, &(entry->group_id), &res) < 0)
+	if (hash_del(gp->pool, gp->hash, &(entry->group_id), &res) < 0)
 	   return -1;	
 	free_group_entry(gp->pool, entry);
 	return 0;

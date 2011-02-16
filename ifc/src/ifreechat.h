@@ -32,6 +32,9 @@
 #include "group.h"
 #include "user.h"
 
+
+#define INIT_MEMPOOL_SIZE		(1024 * 1024 * 3)
+
 typedef struct ifreechat_t {
 
 	char nickname[64];

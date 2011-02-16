@@ -126,7 +126,7 @@ int user_add_entry(user_t *user, user_entry_t *entry) {
 int user_del_entry(user_t *user, user_entry_t *entry) {
 
 	user_entry_t *res;
-	if (hash_del(user->hash, entry->ipaddr, (void**)&res) < 0)
+	if (hash_del(user->pool, user->hash, entry->ipaddr, (void**)&res) < 0)
 		return -1;
 	free_user_entry(user->pool, entry);
 	return 0;
