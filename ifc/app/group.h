@@ -26,22 +26,24 @@
 
 #include <stdint.h>
 
+#include "mem_pool.h"
 #include "dlist.h"
 #include "user.h"
 #include "hash.h"
 
-typedef struct group_node_t {
+typedef struct group_entry_t {
 	char *group_name;
 	char *group_info;
 	uint32_t group_id;
 
 	dlist_t gnode;
 	dlist_t ulist;
-}group_node_t;
+}group_entry_t;
 
 typedef struct group_t {
 	dlist_t glist;
 	hash_t *hash;
+	mem_pool_t *pool;
 }group_t;
 
 typedef struct gpmember_t {
@@ -49,22 +51,22 @@ typedef struct gpmember_t {
 	dlist_t node;
 }gpmember_t;
 
-group_t *new_group(const char *gpname, const char *gpinfo,
+group_t *new_group_entry(mem_pool_t *pool, 
+		const char *gpname, const char *gpinfo,
 		uint32_t gpid);
 
-int add_group(dlist_t *glist, group_t *gp);
+void free_group_entry(mem_pool_t *pool, group_entry_t *entry)
 
-int del_group(dlist_t *glist, group_t *gp);
+int group_add_entry(group_t *gp, group_entry_t *entry);
 
-group_t *find_group(dlist_t *glist, uint32_t gpid);
+int group_del_entry(group_t *gp, group_entry_t *entry);
 
+group_entry_t *group_find_entry(group_t *gp, uint32_t gpid);
 
-int group_add_user(group_t *gp, user_t *user);
+int group_entry_add_user(group_entry_t *gp, user_entry_t *user);
 
-int group_del_user(group_t *gp, user_t *user);
+int group_entry_del_user(group_entry_t *gp, user_entry_t *user);
 
-user_t *group_find_user(group_t *gp, const char *ip);
-
-
+user_entry_t *group_entry_find_user(group_entry_t *gp, const char *ip);
 
 #endif
