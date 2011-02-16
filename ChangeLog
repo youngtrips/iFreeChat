@@ -1,0 +1,901 @@
+2011-02-16  youngtrips <youngtrips@163.com>
+
+  * ifc/.configure.in.swp, ifc/.gitignore, ifc/ChangeLog, ifc/Makefile,
+  ifc/config.h, ifc/config.log, ifc/config.status, ifc/libtool, ifc/stamp-h1:
+  update
+
+  * ifc/.configure.in.swp, ifc/Makefile.am, ifc/Makefile.in, ifc/aclocal.m4,
+  ifc/autom4te.cache/requests, ifc/autom4te.cache/traces.0,
+  ifc/autom4te.cache/traces.1, ifc/compile, ifc/config.guess, ifc/config.sub,
+  ifc/configure.in, ifc/depcomp, ifc/install-sh, ifc/ltmain.sh, ifc/missing:
+  update
+
+  * ifc/include/blowfish.h, ifc/include/blowfish.h2, ifc/include/config.h,
+  ifc/include/dlist.h, ifc/include/encoding.h, ifc/include/group.h,
+  ifc/include/handle_message.h, ifc/include/hash.h, ifc/include/ifreechat.h,
+  ifc/include/mem_pool.h, ifc/include/msg.h, ifc/include/msg_queue.h,
+  ifc/include/packet.h, ifc/include/pair.h, ifc/include/protocol.h,
+  ifc/include/queue.h, ifc/include/socket.h, ifc/include/udp_socket.h,
+  ifc/include/user.h, ifc/include/utils.h, ifc/lib/blowfish/blowfish.h,
+  ifc/lib/blowfish/blowfish.h2, ifc/lib/dlist.h, ifc/lib/encoding.h,
+  ifc/lib/hash.h, ifc/lib/mempool/mem_pool.h, ifc/lib/queue.h,
+  ifc/src/config.h, ifc/src/group.h, ifc/src/handle_message.h,
+  ifc/src/ifreechat.h, ifc/src/net/msg.h, ifc/src/net/msg_queue.h,
+  ifc/src/net/packet.h, ifc/src/net/socket.h, ifc/src/net/udp_socket.h,
+  ifc/src/net/utils.h, ifc/src/pair.h, ifc/src/protocol/protocol.h,
+  ifc/src/user.h: update
+
+  * ifc/README, ifc/app/blowfish.c, ifc/app/blowfish.h, ifc/app/blowfish.h2,
+  ifc/app/config.c, ifc/app/config.h, ifc/app/dlist.h, ifc/app/encoding.c,
+  ifc/app/encoding.h, ifc/app/group.c, ifc/app/group.h,
+  ifc/app/handle_message.c, ifc/app/handle_message.h, ifc/app/hash.c,
+  ifc/app/hash.h, ifc/app/ifreechat, ifc/app/ifreechat.c, ifc/app/ifreechat.h,
+  ifc/app/ifreechat.xml, ifc/app/mem_pool.c, ifc/app/mem_pool.h,
+  ifc/app/pair.h, ifc/app/user.c, ifc/app/user.h, ifc/lib/blowfish.c,
+  ifc/lib/blowfish.h, ifc/lib/blowfish.h2, ifc/lib/blowfish/blowfish.c,
+  ifc/lib/blowfish/blowfish.h, ifc/lib/blowfish/blowfish.h2,
+  ifc/lib/encoding.c, ifc/lib/encoding.h, ifc/lib/hash.c, ifc/lib/hash.h,
+  ifc/lib/makefile, ifc/lib/mem_pool.c, ifc/lib/mem_pool.h,
+  ifc/lib/mempool/mem_pool.c, ifc/lib/mempool/mem_pool.h, ifc/lib/msg.h,
+  ifc/lib/msg_queue.c, ifc/lib/msg_queue.h, ifc/lib/packet.c, ifc/lib/packet.h,
+  ifc/lib/socket.h, ifc/lib/udp_socket.c, ifc/lib/udp_socket.h,
+  ifc/lib/utils.c, ifc/lib/utils.h, ifc/protocol/protocol,
+  ifc/protocol/protocol.c, ifc/protocol/protocol.h, ifc/src/config.c,
+  ifc/src/config.h, ifc/src/dlist.h, ifc/src/group.c, ifc/src/group.h,
+  ifc/src/handle_message.c, ifc/src/handle_message.h, ifc/src/ifreechat,
+  ifc/src/ifreechat.c, ifc/src/ifreechat.h, ifc/src/ifreechat.xml,
+  ifc/src/makefile, ifc/src/net/makefile, ifc/src/net/msg.h,
+  ifc/src/net/msg_queue.c, ifc/src/net/msg_queue.h, ifc/src/net/packet.c,
+  ifc/src/net/packet.h, ifc/src/net/socket.h, ifc/src/net/udp_socket.c,
+  ifc/src/net/udp_socket.h, ifc/src/net/utils.c, ifc/src/net/utils.h,
+  ifc/src/pair.h, ifc/src/protocol/protocol, ifc/src/protocol/protocol.c,
+  ifc/src/protocol/protocol.h, ifc/src/user.c, ifc/src/user.h: update
+
+  * ifc/app/config.c, ifc/app/ifreechat, ifc/app/ifreechat.c,
+  ifc/app/ifreechat.h, ifc/app/ifreechat.xml: update
+
+  * ifc/app/ifreechat.c, ifc/app/ifreechat.h: update
+
+  * ifc/app/handle_message.c, ifc/app/handle_message.h, ifc/app/ifreechat.h:
+  update
+
+  * ifc/app/group.c, ifc/app/group.h: update
+
+  * ifc/app/group.h: update
+
+  * ifc/app/mem_pool.c, ifc/app/mem_pool.h, ifc/app/user.c, ifc/app/user.h:
+  update
+
+  * ifc/app/blowfish.c, ifc/app/blowfish.h, ifc/app/blowfish.h2,
+  ifc/app/config.c, ifc/app/config.h, ifc/app/dlist.h, ifc/app/encoding.c,
+  ifc/app/encoding.h, ifc/app/group.c, ifc/app/group.h, ifc/app/hash.c,
+  ifc/app/hash.h, ifc/app/ifreechat.h, ifc/app/pair.h, ifc/app/user.c,
+  ifc/app/user.h, ifc/lib/dlist.h, ifc/lib/makefile, ifc/lib/mem_pool.c,
+  ifc/lib/mem_pool.h, ifc/lib/msg.h, ifc/lib/msg_queue.c, ifc/lib/msg_queue.h,
+  ifc/lib/packet.c, ifc/lib/packet.h, ifc/lib/queue.c, ifc/lib/queue.h,
+  ifc/lib/socket.h, ifc/lib/udp_socket.c, ifc/lib/udp_socket.h,
+  ifc/lib/utils.c, ifc/lib/utils.h, ifc/protocol/protocol,
+  ifc/protocol/protocol.c, ifc/protocol/protocol.h, lib/dlist.h, lib/makefile,
+  lib/mem_pool.c, lib/mem_pool.h, lib/msg.h, lib/msg_queue.c, lib/msg_queue.h,
+  lib/packet.c, lib/packet.h, lib/queue.c, lib/queue.h, lib/socket.h,
+  lib/udp_socket.c, lib/udp_socket.h, lib/utils.c, lib/utils.h,
+  protocol/.protocol.c.swp, protocol/protocol, protocol/protocol.c,
+  protocol/protocol.h: update
+
+  * protocol/makefile, protocol/protocol.c, protocol/protocol.h: update
+
+2011-02-15  youngtrips <youngtrips@163.com>
+
+  * protocol/protocol, protocol/protocol.c, protocol/protocol.h: update
+
+  * lib/packet.c, lib/packet.h, protocol/.protocol.c.swp, protocol/makefile,
+  protocol/protocol, protocol/protocol.c, protocol/protocol.h: update
+
+  * src/blowfish.o, src/broadcast.o, src/category.o, src/chatbox.o,
+  src/config.o, src/emotion_box.o, src/encoding.o, src/gchatbox.o, src/group.o,
+  src/group_listview.o, src/ifreechat.o, src/listview.o, src/pchatbox.o,
+  src/process_msg.o, src/treeview.o, src/udp_socket.o, src/user.o, src/utils.o,
+  src/window.o: update
+
+  * lib/dlist.h, lib/makefile, lib/mem_pool.c, lib/mem_pool.h, lib/msg.h,
+  lib/msg_queue.c, lib/msg_queue.h, lib/packet.c, lib/packet.h, lib/queue.c,
+  lib/queue.h, lib/socket.h, lib/udp_socket.c, lib/udp_socket.h, lib/utils.c,
+  lib/utils.h, src/blowfish.o, src/broadcast.c, src/broadcast.o,
+  src/category.o, src/chatbox.o, src/config.o, src/emotion_box.o,
+  src/encoding.o, src/gchatbox.o, src/group.o, src/group_listview.o,
+  src/ifreechat, src/ifreechat.o, src/listview.o, src/pchatbox.o,
+  src/process_msg.o, src/treeview.o, src/udp_socket.o, src/user.o, src/utils.o,
+  src/window.o: update
+
+  * src/hash.c, src/hash.h: update
+
+  * src/hash.c, src/hash.h, src/ifreechat, src/process_msg.c: update
+
+2011-02-14  youngtrips <youngtrips@163.com>
+
+  * src/.chatbox.h.swp, src/.gchatbox.c.swp, src/.window.c.swp,
+  src/broadcast.c, src/gchatbox.c, src/ifreechat, src/ifreechat.xml, src/msg.h,
+  src/process_msg.c, src/window.c: update
+
+  * src/ifreechat, src/process_msg.c: update
+
+  * src/ifreechat, src/ifreechat.xml, src/window.c: update
+
+  * src/test.c: update
+
+  * src/gchatbox.c, src/ifreechat, src/process_msg.c: update
+
+  * src/ifreechat.xml: update
+
+  * src/.window.c.swp, src/ifreechat, src/ifreechat.xml, src/window.c: update
+
+  * src/.gchatbox.c.swp, src/blowfish.c, src/blowfish.h, src/blowfish.h2,
+  src/broadcast.c, src/gchatbox.c, src/ifreechat, src/ifreechat.xml,
+  src/makefile: udate
+
+  * src/ifreechat, src/process_msg.c, src/process_msg.h: update
+
+  * src/ifreechat, src/udp_socket.c: update
+
+  * src/ifreechat, src/process_msg.c: update
+
+  * src/broadcast.c, src/category.c, src/category.h, src/ifreechat,
+  src/ifreechat.c, src/ifreechat.h, src/ifreechat.xml, src/makefile,
+  src/process_msg.c, src/treeview.c, src/window.h: update
+
+  * src/emotion_box.h, src/gchatbox.h, src/group_listview.c, src/ifreechat,
+  src/pchatbox.h: update
+
+  * src/glade/gchatbox.glade, src/glade/pchatbox.glade: update
+
+  * src/.chatbox.h.swp, src/chatbox.c, src/chatbox.h, src/gchatbox.c,
+  src/gchatbox.h, src/glade/chatbox.glade, src/ifreechat, src/makefile,
+  src/pchatbox.c, src/pchatbox.h, src/process_msg.c, src/treeview.c,
+  src/window.c: update
+
+2011-02-13  youngtrips <youngtrips@163.com>
+
+  * src/gchatbox.c, src/gchatbox.h, src/glade/gchatbox.glade,
+  src/group_listview.c, src/group_listview.h, src/ifreechat, src/ifreechat.xml,
+  src/makefile, src/pchatbox.c, src/window.c: update
+
+  * src/config.c, src/config.h, src/ifreechat, src/makefile, src/read_cfg.c,
+  src/read_cfg.h: update
+
+  * src/broadcast.c, src/group_listview.c, src/ifreechat, src/ifreechat.xml,
+  src/listview.c, src/makefile, src/read_cfg.c, src/window.c: update
+
+  * src/emotion_box.c, src/glade/pchatbox.glade, src/ifreechat,
+  src/ifreechat.xml, src/pair.h, src/pchatbox.c, src/treeview.c, src/window.c:
+  update
+
+  * src/ifreechat, src/ifreechat.xml, src/process_msg.c, src/treeview.c: update
+
+  * src/broadcast.c, src/ifreechat, src/ifreechat.c, src/ifreechat.h,
+  src/ifreechat.xml, src/process_msg.c, src/read_cfg.c, src/read_cfg.h,
+  src/window.c: update
+
+  * src/broadcast.c, src/emotion_box.c, src/emotion_box.h, src/ifreechat,
+  src/ifreechat.c, src/ifreechat.xml, src/pchatbox.c, src/process_msg.c,
+  src/treeview.c, src/utils.c: update
+
+2011-02-12  youngtrips <youngtrips@163.com>
+
+  * src/ifreechat, src/pchatbox.c: update
+
+  * src/glade/pchatbox.glade: update
+
+  * src/glade/ui.glade_bak: update
+
+  * src/.group_listview.c.swp: update
+
+  * src/cflags: update
+
+  * src/chatdlg.c, src/chatdlg.h: update
+
+  * src/ifreechat, src/makefile, src/treeview.c, src/treeview.h, src/window.c:
+  update
+
+  * src/group_listview.c, src/ifreechat, src/listview.c, src/makefile,
+  src/window.c: update
+
+  * src/.group_listview.c.swp, src/group_listview.c, src/ifreechat,
+  src/makefile, src/window.c: update
+
+  * ifc/broadcast.c, ifc/cflags, ifc/chatdlg.c, ifc/chatdlg.h, ifc/dlist.h,
+  ifc/emotion_box.c, ifc/encoding.c, ifc/encoding.h, ifc/gchatbox.h,
+  ifc/glade/pchatbox.glade, ifc/glade/ui.glade, ifc/glade/ui.glade_bak,
+  ifc/group.c, ifc/group.h, ifc/gtk_common.h, ifc/ifreechat, ifc/ifreechat.c,
+  ifc/ifreechat.h, ifc/ifreechat.xml, ifc/makefile, ifc/msg.h, ifc/pchatbox.c,
+  ifc/pchatbox.h, ifc/pixmaps/avatar/1.bmp, ifc/pixmaps/avatar/10.bmp,
+  ifc/pixmaps/avatar/11.bmp, ifc/pixmaps/avatar/12.bmp,
+  ifc/pixmaps/avatar/13.bmp, ifc/pixmaps/avatar/14.bmp,
+  ifc/pixmaps/avatar/15.bmp, ifc/pixmaps/avatar/16.bmp,
+  ifc/pixmaps/avatar/17.bmp, ifc/pixmaps/avatar/18.bmp,
+  ifc/pixmaps/avatar/19.bmp, ifc/pixmaps/avatar/2.bmp,
+  ifc/pixmaps/avatar/20.bmp, ifc/pixmaps/avatar/21.bmp,
+  ifc/pixmaps/avatar/22.bmp, ifc/pixmaps/avatar/23.bmp,
+  ifc/pixmaps/avatar/24.bmp, ifc/pixmaps/avatar/25.bmp,
+  ifc/pixmaps/avatar/26.bmp, ifc/pixmaps/avatar/27.bmp,
+  ifc/pixmaps/avatar/28.bmp, ifc/pixmaps/avatar/29.bmp,
+  ifc/pixmaps/avatar/3.bmp, ifc/pixmaps/avatar/30.bmp,
+  ifc/pixmaps/avatar/31.bmp, ifc/pixmaps/avatar/32.bmp,
+  ifc/pixmaps/avatar/33.bmp, ifc/pixmaps/avatar/34.bmp,
+  ifc/pixmaps/avatar/35.bmp, ifc/pixmaps/avatar/36.bmp,
+  ifc/pixmaps/avatar/37.bmp, ifc/pixmaps/avatar/38.bmp,
+  ifc/pixmaps/avatar/39.bmp, ifc/pixmaps/avatar/4.bmp,
+  ifc/pixmaps/avatar/40.bmp, ifc/pixmaps/avatar/41.bmp,
+  ifc/pixmaps/avatar/42.bmp, ifc/pixmaps/avatar/43.bmp,
+  ifc/pixmaps/avatar/44.bmp, ifc/pixmaps/avatar/45.bmp,
+  ifc/pixmaps/avatar/46.bmp, ifc/pixmaps/avatar/47.bmp,
+  ifc/pixmaps/avatar/48.bmp, ifc/pixmaps/avatar/49.bmp,
+  ifc/pixmaps/avatar/5.bmp, ifc/pixmaps/avatar/50.bmp,
+  ifc/pixmaps/avatar/51.bmp, ifc/pixmaps/avatar/52.bmp,
+  ifc/pixmaps/avatar/53.bmp, ifc/pixmaps/avatar/54.bmp,
+  ifc/pixmaps/avatar/55.bmp, ifc/pixmaps/avatar/56.bmp,
+  ifc/pixmaps/avatar/57.bmp, ifc/pixmaps/avatar/58.bmp,
+  ifc/pixmaps/avatar/59.bmp, ifc/pixmaps/avatar/6.bmp,
+  ifc/pixmaps/avatar/60.bmp, ifc/pixmaps/avatar/61.bmp,
+  ifc/pixmaps/avatar/62.bmp, ifc/pixmaps/avatar/63.bmp,
+  ifc/pixmaps/avatar/64.bmp, ifc/pixmaps/avatar/65.bmp,
+  ifc/pixmaps/avatar/66.bmp, ifc/pixmaps/avatar/67.bmp,
+  ifc/pixmaps/avatar/68.bmp, ifc/pixmaps/avatar/69.bmp,
+  ifc/pixmaps/avatar/7.bmp, ifc/pixmaps/avatar/70.bmp,
+  ifc/pixmaps/avatar/71.bmp, ifc/pixmaps/avatar/72.bmp,
+  ifc/pixmaps/avatar/73.bmp, ifc/pixmaps/avatar/74.bmp,
+  ifc/pixmaps/avatar/75.bmp, ifc/pixmaps/avatar/76.bmp,
+  ifc/pixmaps/avatar/77.bmp, ifc/pixmaps/avatar/78.bmp,
+  ifc/pixmaps/avatar/79.bmp, ifc/pixmaps/avatar/8.bmp,
+  ifc/pixmaps/avatar/80.bmp, ifc/pixmaps/avatar/81.bmp,
+  ifc/pixmaps/avatar/82.bmp, ifc/pixmaps/avatar/83.bmp,
+  ifc/pixmaps/avatar/84.bmp, ifc/pixmaps/avatar/85.bmp,
+  ifc/pixmaps/avatar/9.bmp, ifc/pixmaps/avatar/default.png,
+  ifc/pixmaps/faces/1.gif, ifc/pixmaps/faces/10.gif, ifc/pixmaps/faces/11.gif,
+  ifc/pixmaps/faces/12.gif, ifc/pixmaps/faces/13.gif, ifc/pixmaps/faces/14.gif,
+  ifc/pixmaps/faces/15.gif, ifc/pixmaps/faces/16.gif, ifc/pixmaps/faces/17.gif,
+  ifc/pixmaps/faces/18.gif, ifc/pixmaps/faces/19.gif, ifc/pixmaps/faces/2.gif,
+  ifc/pixmaps/faces/20.gif, ifc/pixmaps/faces/21.gif, ifc/pixmaps/faces/22.gif,
+  ifc/pixmaps/faces/23.gif, ifc/pixmaps/faces/24.gif, ifc/pixmaps/faces/25.gif,
+  ifc/pixmaps/faces/26.gif, ifc/pixmaps/faces/27.gif, ifc/pixmaps/faces/28.gif,
+  ifc/pixmaps/faces/29.gif, ifc/pixmaps/faces/3.gif, ifc/pixmaps/faces/30.gif,
+  ifc/pixmaps/faces/31.gif, ifc/pixmaps/faces/32.gif, ifc/pixmaps/faces/33.gif,
+  ifc/pixmaps/faces/34.gif, ifc/pixmaps/faces/35.gif, ifc/pixmaps/faces/36.gif,
+  ifc/pixmaps/faces/37.gif, ifc/pixmaps/faces/38.gif, ifc/pixmaps/faces/39.gif,
+  ifc/pixmaps/faces/4.gif, ifc/pixmaps/faces/40.gif, ifc/pixmaps/faces/41.gif,
+  ifc/pixmaps/faces/42.gif, ifc/pixmaps/faces/43.gif, ifc/pixmaps/faces/44.gif,
+  ifc/pixmaps/faces/45.gif, ifc/pixmaps/faces/46.gif, ifc/pixmaps/faces/47.gif,
+  ifc/pixmaps/faces/48.gif, ifc/pixmaps/faces/49.gif, ifc/pixmaps/faces/5.gif,
+  ifc/pixmaps/faces/50.gif, ifc/pixmaps/faces/51.gif, ifc/pixmaps/faces/52.gif,
+  ifc/pixmaps/faces/53.gif, ifc/pixmaps/faces/54.gif, ifc/pixmaps/faces/55.gif,
+  ifc/pixmaps/faces/56.gif, ifc/pixmaps/faces/57.gif, ifc/pixmaps/faces/58.gif,
+  ifc/pixmaps/faces/59.gif, ifc/pixmaps/faces/6.gif, ifc/pixmaps/faces/60.gif,
+  ifc/pixmaps/faces/61.gif, ifc/pixmaps/faces/62.gif, ifc/pixmaps/faces/63.gif,
+  ifc/pixmaps/faces/64.gif, ifc/pixmaps/faces/65.gif, ifc/pixmaps/faces/66.gif,
+  ifc/pixmaps/faces/67.gif, ifc/pixmaps/faces/68.gif, ifc/pixmaps/faces/69.gif,
+  ifc/pixmaps/faces/7.gif, ifc/pixmaps/faces/70.gif, ifc/pixmaps/faces/71.gif,
+  ifc/pixmaps/faces/72.gif, ifc/pixmaps/faces/73.gif, ifc/pixmaps/faces/74.gif,
+  ifc/pixmaps/faces/75.gif, ifc/pixmaps/faces/76.gif, ifc/pixmaps/faces/77.gif,
+  ifc/pixmaps/faces/78.gif, ifc/pixmaps/faces/79.gif, ifc/pixmaps/faces/8.gif,
+  ifc/pixmaps/faces/80.gif, ifc/pixmaps/faces/81.gif, ifc/pixmaps/faces/82.gif,
+  ifc/pixmaps/faces/83.gif, ifc/pixmaps/faces/84.gif, ifc/pixmaps/faces/85.gif,
+  ifc/pixmaps/faces/86.gif, ifc/pixmaps/faces/87.gif, ifc/pixmaps/faces/88.gif,
+  ifc/pixmaps/faces/89.gif, ifc/pixmaps/faces/9.gif, ifc/pixmaps/faces/90.gif,
+  ifc/pixmaps/faces/91.gif, ifc/pixmaps/faces/92.gif, ifc/pixmaps/faces/93.gif,
+  ifc/pixmaps/faces/94.gif, ifc/pixmaps/faces/95.gif, ifc/pixmaps/faces/96.gif,
+  ifc/pixmaps/icon.png, ifc/pixmaps/online.png, ifc/pixmaps/smilie.png,
+  ifc/pixmaps/test.png, ifc/process_msg.c, ifc/process_msg.h, ifc/read_cfg.c,
+  ifc/read_cfg.h, ifc/socket.h, ifc/test.c, ifc/udp_socket.c, ifc/udp_socket.h,
+  ifc/user.c, ifc/user.h, ifc/utils.c, ifc/utils.h, ifc/window.c, ifc/window.h,
+  src/broadcast.c, src/cflags, src/chatdlg.c, src/chatdlg.h, src/dlist.h,
+  src/emotion_box.c, src/encoding.c, src/encoding.h, src/gchatbox.h,
+  src/glade/pchatbox.glade, src/glade/ui.glade, src/glade/ui.glade_bak,
+  src/group.c, src/group.h, src/gtk_common.h, src/ifreechat, src/ifreechat.c,
+  src/ifreechat.h, src/ifreechat.xml, src/makefile, src/msg.h, src/pchatbox.c,
+  src/pchatbox.h, src/pixmaps/avatar/1.bmp, src/pixmaps/avatar/10.bmp,
+  src/pixmaps/avatar/11.bmp, src/pixmaps/avatar/12.bmp,
+  src/pixmaps/avatar/13.bmp, src/pixmaps/avatar/14.bmp,
+  src/pixmaps/avatar/15.bmp, src/pixmaps/avatar/16.bmp,
+  src/pixmaps/avatar/17.bmp, src/pixmaps/avatar/18.bmp,
+  src/pixmaps/avatar/19.bmp, src/pixmaps/avatar/2.bmp,
+  src/pixmaps/avatar/20.bmp, src/pixmaps/avatar/21.bmp,
+  src/pixmaps/avatar/22.bmp, src/pixmaps/avatar/23.bmp,
+  src/pixmaps/avatar/24.bmp, src/pixmaps/avatar/25.bmp,
+  src/pixmaps/avatar/26.bmp, src/pixmaps/avatar/27.bmp,
+  src/pixmaps/avatar/28.bmp, src/pixmaps/avatar/29.bmp,
+  src/pixmaps/avatar/3.bmp, src/pixmaps/avatar/30.bmp,
+  src/pixmaps/avatar/31.bmp, src/pixmaps/avatar/32.bmp,
+  src/pixmaps/avatar/33.bmp, src/pixmaps/avatar/34.bmp,
+  src/pixmaps/avatar/35.bmp, src/pixmaps/avatar/36.bmp,
+  src/pixmaps/avatar/37.bmp, src/pixmaps/avatar/38.bmp,
+  src/pixmaps/avatar/39.bmp, src/pixmaps/avatar/4.bmp,
+  src/pixmaps/avatar/40.bmp, src/pixmaps/avatar/41.bmp,
+  src/pixmaps/avatar/42.bmp, src/pixmaps/avatar/43.bmp,
+  src/pixmaps/avatar/44.bmp, src/pixmaps/avatar/45.bmp,
+  src/pixmaps/avatar/46.bmp, src/pixmaps/avatar/47.bmp,
+  src/pixmaps/avatar/48.bmp, src/pixmaps/avatar/49.bmp,
+  src/pixmaps/avatar/5.bmp, src/pixmaps/avatar/50.bmp,
+  src/pixmaps/avatar/51.bmp, src/pixmaps/avatar/52.bmp,
+  src/pixmaps/avatar/53.bmp, src/pixmaps/avatar/54.bmp,
+  src/pixmaps/avatar/55.bmp, src/pixmaps/avatar/56.bmp,
+  src/pixmaps/avatar/57.bmp, src/pixmaps/avatar/58.bmp,
+  src/pixmaps/avatar/59.bmp, src/pixmaps/avatar/6.bmp,
+  src/pixmaps/avatar/60.bmp, src/pixmaps/avatar/61.bmp,
+  src/pixmaps/avatar/62.bmp, src/pixmaps/avatar/63.bmp,
+  src/pixmaps/avatar/64.bmp, src/pixmaps/avatar/65.bmp,
+  src/pixmaps/avatar/66.bmp, src/pixmaps/avatar/67.bmp,
+  src/pixmaps/avatar/68.bmp, src/pixmaps/avatar/69.bmp,
+  src/pixmaps/avatar/7.bmp, src/pixmaps/avatar/70.bmp,
+  src/pixmaps/avatar/71.bmp, src/pixmaps/avatar/72.bmp,
+  src/pixmaps/avatar/73.bmp, src/pixmaps/avatar/74.bmp,
+  src/pixmaps/avatar/75.bmp, src/pixmaps/avatar/76.bmp,
+  src/pixmaps/avatar/77.bmp, src/pixmaps/avatar/78.bmp,
+  src/pixmaps/avatar/79.bmp, src/pixmaps/avatar/8.bmp,
+  src/pixmaps/avatar/80.bmp, src/pixmaps/avatar/81.bmp,
+  src/pixmaps/avatar/82.bmp, src/pixmaps/avatar/83.bmp,
+  src/pixmaps/avatar/84.bmp, src/pixmaps/avatar/85.bmp,
+  src/pixmaps/avatar/9.bmp, src/pixmaps/avatar/default.png,
+  src/pixmaps/faces/1.gif, src/pixmaps/faces/10.gif, src/pixmaps/faces/11.gif,
+  src/pixmaps/faces/12.gif, src/pixmaps/faces/13.gif, src/pixmaps/faces/14.gif,
+  src/pixmaps/faces/15.gif, src/pixmaps/faces/16.gif, src/pixmaps/faces/17.gif,
+  src/pixmaps/faces/18.gif, src/pixmaps/faces/19.gif, src/pixmaps/faces/2.gif,
+  src/pixmaps/faces/20.gif, src/pixmaps/faces/21.gif, src/pixmaps/faces/22.gif,
+  src/pixmaps/faces/23.gif, src/pixmaps/faces/24.gif, src/pixmaps/faces/25.gif,
+  src/pixmaps/faces/26.gif, src/pixmaps/faces/27.gif, src/pixmaps/faces/28.gif,
+  src/pixmaps/faces/29.gif, src/pixmaps/faces/3.gif, src/pixmaps/faces/30.gif,
+  src/pixmaps/faces/31.gif, src/pixmaps/faces/32.gif, src/pixmaps/faces/33.gif,
+  src/pixmaps/faces/34.gif, src/pixmaps/faces/35.gif, src/pixmaps/faces/36.gif,
+  src/pixmaps/faces/37.gif, src/pixmaps/faces/38.gif, src/pixmaps/faces/39.gif,
+  src/pixmaps/faces/4.gif, src/pixmaps/faces/40.gif, src/pixmaps/faces/41.gif,
+  src/pixmaps/faces/42.gif, src/pixmaps/faces/43.gif, src/pixmaps/faces/44.gif,
+  src/pixmaps/faces/45.gif, src/pixmaps/faces/46.gif, src/pixmaps/faces/47.gif,
+  src/pixmaps/faces/48.gif, src/pixmaps/faces/49.gif, src/pixmaps/faces/5.gif,
+  src/pixmaps/faces/50.gif, src/pixmaps/faces/51.gif, src/pixmaps/faces/52.gif,
+  src/pixmaps/faces/53.gif, src/pixmaps/faces/54.gif, src/pixmaps/faces/55.gif,
+  src/pixmaps/faces/56.gif, src/pixmaps/faces/57.gif, src/pixmaps/faces/58.gif,
+  src/pixmaps/faces/59.gif, src/pixmaps/faces/6.gif, src/pixmaps/faces/60.gif,
+  src/pixmaps/faces/61.gif, src/pixmaps/faces/62.gif, src/pixmaps/faces/63.gif,
+  src/pixmaps/faces/64.gif, src/pixmaps/faces/65.gif, src/pixmaps/faces/66.gif,
+  src/pixmaps/faces/67.gif, src/pixmaps/faces/68.gif, src/pixmaps/faces/69.gif,
+  src/pixmaps/faces/7.gif, src/pixmaps/faces/70.gif, src/pixmaps/faces/71.gif,
+  src/pixmaps/faces/72.gif, src/pixmaps/faces/73.gif, src/pixmaps/faces/74.gif,
+  src/pixmaps/faces/75.gif, src/pixmaps/faces/76.gif, src/pixmaps/faces/77.gif,
+  src/pixmaps/faces/78.gif, src/pixmaps/faces/79.gif, src/pixmaps/faces/8.gif,
+  src/pixmaps/faces/80.gif, src/pixmaps/faces/81.gif, src/pixmaps/faces/82.gif,
+  src/pixmaps/faces/83.gif, src/pixmaps/faces/84.gif, src/pixmaps/faces/85.gif,
+  src/pixmaps/faces/86.gif, src/pixmaps/faces/87.gif, src/pixmaps/faces/88.gif,
+  src/pixmaps/faces/89.gif, src/pixmaps/faces/9.gif, src/pixmaps/faces/90.gif,
+  src/pixmaps/faces/91.gif, src/pixmaps/faces/92.gif, src/pixmaps/faces/93.gif,
+  src/pixmaps/faces/94.gif, src/pixmaps/faces/95.gif, src/pixmaps/faces/96.gif,
+  src/pixmaps/icon.png, src/pixmaps/online.png, src/pixmaps/smilie.png,
+  src/pixmaps/test.png, src/process_msg.c, src/process_msg.h, src/read_cfg.c,
+  src/read_cfg.h, src/socket.h, src/test.c, src/udp_socket.c, src/udp_socket.h,
+  src/user.c, src/user.h, src/utils.c, src/utils.h, src/window.c, src/window.h:
+  update
+
+  * ifc/glade/peerchat_dlg.glade: update
+
+  * Makefile, src/.chatdlg.c.swp, src/.recv_msg.c.swp, src/Makefile,
+  src/chatdlg.c, src/chatdlg.h, src/dlist.h, src/encoding.c, src/encoding.h,
+  src/glade/peerchat_dlg.glade, src/glade/ui.glade, src/global.h, src/group.c,
+  src/group.h, src/gtk_common.h, src/ifreechat, src/ifreechat.c,
+  src/ifreechat.h, src/lib/Makefile, src/lib/libifreechat.a, src/lib/msg.h,
+  src/lib/queue.c, src/lib/queue.h, src/lib/socket.h, src/lib/udp_socket.c,
+  src/lib/udp_socket.h, src/lib/utils.c, src/lib/utils.h, src/main_window.c,
+  src/main_window.h, src/pixmaps/avatar/1.bmp, src/pixmaps/avatar/10.bmp,
+  src/pixmaps/avatar/11.bmp, src/pixmaps/avatar/12.bmp,
+  src/pixmaps/avatar/13.bmp, src/pixmaps/avatar/14.bmp,
+  src/pixmaps/avatar/15.bmp, src/pixmaps/avatar/16.bmp,
+  src/pixmaps/avatar/17.bmp, src/pixmaps/avatar/18.bmp,
+  src/pixmaps/avatar/19.bmp, src/pixmaps/avatar/2.bmp,
+  src/pixmaps/avatar/20.bmp, src/pixmaps/avatar/21.bmp,
+  src/pixmaps/avatar/22.bmp, src/pixmaps/avatar/23.bmp,
+  src/pixmaps/avatar/24.bmp, src/pixmaps/avatar/25.bmp,
+  src/pixmaps/avatar/26.bmp, src/pixmaps/avatar/27.bmp,
+  src/pixmaps/avatar/28.bmp, src/pixmaps/avatar/29.bmp,
+  src/pixmaps/avatar/3.bmp, src/pixmaps/avatar/30.bmp,
+  src/pixmaps/avatar/31.bmp, src/pixmaps/avatar/32.bmp,
+  src/pixmaps/avatar/33.bmp, src/pixmaps/avatar/34.bmp,
+  src/pixmaps/avatar/35.bmp, src/pixmaps/avatar/36.bmp,
+  src/pixmaps/avatar/37.bmp, src/pixmaps/avatar/38.bmp,
+  src/pixmaps/avatar/39.bmp, src/pixmaps/avatar/4.bmp,
+  src/pixmaps/avatar/40.bmp, src/pixmaps/avatar/41.bmp,
+  src/pixmaps/avatar/42.bmp, src/pixmaps/avatar/43.bmp,
+  src/pixmaps/avatar/44.bmp, src/pixmaps/avatar/45.bmp,
+  src/pixmaps/avatar/46.bmp, src/pixmaps/avatar/47.bmp,
+  src/pixmaps/avatar/48.bmp, src/pixmaps/avatar/49.bmp,
+  src/pixmaps/avatar/5.bmp, src/pixmaps/avatar/50.bmp,
+  src/pixmaps/avatar/51.bmp, src/pixmaps/avatar/52.bmp,
+  src/pixmaps/avatar/53.bmp, src/pixmaps/avatar/54.bmp,
+  src/pixmaps/avatar/55.bmp, src/pixmaps/avatar/56.bmp,
+  src/pixmaps/avatar/57.bmp, src/pixmaps/avatar/58.bmp,
+  src/pixmaps/avatar/59.bmp, src/pixmaps/avatar/6.bmp,
+  src/pixmaps/avatar/60.bmp, src/pixmaps/avatar/61.bmp,
+  src/pixmaps/avatar/62.bmp, src/pixmaps/avatar/63.bmp,
+  src/pixmaps/avatar/64.bmp, src/pixmaps/avatar/65.bmp,
+  src/pixmaps/avatar/66.bmp, src/pixmaps/avatar/67.bmp,
+  src/pixmaps/avatar/68.bmp, src/pixmaps/avatar/69.bmp,
+  src/pixmaps/avatar/7.bmp, src/pixmaps/avatar/70.bmp,
+  src/pixmaps/avatar/71.bmp, src/pixmaps/avatar/72.bmp,
+  src/pixmaps/avatar/73.bmp, src/pixmaps/avatar/74.bmp,
+  src/pixmaps/avatar/75.bmp, src/pixmaps/avatar/76.bmp,
+  src/pixmaps/avatar/77.bmp, src/pixmaps/avatar/78.bmp,
+  src/pixmaps/avatar/79.bmp, src/pixmaps/avatar/8.bmp,
+  src/pixmaps/avatar/80.bmp, src/pixmaps/avatar/81.bmp,
+  src/pixmaps/avatar/82.bmp, src/pixmaps/avatar/83.bmp,
+  src/pixmaps/avatar/84.bmp, src/pixmaps/avatar/85.bmp,
+  src/pixmaps/avatar/9.bmp, src/pixmaps/avatar/default.png,
+  src/pixmaps/icon.png, src/pixmaps/online.png, src/pixmaps/pic1/1.jpg,
+  src/pixmaps/pic1/10.jpg, src/pixmaps/pic1/11.jpg, src/pixmaps/pic1/12.jpg,
+  src/pixmaps/pic1/13.jpg, src/pixmaps/pic1/14.jpg, src/pixmaps/pic1/15.jpg,
+  src/pixmaps/pic1/16.jpg, src/pixmaps/pic1/17.jpg, src/pixmaps/pic1/18.jpg,
+  src/pixmaps/pic1/19.jpg, src/pixmaps/pic1/2.jpg, src/pixmaps/pic1/20.jpg,
+  src/pixmaps/pic1/21.jpg, src/pixmaps/pic1/22.jpg, src/pixmaps/pic1/23.jpg,
+  src/pixmaps/pic1/24.jpg, src/pixmaps/pic1/25.jpg, src/pixmaps/pic1/26.jpg,
+  src/pixmaps/pic1/27.jpg, src/pixmaps/pic1/28.jpg, src/pixmaps/pic1/29.jpg,
+  src/pixmaps/pic1/3.jpg, src/pixmaps/pic1/30.jpg, src/pixmaps/pic1/31.jpg,
+  src/pixmaps/pic1/32.jpg, src/pixmaps/pic1/33.jpg, src/pixmaps/pic1/34.jpg,
+  src/pixmaps/pic1/35.jpg, src/pixmaps/pic1/36.jpg, src/pixmaps/pic1/37.jpg,
+  src/pixmaps/pic1/38.jpg, src/pixmaps/pic1/39.jpg, src/pixmaps/pic1/4.jpg,
+  src/pixmaps/pic1/40.jpg, src/pixmaps/pic1/41.jpg, src/pixmaps/pic1/42.jpg,
+  src/pixmaps/pic1/43.jpg, src/pixmaps/pic1/5.jpg, src/pixmaps/pic1/6.jpg,
+  src/pixmaps/pic1/7.jpg, src/pixmaps/pic1/8.jpg, src/pixmaps/pic1/9.jpg,
+  src/pixmaps/pic1/Thumbs.db, src/pixmaps/smilie.png, src/pixmaps/test.png,
+  src/recv_msg.c, src/recv_msg.h, src/user, src/user.c, src/user.h, test/1.png,
+  test/2.png, test/chat.glade, test/faces/1.gif, test/faces/10.gif,
+  test/faces/11.gif, test/faces/12.gif, test/faces/13.gif, test/faces/14.gif,
+  test/faces/15.gif, test/faces/16.gif, test/faces/17.gif, test/faces/18.gif,
+  test/faces/19.gif, test/faces/2.gif, test/faces/20.gif, test/faces/21.gif,
+  test/faces/22.gif, test/faces/23.gif, test/faces/24.gif, test/faces/25.gif,
+  test/faces/26.gif, test/faces/27.gif, test/faces/28.gif, test/faces/29.gif,
+  test/faces/3.gif, test/faces/30.gif, test/faces/31.gif, test/faces/32.gif,
+  test/faces/33.gif, test/faces/34.gif, test/faces/35.gif, test/faces/36.gif,
+  test/faces/37.gif, test/faces/38.gif, test/faces/39.gif, test/faces/4.gif,
+  test/faces/40.gif, test/faces/41.gif, test/faces/42.gif, test/faces/43.gif,
+  test/faces/44.gif, test/faces/45.gif, test/faces/46.gif, test/faces/47.gif,
+  test/faces/48.gif, test/faces/49.gif, test/faces/5.gif, test/faces/50.gif,
+  test/faces/51.gif, test/faces/52.gif, test/faces/53.gif, test/faces/54.gif,
+  test/faces/55.gif, test/faces/56.gif, test/faces/57.gif, test/faces/58.gif,
+  test/faces/59.gif, test/faces/6.gif, test/faces/60.gif, test/faces/61.gif,
+  test/faces/62.gif, test/faces/63.gif, test/faces/64.gif, test/faces/65.gif,
+  test/faces/66.gif, test/faces/67.gif, test/faces/68.gif, test/faces/69.gif,
+  test/faces/7.gif, test/faces/70.gif, test/faces/71.gif, test/faces/72.gif,
+  test/faces/73.gif, test/faces/74.gif, test/faces/75.gif, test/faces/76.gif,
+  test/faces/77.gif, test/faces/78.gif, test/faces/79.gif, test/faces/8.gif,
+  test/faces/80.gif, test/faces/81.gif, test/faces/82.gif, test/faces/83.gif,
+  test/faces/84.gif, test/faces/85.gif, test/faces/86.gif, test/faces/87.gif,
+  test/faces/88.gif, test/faces/89.gif, test/faces/9.gif, test/faces/90.gif,
+  test/faces/91.gif, test/faces/92.gif, test/faces/93.gif, test/faces/94.gif,
+  test/faces/95.gif, test/faces/96.gif, test/gtk_common.h, test/makefile,
+  test/smilie.png, test/test, test/test.c, test/trayicon, test/trayicon.c:
+  update
+
+  * ifc/ifreechat, ifc/ifreechat.xml, ifc/msg.h, ifc/process_msg.c,
+  ifc/window.c: update
+
+  * ifc/ifreechat, ifc/ifreechat.xml, ifc/process_msg.c: update
+
+  * ifc/emotion_box.c, ifc/glade/pchatbox.glade, ifc/ifreechat, ifc/makefile,
+  ifc/pchatbox.c, ifc/pchatbox.h: add emotion
+
+  * ifc/process_msg: update
+
+  * ifc/ifreechat, ifc/process_msg.c: update
+
+  * ifc/broadcast.c, ifc/ifreechat, ifc/ifreechat.h, ifc/ifreechat.xml,
+  ifc/pchatbox.c, ifc/process_msg.c, ifc/read_cfg.c, ifc/window.c: update
+
+  * ifc/ifreechat, ifc/ifreechat.c, ifc/ifreechat.h, ifc/ifreechat.xml,
+  ifc/msg.h, ifc/pchatbox.c, ifc/process_msg.c, ifc/window.c: update
+
+  * ifc/ifreechat, ifc/ifreechat.xml, ifc/makefile, ifc/pchatbox.c,
+  ifc/pixmaps/faces/1.gif, ifc/pixmaps/faces/10.gif, ifc/pixmaps/faces/11.gif,
+  ifc/pixmaps/faces/12.gif, ifc/pixmaps/faces/13.gif, ifc/pixmaps/faces/14.gif,
+  ifc/pixmaps/faces/15.gif, ifc/pixmaps/faces/16.gif, ifc/pixmaps/faces/17.gif,
+  ifc/pixmaps/faces/18.gif, ifc/pixmaps/faces/19.gif, ifc/pixmaps/faces/2.gif,
+  ifc/pixmaps/faces/20.gif, ifc/pixmaps/faces/21.gif, ifc/pixmaps/faces/22.gif,
+  ifc/pixmaps/faces/23.gif, ifc/pixmaps/faces/24.gif, ifc/pixmaps/faces/25.gif,
+  ifc/pixmaps/faces/26.gif, ifc/pixmaps/faces/27.gif, ifc/pixmaps/faces/28.gif,
+  ifc/pixmaps/faces/29.gif, ifc/pixmaps/faces/3.gif, ifc/pixmaps/faces/30.gif,
+  ifc/pixmaps/faces/31.gif, ifc/pixmaps/faces/32.gif, ifc/pixmaps/faces/33.gif,
+  ifc/pixmaps/faces/34.gif, ifc/pixmaps/faces/35.gif, ifc/pixmaps/faces/36.gif,
+  ifc/pixmaps/faces/37.gif, ifc/pixmaps/faces/38.gif, ifc/pixmaps/faces/39.gif,
+  ifc/pixmaps/faces/4.gif, ifc/pixmaps/faces/40.gif, ifc/pixmaps/faces/41.gif,
+  ifc/pixmaps/faces/42.gif, ifc/pixmaps/faces/43.gif, ifc/pixmaps/faces/44.gif,
+  ifc/pixmaps/faces/45.gif, ifc/pixmaps/faces/46.gif, ifc/pixmaps/faces/47.gif,
+  ifc/pixmaps/faces/48.gif, ifc/pixmaps/faces/49.gif, ifc/pixmaps/faces/5.gif,
+  ifc/pixmaps/faces/50.gif, ifc/pixmaps/faces/51.gif, ifc/pixmaps/faces/52.gif,
+  ifc/pixmaps/faces/53.gif, ifc/pixmaps/faces/54.gif, ifc/pixmaps/faces/55.gif,
+  ifc/pixmaps/faces/56.gif, ifc/pixmaps/faces/57.gif, ifc/pixmaps/faces/58.gif,
+  ifc/pixmaps/faces/59.gif, ifc/pixmaps/faces/6.gif, ifc/pixmaps/faces/60.gif,
+  ifc/pixmaps/faces/61.gif, ifc/pixmaps/faces/62.gif, ifc/pixmaps/faces/63.gif,
+  ifc/pixmaps/faces/64.gif, ifc/pixmaps/faces/65.gif, ifc/pixmaps/faces/66.gif,
+  ifc/pixmaps/faces/67.gif, ifc/pixmaps/faces/68.gif, ifc/pixmaps/faces/69.gif,
+  ifc/pixmaps/faces/7.gif, ifc/pixmaps/faces/70.gif, ifc/pixmaps/faces/71.gif,
+  ifc/pixmaps/faces/72.gif, ifc/pixmaps/faces/73.gif, ifc/pixmaps/faces/74.gif,
+  ifc/pixmaps/faces/75.gif, ifc/pixmaps/faces/76.gif, ifc/pixmaps/faces/77.gif,
+  ifc/pixmaps/faces/78.gif, ifc/pixmaps/faces/79.gif, ifc/pixmaps/faces/8.gif,
+  ifc/pixmaps/faces/80.gif, ifc/pixmaps/faces/81.gif, ifc/pixmaps/faces/82.gif,
+  ifc/pixmaps/faces/83.gif, ifc/pixmaps/faces/84.gif, ifc/pixmaps/faces/85.gif,
+  ifc/pixmaps/faces/86.gif, ifc/pixmaps/faces/87.gif, ifc/pixmaps/faces/88.gif,
+  ifc/pixmaps/faces/89.gif, ifc/pixmaps/faces/9.gif, ifc/pixmaps/faces/90.gif,
+  ifc/pixmaps/faces/91.gif, ifc/pixmaps/faces/92.gif, ifc/pixmaps/faces/93.gif,
+  ifc/pixmaps/faces/94.gif, ifc/pixmaps/faces/95.gif, ifc/pixmaps/faces/96.gif,
+  ifc/process_msg.c, ifc/udp_socket.c: update
+
+2011-02-11  youngtrips <youngtrips@163.com>
+
+  * ifc/.makefile.swp, ifc/.pchatbox.c.swp, ifc/.process_msg.c.swp,
+  ifc/.process_msg.h.swp, ifc/.test.c.swp, ifc/.udp_socket.c.swp,
+  ifc/.window.c.swp, ifc/.window.h.swp: update
+
+  * ifc/process_msg.c, ifc/window.c: update
+
+  * ifc/process_msg.c: update
+
+  * ifc/.process_msg.c.swp, ifc/process_msg.c: update
+
+  * ifc/broadcast.o, ifc/encoding.o, ifc/group.o, ifc/ifreechat.o,
+  ifc/pchatbox.o, ifc/process_msg.o, ifc/read_cfg.o, ifc/udp_socket.o,
+  ifc/user.o, ifc/utils.o, ifc/window.o: update
+
+  * ifc/.process_msg.c.swp, ifc/broadcast.o, ifc/encoding.o,
+  ifc/glade/pchatbox.glade, ifc/group.o, ifc/ifreechat, ifc/ifreechat.o,
+  ifc/pchatbox.c, ifc/pchatbox.o, ifc/process_msg.c, ifc/process_msg.o,
+  ifc/read_cfg.o, ifc/udp_socket.c, ifc/udp_socket.o, ifc/user.o, ifc/utils.o,
+  ifc/window.c, ifc/window.o: update
+
+  * test/1.png, test/2.png, test/trayicon, test/trayicon.c: update
+
+  * ifc/window.h: update
+
+  * ifc/broadcast.c, ifc/ifreechat.xml, ifc/process_msg.c: update
+
+  * ifc/msg.h, ifc/process_msg.c: update
+
+  * ifc/.process_msg.c.swp, ifc/aa, ifc/process_msg.c: update
+
+  * ifc/.process_msg.c.swp, ifc/process_msg.c: update
+
+  * ifc/process_msg.h: update
+
+  * ifc/ifreechat.c, ifc/makefile, ifc/process_msg.c, ifc/udp_socket.c: update
+
+  * ifc/.process_msg.h.swp, ifc/.udp_socket.c.swp, ifc/.window.c.swp,
+  ifc/broadcast.c, ifc/glade/ui.glade, ifc/ifreechat.xml, ifc/makefile,
+  ifc/msg.h, ifc/process_msg, ifc/process_msg.c, ifc/process_msg.h,
+  ifc/udp_socket.c, ifc/window.c, ifc/window.h: update
+
+  * ifc/test.db: update
+
+  * ifc/broadcast.c, ifc/glade/ui.glade_bak, ifc/ifreechat.c,
+  ifc/ifreechat.xml, ifc/read_cfg.c, ifc/udp_socket.c, ifc/udp_socket.h,
+  ifc/window.c: update
+
+  * ifc/.broadcast.c.swp, ifc/.ifreechat.c.swp, ifc/.ifreechat.h.swp,
+  ifc/.read_cfg.c.swp, ifc/.window.c.swp, ifc/encoding.c, ifc/encoding.h,
+  ifc/ifreechat.h, ifc/ifreechat.xml, ifc/read_cfg.c, ifc/test.db: update
+
+  * ifc/aa, ifc/process_msg.h: update
+
+2011-02-10  youngtrips <youngtrips@163.com>
+
+  * ifc/process_msg.c, ifc/process_msg.h: update
+
+  * ifc/makefile: update
+
+  * ifc/.broadcast.c.swp, ifc/.makefile.swp, ifc/broadcast.c, ifc/ifreechat.c,
+  ifc/ifreechat.h, ifc/ifreechat.xml, ifc/makefile, ifc/msg.h, ifc/socket.h,
+  ifc/udp_socket.c, ifc/udp_socket.h, ifc/utils.c, ifc/utils.h, ifc/window.c:
+  update
+
+  * ifc/.ifreechat.c.swp, ifc/.ifreechat.h.swp, ifc/.makefile.swp,
+  ifc/.read_cfg.c.swp, ifc/.test.c.swp, ifc/.window.c.swp, ifc/group.c,
+  ifc/ifc.sql, ifc/ifreechat.c, ifc/ifreechat.h, ifc/ifreechat.xml,
+  ifc/makefile, ifc/read_cfg.c, ifc/read_cfg.h, ifc/test.c, ifc/window.c:
+  update
+
+  * ifc/ifc.sql: update
+
+  * ifc/.pchatbox.c.swp, ifc/glade/pchatbox.glade, ifc/ifreechat,
+  ifc/pchatbox.c, ifc/pchatbox.o: update
+
+  * ifc/.ifreechat.c.swp, ifc/chatdlg.c, ifc/chatdlg.h,
+  ifc/glade/pchatbox.glade, ifc/ifreechat, ifc/ifreechat.c, ifc/ifreechat.h,
+  ifc/makefile, ifc/pchatbox.c, ifc/pchatbox.h, ifc/pchatbox.o, ifc/window.c:
+  update
+
+  * ifc/.ifreechat.c.swp, ifc/cflags, ifc/gchatbox.h, ifc/ifreechat,
+  ifc/ifreechat.c, ifc/ifreechat.h, ifc/makefile, ifc/pchatbox.h, ifc/user.c,
+  ifc/window.c, ifc/window.h: update
+
+  * ifc/.window.h.swp, ifc/glade/peerchat_dlg.glade, ifc/glade/ui.glade,
+  ifc/pixmaps/avatar/1.bmp, ifc/pixmaps/avatar/10.bmp,
+  ifc/pixmaps/avatar/11.bmp, ifc/pixmaps/avatar/12.bmp,
+  ifc/pixmaps/avatar/13.bmp, ifc/pixmaps/avatar/14.bmp,
+  ifc/pixmaps/avatar/15.bmp, ifc/pixmaps/avatar/16.bmp,
+  ifc/pixmaps/avatar/17.bmp, ifc/pixmaps/avatar/18.bmp,
+  ifc/pixmaps/avatar/19.bmp, ifc/pixmaps/avatar/2.bmp,
+  ifc/pixmaps/avatar/20.bmp, ifc/pixmaps/avatar/21.bmp,
+  ifc/pixmaps/avatar/22.bmp, ifc/pixmaps/avatar/23.bmp,
+  ifc/pixmaps/avatar/24.bmp, ifc/pixmaps/avatar/25.bmp,
+  ifc/pixmaps/avatar/26.bmp, ifc/pixmaps/avatar/27.bmp,
+  ifc/pixmaps/avatar/28.bmp, ifc/pixmaps/avatar/29.bmp,
+  ifc/pixmaps/avatar/3.bmp, ifc/pixmaps/avatar/30.bmp,
+  ifc/pixmaps/avatar/31.bmp, ifc/pixmaps/avatar/32.bmp,
+  ifc/pixmaps/avatar/33.bmp, ifc/pixmaps/avatar/34.bmp,
+  ifc/pixmaps/avatar/35.bmp, ifc/pixmaps/avatar/36.bmp,
+  ifc/pixmaps/avatar/37.bmp, ifc/pixmaps/avatar/38.bmp,
+  ifc/pixmaps/avatar/39.bmp, ifc/pixmaps/avatar/4.bmp,
+  ifc/pixmaps/avatar/40.bmp, ifc/pixmaps/avatar/41.bmp,
+  ifc/pixmaps/avatar/42.bmp, ifc/pixmaps/avatar/43.bmp,
+  ifc/pixmaps/avatar/44.bmp, ifc/pixmaps/avatar/45.bmp,
+  ifc/pixmaps/avatar/46.bmp, ifc/pixmaps/avatar/47.bmp,
+  ifc/pixmaps/avatar/48.bmp, ifc/pixmaps/avatar/49.bmp,
+  ifc/pixmaps/avatar/5.bmp, ifc/pixmaps/avatar/50.bmp,
+  ifc/pixmaps/avatar/51.bmp, ifc/pixmaps/avatar/52.bmp,
+  ifc/pixmaps/avatar/53.bmp, ifc/pixmaps/avatar/54.bmp,
+  ifc/pixmaps/avatar/55.bmp, ifc/pixmaps/avatar/56.bmp,
+  ifc/pixmaps/avatar/57.bmp, ifc/pixmaps/avatar/58.bmp,
+  ifc/pixmaps/avatar/59.bmp, ifc/pixmaps/avatar/6.bmp,
+  ifc/pixmaps/avatar/60.bmp, ifc/pixmaps/avatar/61.bmp,
+  ifc/pixmaps/avatar/62.bmp, ifc/pixmaps/avatar/63.bmp,
+  ifc/pixmaps/avatar/64.bmp, ifc/pixmaps/avatar/65.bmp,
+  ifc/pixmaps/avatar/66.bmp, ifc/pixmaps/avatar/67.bmp,
+  ifc/pixmaps/avatar/68.bmp, ifc/pixmaps/avatar/69.bmp,
+  ifc/pixmaps/avatar/7.bmp, ifc/pixmaps/avatar/70.bmp,
+  ifc/pixmaps/avatar/71.bmp, ifc/pixmaps/avatar/72.bmp,
+  ifc/pixmaps/avatar/73.bmp, ifc/pixmaps/avatar/74.bmp,
+  ifc/pixmaps/avatar/75.bmp, ifc/pixmaps/avatar/76.bmp,
+  ifc/pixmaps/avatar/77.bmp, ifc/pixmaps/avatar/78.bmp,
+  ifc/pixmaps/avatar/79.bmp, ifc/pixmaps/avatar/8.bmp,
+  ifc/pixmaps/avatar/80.bmp, ifc/pixmaps/avatar/81.bmp,
+  ifc/pixmaps/avatar/82.bmp, ifc/pixmaps/avatar/83.bmp,
+  ifc/pixmaps/avatar/84.bmp, ifc/pixmaps/avatar/85.bmp,
+  ifc/pixmaps/avatar/9.bmp, ifc/pixmaps/avatar/default.png,
+  ifc/pixmaps/icon.png, ifc/pixmaps/online.png, ifc/pixmaps/smilie.png,
+  ifc/pixmaps/test.png, ifc/window.c, ifc/window.h: update
+
+  * ifc/group.c, ifc/group.h, ifc/ifreechat.h, ifc/user.c, ifc/user.h,
+  ifc/window.h: update
+
+  * src/chatdlg.o, src/encoding.o, src/group.o, src/ifreechat.o,
+  src/lib/queue.o, src/lib/udp_socket.o, src/lib/utils.o, src/main_window.o,
+  src/recv_msg.o, src/user.o: update
+
+  * ifc/dlist.h, ifc/gchatbox.h, ifc/group.h, ifc/gtk_common.h,
+  ifc/ifreechat.h, ifc/pchatbox.h, ifc/udp_socket.h, ifc/user.h, ifc/window.h,
+  src/chatdlg.o, src/encoding.o, src/group.o, src/ifreechat, src/ifreechat.o,
+  src/lib/libifreechat.a, src/lib/queue.o, src/lib/udp_socket.o,
+  src/lib/utils.o, src/main_window.o, src/recv_msg.o, src/user.o, test/test,
+  test/test.c: new branche
+
+2011-01-30  youngtrips <youngtrips@163.com>
+
+  * src/chatdlg.c, src/group.c, src/main_window.c, src/user, src/user.c,
+  src/user.h, test/chat.glade, test/faces/1.gif, test/faces/10.gif,
+  test/faces/11.gif, test/faces/12.gif, test/faces/13.gif, test/faces/14.gif,
+  test/faces/15.gif, test/faces/16.gif, test/faces/17.gif, test/faces/18.gif,
+  test/faces/19.gif, test/faces/2.gif, test/faces/20.gif, test/faces/21.gif,
+  test/faces/22.gif, test/faces/23.gif, test/faces/24.gif, test/faces/25.gif,
+  test/faces/26.gif, test/faces/27.gif, test/faces/28.gif, test/faces/29.gif,
+  test/faces/3.gif, test/faces/30.gif, test/faces/31.gif, test/faces/32.gif,
+  test/faces/33.gif, test/faces/34.gif, test/faces/35.gif, test/faces/36.gif,
+  test/faces/37.gif, test/faces/38.gif, test/faces/39.gif, test/faces/4.gif,
+  test/faces/40.gif, test/faces/41.gif, test/faces/42.gif, test/faces/43.gif,
+  test/faces/44.gif, test/faces/45.gif, test/faces/46.gif, test/faces/47.gif,
+  test/faces/48.gif, test/faces/49.gif, test/faces/5.gif, test/faces/50.gif,
+  test/faces/51.gif, test/faces/52.gif, test/faces/53.gif, test/faces/54.gif,
+  test/faces/55.gif, test/faces/56.gif, test/faces/57.gif, test/faces/58.gif,
+  test/faces/59.gif, test/faces/6.gif, test/faces/60.gif, test/faces/61.gif,
+  test/faces/62.gif, test/faces/63.gif, test/faces/64.gif, test/faces/65.gif,
+  test/faces/66.gif, test/faces/67.gif, test/faces/68.gif, test/faces/69.gif,
+  test/faces/7.gif, test/faces/70.gif, test/faces/71.gif, test/faces/72.gif,
+  test/faces/73.gif, test/faces/74.gif, test/faces/75.gif, test/faces/76.gif,
+  test/faces/77.gif, test/faces/78.gif, test/faces/79.gif, test/faces/8.gif,
+  test/faces/80.gif, test/faces/81.gif, test/faces/82.gif, test/faces/83.gif,
+  test/faces/84.gif, test/faces/85.gif, test/faces/86.gif, test/faces/87.gif,
+  test/faces/88.gif, test/faces/89.gif, test/faces/9.gif, test/faces/90.gif,
+  test/faces/91.gif, test/faces/92.gif, test/faces/93.gif, test/faces/94.gif,
+  test/faces/95.gif, test/faces/96.gif, test/gtk_common.h, test/makefile,
+  test/smilie.png, test/test, test/test.c: update, add some practice codes
+
+  * src/recv_msg.c: update
+
+  * src/ipmsg.h: update
+
+  * src/.chatdlg.h.swp, src/.group.c.swp, src/.user.c.swp, src/.user.h.swp,
+  src/chatdlg.c, src/glade/peerchat_dlg.glade, src/group.c, src/ipmsg.h,
+  src/main_window.c, src/pixmaps/avatar/1.bmp, src/pixmaps/avatar/10.bmp,
+  src/pixmaps/avatar/11.bmp, src/pixmaps/avatar/12.bmp,
+  src/pixmaps/avatar/13.bmp, src/pixmaps/avatar/14.bmp,
+  src/pixmaps/avatar/15.bmp, src/pixmaps/avatar/16.bmp,
+  src/pixmaps/avatar/17.bmp, src/pixmaps/avatar/18.bmp,
+  src/pixmaps/avatar/19.bmp, src/pixmaps/avatar/2.bmp,
+  src/pixmaps/avatar/20.bmp, src/pixmaps/avatar/21.bmp,
+  src/pixmaps/avatar/22.bmp, src/pixmaps/avatar/23.bmp,
+  src/pixmaps/avatar/24.bmp, src/pixmaps/avatar/25.bmp,
+  src/pixmaps/avatar/26.bmp, src/pixmaps/avatar/27.bmp,
+  src/pixmaps/avatar/28.bmp, src/pixmaps/avatar/29.bmp,
+  src/pixmaps/avatar/3.bmp, src/pixmaps/avatar/30.bmp,
+  src/pixmaps/avatar/31.bmp, src/pixmaps/avatar/32.bmp,
+  src/pixmaps/avatar/33.bmp, src/pixmaps/avatar/34.bmp,
+  src/pixmaps/avatar/35.bmp, src/pixmaps/avatar/36.bmp,
+  src/pixmaps/avatar/37.bmp, src/pixmaps/avatar/38.bmp,
+  src/pixmaps/avatar/39.bmp, src/pixmaps/avatar/4.bmp,
+  src/pixmaps/avatar/40.bmp, src/pixmaps/avatar/41.bmp,
+  src/pixmaps/avatar/42.bmp, src/pixmaps/avatar/43.bmp,
+  src/pixmaps/avatar/44.bmp, src/pixmaps/avatar/45.bmp,
+  src/pixmaps/avatar/46.bmp, src/pixmaps/avatar/47.bmp,
+  src/pixmaps/avatar/48.bmp, src/pixmaps/avatar/49.bmp,
+  src/pixmaps/avatar/5.bmp, src/pixmaps/avatar/50.bmp,
+  src/pixmaps/avatar/51.bmp, src/pixmaps/avatar/52.bmp,
+  src/pixmaps/avatar/53.bmp, src/pixmaps/avatar/54.bmp,
+  src/pixmaps/avatar/55.bmp, src/pixmaps/avatar/56.bmp,
+  src/pixmaps/avatar/57.bmp, src/pixmaps/avatar/58.bmp,
+  src/pixmaps/avatar/59.bmp, src/pixmaps/avatar/6.bmp,
+  src/pixmaps/avatar/60.bmp, src/pixmaps/avatar/61.bmp,
+  src/pixmaps/avatar/62.bmp, src/pixmaps/avatar/63.bmp,
+  src/pixmaps/avatar/64.bmp, src/pixmaps/avatar/65.bmp,
+  src/pixmaps/avatar/66.bmp, src/pixmaps/avatar/67.bmp,
+  src/pixmaps/avatar/68.bmp, src/pixmaps/avatar/69.bmp,
+  src/pixmaps/avatar/7.bmp, src/pixmaps/avatar/70.bmp,
+  src/pixmaps/avatar/71.bmp, src/pixmaps/avatar/72.bmp,
+  src/pixmaps/avatar/73.bmp, src/pixmaps/avatar/74.bmp,
+  src/pixmaps/avatar/75.bmp, src/pixmaps/avatar/76.bmp,
+  src/pixmaps/avatar/77.bmp, src/pixmaps/avatar/78.bmp,
+  src/pixmaps/avatar/79.bmp, src/pixmaps/avatar/8.bmp,
+  src/pixmaps/avatar/80.bmp, src/pixmaps/avatar/81.bmp,
+  src/pixmaps/avatar/82.bmp, src/pixmaps/avatar/83.bmp,
+  src/pixmaps/avatar/84.bmp, src/pixmaps/avatar/85.bmp,
+  src/pixmaps/avatar/9.bmp, src/pixmaps/avatar/default.png, src/recv_msg.c,
+  src/user.c, src/user.h: update
+
+2011-01-29  youngtrips <youngtrips@163.com>
+
+  * src/pixmaps/pic1/1.jpg, src/pixmaps/pic1/10.jpg, src/pixmaps/pic1/11.jpg,
+  src/pixmaps/pic1/12.jpg, src/pixmaps/pic1/13.jpg, src/pixmaps/pic1/14.jpg,
+  src/pixmaps/pic1/15.jpg, src/pixmaps/pic1/16.jpg, src/pixmaps/pic1/17.jpg,
+  src/pixmaps/pic1/18.jpg, src/pixmaps/pic1/19.jpg, src/pixmaps/pic1/2.jpg,
+  src/pixmaps/pic1/20.jpg, src/pixmaps/pic1/21.jpg, src/pixmaps/pic1/22.jpg,
+  src/pixmaps/pic1/23.jpg, src/pixmaps/pic1/24.jpg, src/pixmaps/pic1/25.jpg,
+  src/pixmaps/pic1/26.jpg, src/pixmaps/pic1/27.jpg, src/pixmaps/pic1/28.jpg,
+  src/pixmaps/pic1/29.jpg, src/pixmaps/pic1/3.jpg, src/pixmaps/pic1/30.jpg,
+  src/pixmaps/pic1/31.jpg, src/pixmaps/pic1/32.jpg, src/pixmaps/pic1/33.jpg,
+  src/pixmaps/pic1/34.jpg, src/pixmaps/pic1/35.jpg, src/pixmaps/pic1/36.jpg,
+  src/pixmaps/pic1/37.jpg, src/pixmaps/pic1/38.jpg, src/pixmaps/pic1/39.jpg,
+  src/pixmaps/pic1/4.jpg, src/pixmaps/pic1/40.jpg, src/pixmaps/pic1/41.jpg,
+  src/pixmaps/pic1/42.jpg, src/pixmaps/pic1/43.jpg, src/pixmaps/pic1/5.jpg,
+  src/pixmaps/pic1/6.jpg, src/pixmaps/pic1/7.jpg, src/pixmaps/pic1/8.jpg,
+  src/pixmaps/pic1/9.jpg, src/pixmaps/pic1/Thumbs.db: update
+
+  * src/chatdlg.c, src/pixmaps/smilie.png, src/user.h: update
+
+  * src/.chatdlg.c.swp, src/.chatdlg.h.swp, src/.group.c.swp,
+  src/.recv_msg.c.swp, src/.user.c.swp, src/.user.h.swp, src/chatdlg.c,
+  src/chatdlg.h, src/glade/peerchat_dlg.glade, src/group.c, src/main_window.c,
+  src/recv_msg.c, src/user.c, src/user.h: update
+
+2011-01-28  youngtrips <youngtrips@163.com>
+
+  * src/main_window.c: update
+
+  * src/.group.c.swp, src/.recv_msg.c.swp, src/group.c, src/group.h,
+  src/recv_msg.c: update
+
+  * src/Makefile, src/encoding.c, src/encoding.h, src/group.c, src/group.h,
+  src/gtk_common.h, src/ifreechat.c, src/ifreechat.h, src/lib/udp_socket.c,
+  src/main_window.c, src/recv_msg.c, src/user.h: udpate
+
+  * src/Makefile, src/dlist.h, src/global.h, src/group.c, src/group.h,
+  src/ifreechat.c, src/ifreechat.h, src/lib/msg.h, src/lib/queue.c,
+  src/lib/queue.h, src/lib/socket.h, src/lib/udp_socket.c,
+  src/lib/udp_socket.h, src/lib/utils.c, src/lib/utils.h, src/main_window.c,
+  src/recv_msg.c, src/recv_msg.h, src/user.c, src/user.h: update
+
+2011-01-27  youngtrips <youngtrips@163.com>
+
+  * src/.deps/ifreechat.Po, src/lib/test: update
+
+  * Makefile, src/Makefile, src/group.c, src/group.h, src/lib/Makefile,
+  src/lib/test.c: update Makefile
+
+  * config.status: update
+
+  * COPYING, INSTALL, Makefile, Makefile.am, autom4te.cache/output.0,
+  autom4te.cache/requests, autom4te.cache/traces.0, compile, config.log,
+  configure, configure.in, depcomp, ifreechat, makefile,
+  src/.deps/ifreechat.Po, src/Makefile, src/lib/Makefile, src/makefile: update
+  structs
+
+  * dlist.h, glade/ui.glade, global.h, group.c, group.h, gtk_common.h,
+  ifreechat.c, lib/.queue.h.swp, lib/.test.c.swp, lib/.udp_socket.c.swp,
+  lib/.udp_socket.h.swp, lib/.utils.c.swp, lib/.utils.h.swp, lib/msg.h,
+  lib/queue.c, lib/queue.h, lib/socket.h, lib/test, lib/test.c,
+  lib/udp_socket.c, lib/udp_socket.h, lib/utils.c, lib/utils.h, main_window.c,
+  main_window.h, pixmaps/icon.png, pixmaps/online.png, pixmaps/test.png,
+  user.c, user.h: update struct
+
+  * COPYING, INSTALL, Makefile.am, autom4te.cache/output.0,
+  autom4te.cache/requests, autom4te.cache/traces.0, compile, config.log,
+  config.status, configure, configure.in, depcomp, src/dlist.h,
+  src/glade/ui.glade, src/global.h, src/group.c, src/group.h, src/gtk_common.h,
+  src/ifreechat.c, src/lib/msg.h, src/lib/queue.c, src/lib/queue.h,
+  src/lib/socket.h, src/lib/test, src/lib/test.c, src/lib/udp_socket.c,
+  src/lib/udp_socket.h, src/lib/utils.c, src/lib/utils.h, src/main_window.c,
+  src/main_window.h, src/makefile, src/pixmaps/icon.png,
+  src/pixmaps/online.png, src/pixmaps/test.png, src/user.c, src/user.h: update
+
+  * lib/.test.c.swp, lib/.udp_socket.c.swp, lib/.udp_socket.h.swp,
+  lib/.utils.c.swp, lib/.utils.h.swp, lib/socket.h, lib/test, lib/test.c,
+  lib/udp_socket.c, lib/udp_socket.h, lib/utils.c, lib/utils.h: update
+  upd_socket
+
+  * lib/.queue.h.swp, lib/msg.h, lib/queue.c, lib/queue.h, lib/socket.h,
+  lib/udp_socket.c, lib/udp_socket.h, lib/utils.c, lib/utils.h: update
+
+  * ChatDialog.glade, GroupDialog.glade, MainWindow.glade, away.png, bak.glade,
+  busy.png, online.png, test.png, test.py: delete some picture and glade files
+
+  * dlist.h, glade/ChatDialog.glade, glade/GroupDialog.glade,
+  glade/MainWindow.glade, glade/bak.glade, group.cpp, group.h, gtk_common.h,
+  libs/.buffer.cpp.swp, libs/.buffer.h.swp, libs/.network.cpp.swp,
+  libs/.network.h.swp, libs/.socket.h.swp, libs/.test.cpp.swp,
+  libs/.udp_socket.cpp.swp, libs/.udp_socket.h.swp, libs/blowfish.cpp,
+  libs/blowfish.h, libs/blowfish.h2, libs/buffer.cpp, libs/buffer.h,
+  libs/buffer.o, libs/makefile, libs/network.c, libs/network.cpp,
+  libs/network.h, libs/protocol.c, libs/protocol.cpp, libs/protocol.h,
+  libs/queue.cpp, libs/queue.h, libs/socket.h, libs/test, libs/test.cpp,
+  libs/udp_socket.cpp, libs/udp_socket.h, libs/utils.cpp, libs/utils.h,
+  makefile, pixmaps/away.png, pixmaps/busy.png, pixmaps/idle.png,
+  pixmaps/invisible.png, pixmaps/offline.png, pixmaps/online.png,
+  pixmaps/test.png, test, test.c, tree_view.h, ui.glade, user.cpp, user.h,
+  user.o, win-config.h, window.c, window.h, windows_bak.c: reconstruct
+
+2011-01-26  youngtrips <youngtrips@163.com>
+
+  * test, ui.glade, window.c: update
+
+2011-01-25  youngtrips <youngtrips@163.com>
+
+  * .test.c.swp, .user.cpp.swp, .user.h.swp, .window.c.swp, .window.h.swp:
+  delete some swap files
+
+  * test, user.cpp, user.h, window.c, window.h: update
+
+  * .test.c.swp, .user.cpp.swp, .user.h.swp, .window.c.swp, .window.h.swp,
+  dlist.h, glade/ChatDialog.glade, glade/GroupDialog.glade,
+  glade/MainWindow.glade, glade/bak.glade, group.cpp, group.h,
+  libs/.udp_socket.cpp.swp, libs/test, libs/test.cpp, pixmaps/away.png,
+  pixmaps/busy.png, pixmaps/idle.png, pixmaps/invisible.png,
+  pixmaps/offline.png, pixmaps/online.png, pixmaps/test.png, test, user.cpp,
+  user.h, user.o, window.c, window.h: add class User, class Group and class
+  GroupInfo
+
+  * libs/.test.cpp.swp, libs/.udp_socket.cpp.swp, libs/protocol.h,
+  libs/queue.cpp, libs/queue.h, libs/test, libs/test.cpp, libs/udp_socket.cpp:
+  fixd a bug in udp_socket.cpp casued by sizeof(msg)
+
+  * libs/.buffer.cpp.swp, libs/.buffer.h.swp, libs/.network.cpp.swp,
+  libs/.network.h.swp, libs/.socket.h.swp, libs/.test.cpp.swp,
+  libs/.udp_socket.cpp.swp, libs/buffer.cpp, libs/buffer.h, libs/buffer.o,
+  libs/network.cpp, libs/network.h, libs/socket.h, libs/test, libs/test.cpp,
+  libs/udp_socket.cpp: update
+
+  * libs/.network.cpp.swp, libs/.network.h.swp, libs/.test.cpp.swp,
+  libs/.udp_socket.cpp.swp, libs/.udp_socket.h.swp, libs/blowfish.cpp,
+  libs/blowfish.h, libs/blowfish.h2, libs/makefile, libs/network.cpp,
+  libs/network.h, libs/protocol.cpp, libs/protocol.h, libs/socket.h, libs/test,
+  libs/test.cpp, libs/udp_socket.cpp, libs/udp_socket.h, libs/utils.cpp,
+  libs/utils.h: update
+
+  * libs/.socket.h.swp, libs/.test.cpp.swp, libs/buffer.cpp, libs/buffer.h,
+  libs/makefile, libs/protocol.cpp, libs/protocol.h, libs/queue.cpp,
+  libs/queue.h, libs/socket.h, libs/test, libs/test.cpp, libs/udp_socket.cpp,
+  libs/udp_socket.h: update udp_socket
+
+  * libs/.udp_socket.cpp.swp, libs/queue.cpp, libs/queue.h, libs/socket.h,
+  libs/udp_socket.h: add udp socket
+
+2011-01-24  youngtrips <youngtrips@163.com>
+
+  * : Add README
