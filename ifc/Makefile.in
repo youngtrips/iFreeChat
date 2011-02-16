@@ -36,9 +36,7 @@ host_triplet = @host@
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
-	$(top_srcdir)/configure $(top_srcdir)/lib/Makefile.in \
-	$(top_srcdir)/src/Makefile.in \
-	$(top_srcdir)/src/net/Makefile.in \
+	$(top_srcdir)/configure $(top_srcdir)/src/net/Makefile.in \
 	$(top_srcdir)/src/protocol/Makefile.in \
 	$(top_srcdir)/src/ui/Makefile.in AUTHORS COPYING ChangeLog \
 	INSTALL NEWS compile config.guess config.sub depcomp \
@@ -51,8 +49,8 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = lib/Makefile src/Makefile src/net/Makefile \
-	src/protocol/Makefile src/ui/Makefile
+CONFIG_CLEAN_FILES = src/net/Makefile src/protocol/Makefile \
+	src/ui/Makefile
 CONFIG_CLEAN_VPATH_FILES =
 SOURCES =
 DIST_SOURCES =
@@ -130,7 +128,11 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+GLIB2_CFLAGS = @GLIB2_CFLAGS@
+GLIB2_LIBS = @GLIB2_LIBS@
 GREP = @GREP@
+GTK_CFLAGS = @GTK_CFLAGS@
+GTK_LIBS = @GTK_LIBS@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -138,9 +140,13 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LIBGLADE_CFLAGS = @LIBGLADE_CFLAGS@
+LIBGLADE_LIBS = @LIBGLADE_LIBS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
+LIBXML_CFLAGS = @LIBXML_CFLAGS@
+LIBXML_LIBS = @LIBXML_LIBS@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
@@ -160,6 +166,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -276,10 +283,6 @@ $(srcdir)/config.h.in:  $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
-lib/Makefile: $(top_builddir)/config.status $(top_srcdir)/lib/Makefile.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
-src/Makefile: $(top_builddir)/config.status $(top_srcdir)/src/Makefile.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
 src/net/Makefile: $(top_builddir)/config.status $(top_srcdir)/src/net/Makefile.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 src/protocol/Makefile: $(top_builddir)/config.status $(top_srcdir)/src/protocol/Makefile.in

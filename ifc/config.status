@@ -644,7 +644,7 @@ hardcode_minus_L='no'
 hardcode_shlibpath_var='unsupported'
 hardcode_automatic='no'
 inherit_rpath='no'
-link_all_deplibs='no'
+link_all_deplibs='unknown'
 fix_srcfile_path=''
 always_export_symbols='no'
 export_symbols_cmds='$NM $libobjs $convenience | $global_symbol_pipe | $SED '\''s/.* //'\'' | sort | uniq > $export_symbols'
@@ -668,7 +668,7 @@ finish_cmds='PATH="\$PATH:/sbin" ldconfig -n $libdir'
 finish_eval=''
 hardcode_into_libs='yes'
 sys_lib_search_path_spec='/usr/lib/gcc/i686-redhat-linux/4.4.5 /usr/lib /lib'
-sys_lib_dlsearch_path_spec='/lib /usr/lib /usr/lib/mysql /usr/lib/qt-3.3/lib /usr/lib/xulrunner-1.9.2 '
+sys_lib_dlsearch_path_spec='/lib64 /usr/lib64 /lib /usr/lib /usr/lib/mysql /usr/lib/qt-3.3/lib /usr/lib/xulrunner-1.9.2 '
 hardcode_action='immediate'
 enable_dlopen='unknown'
 enable_dlopen_self='unknown'
@@ -811,6 +811,20 @@ S["am__EXEEXT_FALSE"]=""
 S["am__EXEEXT_TRUE"]="#"
 S["LTLIBOBJS"]=""
 S["LIBOBJS"]=""
+S["LIBXML_LIBS"]="-lxml2  "
+S["LIBXML_CFLAGS"]="-I/usr/include/libxml2  "
+S["LIBGLADE_LIBS"]="-pthread -lglade-2.0 -lgtk-x11-2.0 -lxml2 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lpangocairo-1.0 -lcairo -lpango-1.0 -lf"\
+"reetype -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0  "
+S["LIBGLADE_CFLAGS"]="-pthread -I/usr/include/libglade-2.0 -I/usr/include/gtk-2.0 -I/usr/include/libxml2 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/"\
+"cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/l"\
+"ibpng12  "
+S["GLIB2_LIBS"]="-lglib-2.0  "
+S["GLIB2_CFLAGS"]="-I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  "
+S["GTK_LIBS"]="-pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lpangocairo-1.0 -lcairo -lpango-1.0 -lfreetype -lfontconfi"\
+"g -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0  "
+S["GTK_CFLAGS"]="-pthread -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-"\
+"2.0 -I/usr/lib/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng12  "
+S["PKG_CONFIG"]="/usr/bin/pkg-config"
 S["CPP"]="gcc -E"
 S["OTOOL64"]=""
 S["OTOOL"]=""
@@ -987,6 +1001,8 @@ D["HAVE_STDLIB_H"]=" 1"
 D["HAVE_STRING_H"]=" 1"
 D["HAVE_SYS_SOCKET_H"]=" 1"
 D["HAVE_UNISTD_H"]=" 1"
+D["USE_GTK"]=" 1"
+D["USE_LIBXML"]=" 1"
 D["HAVE_LIBPTHREAD"]=" 1"
 D["HAVE_STDLIB_H"]=" 1"
 D["HAVE_MALLOC"]=" 1"

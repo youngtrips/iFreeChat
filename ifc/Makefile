@@ -36,9 +36,7 @@ host_triplet = i686-pc-linux-gnu
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
-	$(top_srcdir)/configure $(top_srcdir)/lib/Makefile.in \
-	$(top_srcdir)/src/Makefile.in \
-	$(top_srcdir)/src/net/Makefile.in \
+	$(top_srcdir)/configure $(top_srcdir)/src/net/Makefile.in \
 	$(top_srcdir)/src/protocol/Makefile.in \
 	$(top_srcdir)/src/ui/Makefile.in AUTHORS COPYING ChangeLog \
 	INSTALL NEWS compile config.guess config.sub depcomp \
@@ -51,8 +49,8 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = lib/Makefile src/Makefile src/net/Makefile \
-	src/protocol/Makefile src/ui/Makefile
+CONFIG_CLEAN_FILES = src/net/Makefile src/protocol/Makefile \
+	src/ui/Makefile
 CONFIG_CLEAN_VPATH_FILES =
 SOURCES =
 DIST_SOURCES =
@@ -130,7 +128,11 @@ ECHO_T =
 EGREP = /bin/grep -E
 EXEEXT = 
 FGREP = /bin/grep -F
+GLIB2_CFLAGS = -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
+GLIB2_LIBS = -lglib-2.0  
 GREP = /bin/grep
+GTK_CFLAGS = -pthread -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng12  
+GTK_LIBS = -pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lpangocairo-1.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0  
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
@@ -138,9 +140,13 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LD = /usr/bin/ld
 LDFLAGS = 
+LIBGLADE_CFLAGS = -pthread -I/usr/include/libglade-2.0 -I/usr/include/gtk-2.0 -I/usr/include/libxml2 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng12  
+LIBGLADE_LIBS = -pthread -lglade-2.0 -lgtk-x11-2.0 -lxml2 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lpangocairo-1.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0  
 LIBOBJS = 
 LIBS = -lpthread 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
+LIBXML_CFLAGS = -I/usr/include/libxml2  
+LIBXML_LIBS = -lxml2  
 LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
@@ -160,6 +166,7 @@ PACKAGE_TARNAME = ifreechat
 PACKAGE_URL = 
 PACKAGE_VERSION = 0.1
 PATH_SEPARATOR = :
+PKG_CONFIG = /usr/bin/pkg-config
 RANLIB = ranlib
 SED = /bin/sed
 SET_MAKE = 
@@ -276,10 +283,6 @@ $(srcdir)/config.h.in:  $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
-lib/Makefile: $(top_builddir)/config.status $(top_srcdir)/lib/Makefile.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
-src/Makefile: $(top_builddir)/config.status $(top_srcdir)/src/Makefile.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
 src/net/Makefile: $(top_builddir)/config.status $(top_srcdir)/src/net/Makefile.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 src/protocol/Makefile: $(top_builddir)/config.status $(top_srcdir)/src/protocol/Makefile.in
