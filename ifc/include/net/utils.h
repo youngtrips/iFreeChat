@@ -24,5 +24,8 @@ int enable_socket_multicast(int s);
 
 int setnonblocking(int s);
 
+uint32_t str2ip (const char *ip);
+
+char *ip2str (uint32_t ip, char *buf);
 
 #endif

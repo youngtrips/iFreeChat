@@ -1,7 +1,7 @@
 /*
- * Author: youngtrips
- * Created Time:  2011-02-15
- * File Name: protocol.h
+ * Author: youngtrips(youngtrips@163.com)
+ * Created Time:  2011-02-17
+ * File Name: feiq.h
  * Description: 
  *
  * This program is free software; you can redistribute it and/or
@@ -21,38 +21,14 @@
  *
  */
 
+#ifndef __FEIQ_H
+#define __FEIQ_H
 
-#ifndef __PROTOCOL_H
-#define __PROTOCOL_H
-
-#include "dlist.h"
 #include "packet.h"
 #include "msg.h"
 
-typedef int (*build_packet_func)(packet_t **pkt, const msg_t *msg);
-typedef int (*parse_packet_func)(const packet_t *pkt, msg_t *msg);
+int feiq_build_packet(packet_t **pkt, const msg_t *msg);
 
-typedef struct protocol_t {
-	char protocol_name[16];
-	char protocol_version[16];
-
-	build_packet_func build_func;
-	parse_packet_func parse_func;
-
-	dlist_t node;
-}protocol_t;
-
-int protocol_register(protocol_t *proto, const char *name, const char *version,
-		build_packet_func build_func,
-		parse_packet_func parse_func);
-
-int protocol_build_packet(protocol_t *proto, packet_t **pkt, const msg_t *msg);
-
-int protocol_parse_packet(protocol_t *proto, const packet_t *pkt, msg_t *msg);
+int feiq_parse_packet(const packet_t *pkt, msg_t *msg);
 
 #endif
-
-
-
-
-

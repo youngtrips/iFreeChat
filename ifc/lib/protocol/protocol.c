@@ -39,7 +39,7 @@ int protocol_register(protocol_t *proto, const char *name, const char *version,
 	return 0;
 }
 
-int protocol_build_packet(protocol_t *proto, packet_t *pkt, const msg_t *msg) {
+int protocol_build_packet(protocol_t *proto, packet_t **pkt, const msg_t *msg) {
 	return proto->build_func(pkt, msg);
 }
 

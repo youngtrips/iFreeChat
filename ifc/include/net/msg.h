@@ -23,12 +23,12 @@ typedef struct msg_t {
 	uint16_t avatar_id;
 	uint16_t gpmsg_size;
 
-	char *ip;
-	char *macaddr;
-	char *version;
-	char *username;
-	char *hostname;
-	char *data;
+	char ip[32];
+	char macaddr[32];
+	char version[16];
+	char username[32];
+	char hostname[32];
+	char *data; 
 
 	void *user_data;
 
