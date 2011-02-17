@@ -24,6 +24,7 @@
 #include "mem_pool.h"
 #include "udp_socket.h"
 #include "ifreechat.h"
+#include "config.h"
 
 static int init_freechat(ifreechat_t **ifc) {
 	ifreechat_t *ifreechat;
@@ -51,7 +52,7 @@ static int init_network(ifreechat_t *ifc) {
 	udp_socket_t *usock;
 
 	usock = create_udp_socket(ifc->pool,
-			ifc->ip, ifc->port, 1024);
+			ifc->ipaddr, ifc->port, 1024);
 	if (usock == NULL)
 		return -1;
 	return udp_start(usock);
@@ -71,9 +72,14 @@ int main() {
 
 	if (init_freechat(&ifc) < 0)
 		return 1;
+//	if (read_cfg(ifc) < 0) {
+//		printf("read config file error\n");
+//		return 1;
+//	}
 	init_network(ifc);
 
 	freechat_main(ifc);
 	destroy_freechat(ifc);
 	return 0;
 }
+

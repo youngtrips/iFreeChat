@@ -21,6 +21,7 @@
  *
  */
 
+#include "ifreechat.h"
 #include "handle_message.h"
 
 int on_entry_func(ifreechat_t *ifc, const void *msg) {

@@ -21,8 +21,8 @@
  *
  */
 
-#ifndef __CONIFG_H
-#define __CONFIG_H
+#ifndef __MY_CONIFG_H
+#define __MY_CONFIG_H
 
 #include "ifreechat.h"
 

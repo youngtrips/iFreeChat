@@ -22,6 +22,7 @@
  */
 
 #include "msg_queue.h"
+#include "queue.h"
 
 
 msg_queue_t *create_msg_queue(mem_pool_t *pool, size_t size) {
