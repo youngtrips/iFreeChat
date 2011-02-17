@@ -404,7 +404,7 @@ on `(hostname || uname -n) 2>/dev/null | sed 1q`
 "
 
 # Files that config.status was made for.
-config_files=" Makefile lib/Makefile src/Makefile src/net/Makefile src/protocol/Makefile src/ui/Makefile include/Makefile include/blowfish/Makefile include/net/Makefile include/protocol/Makefile include/mem_pool/Makefile"
+config_files=" Makefile lib/Makefile lib/blowfish/Makefile lib/hash/Makefile lib/mem_pool/Makefile lib/encoding/Makefile lib/queue/Makefile lib/net/Makefile lib/protocol/Makefile src/Makefile src/ui/Makefile include/Makefile include/blowfish/Makefile include/net/Makefile include/protocol/Makefile include/mem_pool/Makefile"
 config_headers=" config.h"
 config_commands=" depfiles libtool"
 
@@ -740,9 +740,14 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "lib/Makefile") CONFIG_FILES="$CONFIG_FILES lib/Makefile" ;;
+    "lib/blowfish/Makefile") CONFIG_FILES="$CONFIG_FILES lib/blowfish/Makefile" ;;
+    "lib/hash/Makefile") CONFIG_FILES="$CONFIG_FILES lib/hash/Makefile" ;;
+    "lib/mem_pool/Makefile") CONFIG_FILES="$CONFIG_FILES lib/mem_pool/Makefile" ;;
+    "lib/encoding/Makefile") CONFIG_FILES="$CONFIG_FILES lib/encoding/Makefile" ;;
+    "lib/queue/Makefile") CONFIG_FILES="$CONFIG_FILES lib/queue/Makefile" ;;
+    "lib/net/Makefile") CONFIG_FILES="$CONFIG_FILES lib/net/Makefile" ;;
+    "lib/protocol/Makefile") CONFIG_FILES="$CONFIG_FILES lib/protocol/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
-    "src/net/Makefile") CONFIG_FILES="$CONFIG_FILES src/net/Makefile" ;;
-    "src/protocol/Makefile") CONFIG_FILES="$CONFIG_FILES src/protocol/Makefile" ;;
     "src/ui/Makefile") CONFIG_FILES="$CONFIG_FILES src/ui/Makefile" ;;
     "include/Makefile") CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
     "include/blowfish/Makefile") CONFIG_FILES="$CONFIG_FILES include/blowfish/Makefile" ;;

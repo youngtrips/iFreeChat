@@ -26,4 +26,5 @@ ifreechat_LDADD = $(LIBXML_LIBS) $(GTK_LIBS) \
 ifreechat_SOURCES = ifreechat.c \
 					group.c \
 					user.c \
-					handle_message.c
+					handle_message.c \
+					config.c

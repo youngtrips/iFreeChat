@@ -30,7 +30,7 @@
 #include "group.h"
 #include "config.h"
 
-#define CFG	"ifreechat.xml"
+#define CFG	"../etc/ifreechat.xml"
 
 int read_cfg(ifreechat_t *ifc) {
 

@@ -1,4 +1,4 @@
-ifreechat-user.o: user.c /usr/include/stdlib.h /usr/include/features.h \
+queue.o: queue.c /usr/include/stdlib.h /usr/include/features.h \
  /usr/include/bits/predefs.h /usr/include/sys/cdefs.h \
  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
  /usr/include/gnu/stubs-32.h \
@@ -9,13 +9,10 @@ ifreechat-user.o: user.c /usr/include/stdlib.h /usr/include/features.h \
  /usr/include/sys/select.h /usr/include/bits/select.h \
  /usr/include/bits/sigset.h /usr/include/bits/time.h \
  /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h \
- /usr/include/alloca.h /usr/include/bits/stdlib.h /usr/include/string.h \
- /usr/include/xlocale.h /usr/include/bits/string.h \
- /usr/include/bits/string2.h /usr/include/bits/string3.h \
- ../include/mem_pool/mem_pool.h /usr/include/pthread.h \
- /usr/include/sched.h /usr/include/bits/sched.h /usr/include/signal.h \
- /usr/include/bits/setjmp.h ../include/user.h ../include/dlist.h \
- ../include/hash/hash.h ../include/dlist.h
+ /usr/include/alloca.h /usr/include/bits/stdlib.h \
+ ../../include/queue/queue.h ../../include/mem_pool/mem_pool.h \
+ /usr/include/pthread.h /usr/include/sched.h /usr/include/bits/sched.h \
+ /usr/include/xlocale.h /usr/include/signal.h /usr/include/bits/setjmp.h
 
 /usr/include/stdlib.h:
 
@@ -63,17 +60,9 @@ ifreechat-user.o: user.c /usr/include/stdlib.h /usr/include/features.h \
 
 /usr/include/bits/stdlib.h:
 
-/usr/include/string.h:
+../../include/queue/queue.h:
 
-/usr/include/xlocale.h:
-
-/usr/include/bits/string.h:
-
-/usr/include/bits/string2.h:
-
-/usr/include/bits/string3.h:
-
-../include/mem_pool/mem_pool.h:
+../../include/mem_pool/mem_pool.h:
 
 /usr/include/pthread.h:
 
@@ -81,14 +70,8 @@ ifreechat-user.o: user.c /usr/include/stdlib.h /usr/include/features.h \
 
 /usr/include/bits/sched.h:
 
+/usr/include/xlocale.h:
+
 /usr/include/signal.h:
 
 /usr/include/bits/setjmp.h:
-
-../include/user.h:
-
-../include/dlist.h:
-
-../include/hash/hash.h:
-
-../include/dlist.h:

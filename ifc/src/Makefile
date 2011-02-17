@@ -49,12 +49,14 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_ifreechat_OBJECTS = ifreechat-ifreechat.$(OBJEXT) \
 	ifreechat-group.$(OBJEXT) ifreechat-user.$(OBJEXT) \
-	ifreechat-handle_message.$(OBJEXT)
+	ifreechat-handle_message.$(OBJEXT) ifreechat-config.$(OBJEXT)
 ifreechat_OBJECTS = $(am_ifreechat_OBJECTS)
 am__DEPENDENCIES_1 =
 ifreechat_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) ../lib/libifreechat.a net/libmynet.a \
-	protocol/libprotocol.a
+	$(am__DEPENDENCIES_1) ../lib/blowfish/libblowfish.a \
+	../lib/encoding/libencoding.a ../lib/mem_pool/libmempool.a \
+	../lib/hash/libmyhash.a ../lib/net/libmynet.a \
+	../lib/queue/libqueue.a ../lib/protocol/libprotocol.a
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -231,24 +233,34 @@ target_alias =
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
-SUBDIRS = net protocol
+SUBDIRS = 
 ifreechat_CPPFLAGS = $(LIBXML_CFLAGS) $(GTK_CFLAGS) \
 				   $(GLIB_CFLAGS) $(LIBGLADE_CFLAGS) \
-				 -I ../include -I ../include/mem_pool \
-				 -I ../include/net -I ../include/net \
-				 -I ../include/protocol
+				 -I ../include \
+				 -I ../include/mem_pool \
+				 -I ../include/blowfish \
+				 -I ../include/hash \
+				 -I ../include/encoding \
+				 -I ../include/protocol \
+				 -I ../include/queue \
+				 -I ../include/net
 
 ifreechat_LDADD = $(LIBXML_LIBS) $(GTK_LIBS) \
 				  $(GLIB_LIBS) $(LIBGLADE_CFLAGS) \
-				  ../lib/libifreechat.a \
-				  net/libmynet.a \
-				  protocol/libprotocol.a \
+				  ../lib/blowfish/libblowfish.a \
+				  ../lib/encoding/libencoding.a \
+				  ../lib/mem_pool/libmempool.a \
+				  ../lib/hash/libmyhash.a \
+				  ../lib/net/libmynet.a \
+				  ../lib/queue/libqueue.a \
+				  ../lib/protocol/libprotocol.a \
 				  -lpthread
 
 ifreechat_SOURCES = ifreechat.c \
 					group.c \
 					user.c \
-					handle_message.c
+					handle_message.c \
+					config.c
 
 all: all-recursive
 
@@ -337,6 +349,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+include ./$(DEPDIR)/ifreechat-config.Po
 include ./$(DEPDIR)/ifreechat-group.Po
 include ./$(DEPDIR)/ifreechat-handle_message.Po
 include ./$(DEPDIR)/ifreechat-ifreechat.Po
@@ -418,6 +431,20 @@ ifreechat-handle_message.obj: handle_message.c
 #	source='handle_message.c' object='ifreechat-handle_message.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ifreechat-handle_message.obj `if test -f 'handle_message.c'; then $(CYGPATH_W) 'handle_message.c'; else $(CYGPATH_W) '$(srcdir)/handle_message.c'; fi`
+
+ifreechat-config.o: config.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ifreechat-config.o -MD -MP -MF $(DEPDIR)/ifreechat-config.Tpo -c -o ifreechat-config.o `test -f 'config.c' || echo '$(srcdir)/'`config.c
+	$(am__mv) $(DEPDIR)/ifreechat-config.Tpo $(DEPDIR)/ifreechat-config.Po
+#	source='config.c' object='ifreechat-config.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ifreechat-config.o `test -f 'config.c' || echo '$(srcdir)/'`config.c
+
+ifreechat-config.obj: config.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ifreechat-config.obj -MD -MP -MF $(DEPDIR)/ifreechat-config.Tpo -c -o ifreechat-config.obj `if test -f 'config.c'; then $(CYGPATH_W) 'config.c'; else $(CYGPATH_W) '$(srcdir)/config.c'; fi`
+	$(am__mv) $(DEPDIR)/ifreechat-config.Tpo $(DEPDIR)/ifreechat-config.Po
+#	source='config.c' object='ifreechat-config.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ifreechat-config.obj `if test -f 'config.c'; then $(CYGPATH_W) 'config.c'; else $(CYGPATH_W) '$(srcdir)/config.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

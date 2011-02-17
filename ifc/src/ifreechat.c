@@ -55,6 +55,7 @@ static int init_network(ifreechat_t *ifc) {
 			ifc->ipaddr, ifc->port, 1024);
 	if (usock == NULL)
 		return -1;
+	ifc->usock = usock;
 	return udp_start(usock);
 }
 
@@ -63,6 +64,7 @@ static void stop_network(ifreechat_t *ifc) {
 }
 
 static void freechat_main(ifreechat_t *ifc) {
+	process_message_loop(ifc);
 }
 
 int main() {
@@ -72,13 +74,13 @@ int main() {
 
 	if (init_freechat(&ifc) < 0)
 		return 1;
-//	if (read_cfg(ifc) < 0) {
-//		printf("read config file error\n");
-//		return 1;
-//	}
+	if (read_cfg(ifc) < 0) {
+		printf("read config file error\n");
+		return 1;
+	}
 	init_network(ifc);
-
 	freechat_main(ifc);
+	stop_network(ifc);
 	destroy_freechat(ifc);
 	return 0;
 }

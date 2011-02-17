@@ -21,8 +21,15 @@
  *
  */
 
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+#include <error.h>
+
 #include "ifreechat.h"
 #include "handle_message.h"
+#include "udp_socket.h"
+#include "packet.h"
 
 int on_entry_func(ifreechat_t *ifc, const void *msg) {
 }
@@ -40,4 +47,24 @@ int on_sendcheck_func(ifreechat_t *ifc, const void *msg) {
 }
 
 int handle_message(ifreechat_t *ifc, const void *msg) {
+}
+
+void process_message_loop(ifreechat_t *ifc) {
+	udp_socket_t *usock;
+	mem_pool_t *pool;
+	packet_t *pkt;
+
+	usock = (udp_socket_t*)ifc->usock;
+	for(;;) {
+		udp_recv(usock, &pkt);
+		printf("mtime: %u\n", pkt->mtime);
+		printf("ip	 : %u\n", pkt->ip);
+		printf("port : %u\n", pkt->port);
+		printf("size : %u\n", pkt->size);
+		printf("data : %s\n", pkt->data);
+		if (handle_message(ifc, pkt) < 0) {
+			fprintf(stderr, "handle_message() occurs errors...\n");
+		}
+		mem_pool_free(pool, pkt);
+	}
 }

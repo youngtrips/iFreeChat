@@ -12,11 +12,11 @@ ifreechat-group.o: group.c /usr/include/stdlib.h /usr/include/features.h \
  /usr/include/alloca.h /usr/include/bits/stdlib.h /usr/include/string.h \
  /usr/include/xlocale.h /usr/include/bits/string.h \
  /usr/include/bits/string2.h /usr/include/bits/string3.h \
- ../include/mem_pool.h /usr/include/pthread.h /usr/include/sched.h \
- /usr/include/bits/sched.h /usr/include/signal.h \
+ ../include/mem_pool/mem_pool.h /usr/include/pthread.h \
+ /usr/include/sched.h /usr/include/bits/sched.h /usr/include/signal.h \
  /usr/include/bits/setjmp.h ../include/group.h /usr/include/stdint.h \
- /usr/include/bits/wchar.h ../include/mem_pool.h ../include/dlist.h \
- ../include/user.h ../include/hash.h
+ /usr/include/bits/wchar.h ../include/dlist.h ../include/user.h \
+ ../include/hash/hash.h ../include/dlist.h
 
 /usr/include/stdlib.h:
 
@@ -74,7 +74,7 @@ ifreechat-group.o: group.c /usr/include/stdlib.h /usr/include/features.h \
 
 /usr/include/bits/string3.h:
 
-../include/mem_pool.h:
+../include/mem_pool/mem_pool.h:
 
 /usr/include/pthread.h:
 
@@ -92,10 +92,10 @@ ifreechat-group.o: group.c /usr/include/stdlib.h /usr/include/features.h \
 
 /usr/include/bits/wchar.h:
 
-../include/mem_pool.h:
-
 ../include/dlist.h:
 
 ../include/user.h:
 
-../include/hash.h:
+../include/hash/hash.h:
+
+../include/dlist.h:
