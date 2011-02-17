@@ -33,6 +33,12 @@
 #include "protocol.h"
 #include "msg.h"
 
+#define MAXN_TABLES 0xff
+
+typedef int (*msg_func)(ifreechat_t *ifc, const void *msg);
+
+static msg_func[MAXN_TABLES];
+
 int on_entry_func(ifreechat_t *ifc, const void *msg) {
 }
 
