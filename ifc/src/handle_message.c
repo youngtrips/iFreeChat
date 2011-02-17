@@ -40,7 +40,10 @@ typedef int (*msg_func)(ifreechat_t *ifc, const void *msg);
 static msg_func msg_func_table[MAXN_TABLES];
 
 int on_entry_callback(ifreechat_t *ifc, const void *msg) {
-	printf("user(%s) entry\n", ((msg_t*)msg)->username);
+	printf("user(%s--%s) entry\n", 
+			((msg_t*)msg)->nickname,
+			((msg_t*)msg)->category
+			);
 	return 0;
 }
 

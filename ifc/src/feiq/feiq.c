@@ -158,7 +158,19 @@ int feiq_parse_packet(const packet_t *pkt, msg_t *msg) {
 	return 0;
 }
 
+void feiq_on_entry(msg_t *msg) {
+	char *p;
 
+	p = strchr(msg->data, '\0'); *p++ = '\0';
+	if (strlen(msg->data) == 0) 
+		strcpy(msg->nickname, msg->username);
+	else
+		strcpy(msg->nickname, msg->data);
+	if (strlen(p) == 0)
+		strcpy(msg->category, "no group");
+	else
+		strcpy(msg->category, p);
+}
 
 int feiq_handle_msg(const msg_t *msg, void *user_data) {
 	protocol_t *proto;
@@ -166,6 +178,7 @@ int feiq_handle_msg(const msg_t *msg, void *user_data) {
 	proto = (protocol_t*)(msg->user_data);
 	switch(msg->command & 0x000000FF) {
 		case CMD_BR_ENTRY:
+			feiq_on_entry(msg);
 			proto->on_entry(user_data, msg);
 			break;
 		case CMD_BR_EXIT:
