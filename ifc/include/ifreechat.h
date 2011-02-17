@@ -63,4 +63,11 @@ typedef struct ifreechat_t {
 
 }ifreechat_t;
 
+typedef struct ui_t {
+}ui_t;
+
+typedef struct app_t {
+}app_t;
+
+
 #endif

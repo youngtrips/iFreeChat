@@ -169,9 +169,8 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 	free(msg);
 }
 
-int init_window(ifreechat_t *ifc , const char *uifile) {
+int init_window(windows_t *win , const char *uifile) {
 
-	window_t *win;
 	GladeXML *xml;
 	GtkTreeStore *contact_store;
 	GtkListStore *group_store;
@@ -189,7 +188,6 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 		printf("wrong args...\n");
 		return -1;
 	}
-	win = &(ifc->main_window);
 
 	xml = glade_xml_new(uifile, NULL, NULL);
 	if (xml == NULL) {
@@ -279,10 +277,10 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	init_listview(win->group_treeview);
 
 	/* add default group to listview */
-	dlist_foreach(p, &(ifc->glist)) {
-		gp = (group_t*)dlist_entry(p, group_t, gnode);
-		add_group_to_listview(win->group_treeview, gp);
-	}
+//	dlist_foreach(p, &(ifc->glist)) {
+//		gp = (group_t*)dlist_entry(p, group_t, gnode);
+//		add_group_to_listview(win->group_treeview, gp);
+//	}
 
 
 	history_store = create_listview_model();

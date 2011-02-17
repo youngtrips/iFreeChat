@@ -27,28 +27,36 @@
 #include "group.h"
 #include "group_listview.h"
 
+//enum {
+//	PIXBUF_COL,
+//	TITLE_COL,
+//	URI_COL,
+//	COL_NUM
+//};
+
 enum {
 	PIXBUF_COL,
-	TITLE_COL,
-	URI_COL,
+	GPNAME_COL,
+	GPID_COL,
 	COL_NUM
 };
 
 
-void add_group_to_listview(GtkTreeView *listview, group_t *gp) {
+void add_group_to_listview(GtkTreeView *listview, const char *gpname,
+		uint32_t gpid) {
 	GtkListStore *model;
 	GtkTreeIter iter;
 	GdkPixbuf *pixbuf;
 
 	model = (GtkListStore*)gtk_tree_view_get_model(listview);
-
 	pixbuf = gdk_pixbuf_new_from_file("pixmaps/icon.png", NULL);
 	gtk_list_store_append(model, &iter);
 	gtk_list_store_set(model, &iter,
 			PIXBUF_COL, pixbuf,
-			TITLE_COL, gp->group_name,
-			URI_COL, (gpointer)gp,
-			-1);
+			GPNAME,		gpname,
+			GPID_COL,	gpid,
+			-1
+			);
 }
 
 void del_group_from_listview(GtkTreeView *listview, group_t *gp) {

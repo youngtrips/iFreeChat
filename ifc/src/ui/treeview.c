@@ -30,12 +30,20 @@
 #include "pair.h"
 #include "category.h"
 
+//enum {
+//	PIXBUF_COL,
+//	TEXT_COL,
+//	IP_COL,
+//	MAC_COL,
+//	URI_COL,
+//	COL_NUM
+//};
+
 enum {
 	PIXBUF_COL,
-	TEXT_COL,
+	NICKNAME_COL,
 	IP_COL,
 	MAC_COL,
-	URI_COL,
 	COL_NUM
 };
 
@@ -51,7 +59,7 @@ void init_treeview(GtkTreeView *tv) {
 
 	renderer = gtk_cell_renderer_text_new();
 	col = gtk_tree_view_column_new_with_attributes("", renderer,
-			"text", TEXT_COL, NULL);
+			"text", NICKNAME_COL, NULL);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(tv), col);
 }
 
@@ -63,12 +71,16 @@ GtkTreeStore *create_contact_treevie_model() {
 			GDK_TYPE_PIXBUF, 
 			G_TYPE_STRING,
 			G_TYPE_STRING,
-			G_TYPE_STRING,
-			G_TYPE_POINTER);
+			G_TYPE_STRING
+			);
 	return store;
 }
 
-int add_user_to_treeview(ifreechat_t *ifc, GtkTreeView *treeview, user_t *user) {
+int add_user_to_treeview(ifreechat_t *ifc, GtkTreeView *treeview, 
+		const char *avatar,
+		const char *nickname,
+		const char *ipaddr,
+		const char *macaddr) {
 	GtkTreeIter user_iter;
 	GtkTreeModel *model;
 	GdkPixbuf *pixbuf;
