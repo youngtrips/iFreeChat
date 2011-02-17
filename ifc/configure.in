@@ -61,9 +61,10 @@ AC_CONFIG_FILES(Makefile
 				lib/hash/Makefile
 				lib/mem_pool/Makefile
 				lib/encoding/Makefile
+				lib/queue/Makefile
+				lib/net/Makefile
+				lib/protocol/Makefile
 				src/Makefile
-				src/net/Makefile
-				src/protocol/Makefile
 				src/ui/Makefile
 				include/Makefile
 				include/blowfish/Makefile

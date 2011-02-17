@@ -39,4 +39,5 @@ int on_gchat_func(ifreechat_t *ifc, const void *msg) {
 int on_sendcheck_func(ifreechat_t *ifc, const void *msg) {
 }
 
-
+int handle_message(ifreechat_t *ifc, const void *msg) {
+}
