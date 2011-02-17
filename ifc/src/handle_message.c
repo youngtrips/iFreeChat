@@ -30,6 +30,8 @@
 #include "handle_message.h"
 #include "udp_socket.h"
 #include "packet.h"
+#include "protocol.h"
+#include "msg.h"
 
 int on_entry_func(ifreechat_t *ifc, const void *msg) {
 }
@@ -53,6 +55,8 @@ void process_message_loop(ifreechat_t *ifc) {
 	udp_socket_t *usock;
 	mem_pool_t *pool;
 	packet_t *pkt;
+	protocol_t *proto;
+	msg_t msg;
 
 	usock = (udp_socket_t*)ifc->usock;
 	for(;;) {
@@ -62,9 +66,15 @@ void process_message_loop(ifreechat_t *ifc) {
 		printf("port : %u\n", pkt->port);
 		printf("size : %u\n", pkt->size);
 		printf("data : %s\n", pkt->data);
-		if (handle_message(ifc, pkt) < 0) {
-			fprintf(stderr, "handle_message() occurs errors...\n");
+		if (protocol_parse_packet(proto, pkt, &msg) < 0) {
+			fprintf(stderr, "parse protocol error...\n");
+		} else {
+			if (handle_message(ifc, pkt) < 0) {
+				fprintf(stderr, "handle_message() occurs errors...\n");
+			}
 		}
 		mem_pool_free(pool, pkt);
 	}
 }
+
+
