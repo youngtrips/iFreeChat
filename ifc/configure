@@ -11625,7 +11625,7 @@ fi
 done
 
 
-ac_config_files="$ac_config_files Makefile lib/Makefile src/Makefile src/net/Makefile src/protocol/Makefile src/ui/Makefile include/Makefile include/blowfish/Makefile include/net/Makefile include/protocol/Makefile include/mem_pool/Makefile"
+ac_config_files="$ac_config_files Makefile lib/Makefile lib/blowfish/Makefile lib/hash/Makefile lib/mem_pool/Makefile lib/encoding/Makefile src/Makefile src/net/Makefile src/protocol/Makefile src/ui/Makefile include/Makefile include/blowfish/Makefile include/net/Makefile include/protocol/Makefile include/mem_pool/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -12597,6 +12597,10 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "lib/Makefile") CONFIG_FILES="$CONFIG_FILES lib/Makefile" ;;
+    "lib/blowfish/Makefile") CONFIG_FILES="$CONFIG_FILES lib/blowfish/Makefile" ;;
+    "lib/hash/Makefile") CONFIG_FILES="$CONFIG_FILES lib/hash/Makefile" ;;
+    "lib/mem_pool/Makefile") CONFIG_FILES="$CONFIG_FILES lib/mem_pool/Makefile" ;;
+    "lib/encoding/Makefile") CONFIG_FILES="$CONFIG_FILES lib/encoding/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "src/net/Makefile") CONFIG_FILES="$CONFIG_FILES src/net/Makefile" ;;
     "src/protocol/Makefile") CONFIG_FILES="$CONFIG_FILES src/protocol/Makefile" ;;
