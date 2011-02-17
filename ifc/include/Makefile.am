@@ -1,4 +1,4 @@
-SUBDIRS = blowfish net protocol mem_pool
+SUBDIRS = blowfish net protocol mem_pool feiq encoding queue
 
 EXTRA_DIST = config.h \
 			 dlist.h \

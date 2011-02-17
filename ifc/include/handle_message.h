@@ -24,11 +24,10 @@
 #ifndef __HANDLE_MESSAGE_H
 #define __HANDLE_MESSAGE_H
 
-
-int on_entry_func(ifreechat_t *ifc, const void *msg);
-int on_exit_func(ifreechat_t *ifc, const void *msg);
-int on_pchat_func(ifreechat_t *ifc, const void *msg);
-int on_gchat_func(ifreechat_t *ifc, const void *msg);
-int on_sendcheck_func(ifreechat_t *ifc, const void *msg);
+int on_entry_callback(ifreechat_t *ifc, const void *msg);
+int on_exit_callback(ifreechat_t *ifc, const void *msg);
+int on_pchat_callback(ifreechat_t *ifc, const void *msg);
+int on_gchat_callback(ifreechat_t *ifc, const void *msg);
+int on_sendcheck_callback(ifreechat_t *ifc, const void *msg);
 
 #endif

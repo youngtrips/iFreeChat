@@ -37,25 +37,36 @@
 
 typedef int (*msg_func)(ifreechat_t *ifc, const void *msg);
 
-static msg_func[MAXN_TABLES];
+static msg_func msg_func_table[MAXN_TABLES];
 
-int on_entry_func(ifreechat_t *ifc, const void *msg) {
+int on_entry_callback(ifreechat_t *ifc, const void *msg) {
+	printf("user(%s) entry\n", ((msg_t*)msg)->username);
+	return 0;
 }
 
-int on_exit_func(ifreechat_t *ifc, const void *msg) {
+int on_exit_callback(ifreechat_t *ifc, const void *msg) {
+	printf("user(%s) exit\n", ((msg_t*)msg)->username);
+	return 0;
 }
 
-int on_pchat_func(ifreechat_t *ifc, const void *msg) {
+int on_pchat_callback(ifreechat_t *ifc, const void *msg) {
+	msg_t *pmsg = (msg_t*)msg;
+	printf("user(%s) send message:\n", pmsg->username);
+	printf("[%s]\n", pmsg->data);
+
+	return 0;
 }
 
-int on_gchat_func(ifreechat_t *ifc, const void *msg) {
+int on_gchat_callback(ifreechat_t *ifc, const void *msg) {
+	return 0;
 }
 
-int on_sendcheck_func(ifreechat_t *ifc, const void *msg) {
+int on_sendcheck_callback(ifreechat_t *ifc, const void *msg) {
+	return 0;
 }
 
-int handle_message(ifreechat_t *ifc, const void *msg) {
-}
+//int handle_message(ifreechat_t *ifc, const void *msg) {
+//}
 
 void process_message_loop(ifreechat_t *ifc) {
 	udp_socket_t *usock;
@@ -65,17 +76,16 @@ void process_message_loop(ifreechat_t *ifc) {
 	msg_t msg;
 
 	usock = (udp_socket_t*)ifc->usock;
+	proto = (protocol_t*)ifc->proto;
+
 	for(;;) {
-		udp_recv(usock, &pkt);
-		printf("mtime: %u\n", pkt->mtime);
-		printf("ip	 : %u\n", pkt->ip);
-		printf("port : %u\n", pkt->port);
-		printf("size : %u\n", pkt->size);
-		printf("data : %s\n", pkt->data);
+		udp_recv(usock, (void**)&pkt);
 		if (protocol_parse_packet(proto, pkt, &msg) < 0) {
 			fprintf(stderr, "parse protocol error...\n");
 		} else {
-			if (handle_message(ifc, pkt) < 0) {
+			/* this time msg takes protocol pointer */
+			msg.user_data = (void*)proto;
+			if (protocol_handle_msg(proto, &msg, (void*)ifc) < 0) {
 				fprintf(stderr, "handle_message() occurs errors...\n");
 			}
 		}

@@ -31,24 +31,64 @@
 
 typedef int (*build_packet_func)(packet_t **pkt, const msg_t *msg);
 typedef int (*parse_packet_func)(const packet_t *pkt, msg_t *msg);
+typedef int (*handle_msg_func)(const msg_t *msg, void *user_data);
+typedef int (*callback_func)(void *data, const msg_t *msg);
+
+/*
+int on_entry_callback(ifreechat_t *ifc, const void *msg);
+int on_exit_callback(ifreechat_t *ifc, const void *msg);
+int on_pchat_callback(ifreechat_t *ifc, const void *msg);
+int on_gchat_callback(ifreechat_t *ifc, const void *msg);
+int on_sendcheck_callback(ifreechat_t *ifc, const void *msg);
+*/
 
 typedef struct protocol_t {
-	char protocol_name[16];
-	char protocol_version[16];
+	char protocol_name[32];
+	char protocol_version[32];
 
-	build_packet_func build_func;
-	parse_packet_func parse_func;
+	build_packet_func 	build_func;
+	parse_packet_func 	parse_func;
+	handle_msg_func		handle_func;
+
+	callback_func on_entry;
+	callback_func on_exit;
+	callback_func on_pchat;
+	callback_func on_gchat;
+	callback_func on_sendcheck;
 
 	dlist_t node;
 }protocol_t;
 
 int protocol_register(protocol_t *proto, const char *name, const char *version,
 		build_packet_func build_func,
-		parse_packet_func parse_func);
+		parse_packet_func parse_func,
+		handle_msg_func handle_func);
 
 int protocol_build_packet(protocol_t *proto, packet_t **pkt, const msg_t *msg);
 
 int protocol_parse_packet(protocol_t *proto, const packet_t *pkt, msg_t *msg);
+
+int protocol_handle_msg(protocol_t *proto, const msg_t *msg, void *user_data);
+
+static inline void protocol_reg_entry_callback(protocol_t *proto, callback_func func) {
+	proto->on_entry = func;
+}
+
+static inline void protocol_reg_exit_callback(protocol_t *proto, callback_func func) {
+	proto->on_exit = func;
+}
+
+static inline void protocol_reg_pchat_callback(protocol_t *proto, callback_func func) {
+	proto->on_pchat = func;
+}
+
+static inline void protocol_reg_gchat_callback(protocol_t *proto, callback_func func) {
+	proto->on_gchat = func;
+}
+
+static inline void protocol_reg_sendcheck_callback(protocol_t *proto, callback_func func) {
+	proto->on_sendcheck = func;
+}
 
 #endif
 

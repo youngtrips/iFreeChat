@@ -1,4 +1,4 @@
-SUBDIRS = 
+SUBDIRS = feiq
 bin_PROGRAMS = ifreechat
 
 ifreechat_CPPFLAGS=$(LIBXML_CFLAGS) $(GTK_CFLAGS) \
@@ -10,7 +10,8 @@ ifreechat_CPPFLAGS=$(LIBXML_CFLAGS) $(GTK_CFLAGS) \
 				 -I ../include/encoding \
 				 -I ../include/protocol \
 				 -I ../include/queue \
-				 -I ../include/net
+				 -I ../include/net \
+				 -I ../include/feiq
 
 ifreechat_LDADD = $(LIBXML_LIBS) $(GTK_LIBS) \
 				  $(GLIB_LIBS) $(LIBGLADE_CFLAGS) \
@@ -21,6 +22,7 @@ ifreechat_LDADD = $(LIBXML_LIBS) $(GTK_LIBS) \
 				  ../lib/net/libmynet.a \
 				  ../lib/queue/libqueue.a \
 				  ../lib/protocol/libprotocol.a \
+				  feiq/libfeiq.a \
 				  -lpthread
 
 ifreechat_SOURCES = ifreechat.c \

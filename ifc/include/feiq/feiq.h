@@ -27,8 +27,27 @@
 #include "packet.h"
 #include "msg.h"
 
+#define CMD_BR_ENTRY	0x00000001UL
+#define CMD_BR_EXIT		0x00000002UL
+#define CMD_ANSENTRY	0x00000003UL
+#define CMD_BR_ABSENCE	0x00000004UL
+
+#define CMD_SENDMSG		0x00000020UL
+#define CMD_RECVMSG		0x00000021UL
+#define CMD_GPMSG		0x00000023UL
+
+#define OPT_ABSENCE		0x00000100UL
+#define OPT_UTF8		0x00800000UL
+
+#define OPT_SENDCHECK	0x00000100UL
+
+
+
+
 int feiq_build_packet(packet_t **pkt, const msg_t *msg);
 
 int feiq_parse_packet(const packet_t *pkt, msg_t *msg);
+
+int feiq_handle_msg(const msg_t *msg, void *user_data);
 
 #endif

@@ -25,6 +25,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "protocol.h"
 #include "utils.h"
 #include "feiq.h"
 
@@ -148,6 +149,7 @@ int feiq_parse_packet(const packet_t *pkt, msg_t *msg) {
 
 	/* get data */
 	p = q;
+	memset(msg->data, 0, sizeof(msg->data));
 	memcpy(msg->data, p, size);
 	msg->data_size = size;
 
@@ -158,4 +160,21 @@ int feiq_parse_packet(const packet_t *pkt, msg_t *msg) {
 
 
 
+int feiq_handle_msg(const msg_t *msg, void *user_data) {
+	protocol_t *proto;
+
+	proto = (protocol_t*)(msg->user_data);
+	switch(msg->command & 0x000000FF) {
+		case CMD_BR_ENTRY:
+			proto->on_entry(user_data, msg);
+			break;
+		case CMD_BR_EXIT:
+			proto->on_exit(user_data, msg);
+			break;
+		case CMD_SENDMSG:
+			proto->on_pchat(user_data, msg);
+			break;
+	}
+	return 0;
+}
 

@@ -21,10 +21,15 @@
  *
  */
 
+#include <stdio.h>
+
 #include "mem_pool.h"
 #include "udp_socket.h"
 #include "ifreechat.h"
 #include "config.h"
+#include "protocol.h"
+#include "feiq.h"
+#include "handle_message.h"
 
 static int init_freechat(ifreechat_t **ifc) {
 	ifreechat_t *ifreechat;
@@ -39,6 +44,26 @@ static int init_freechat(ifreechat_t **ifc) {
 	ifreechat->pool 	= pool;
 	ifreechat->group 	= create_group(pool);
 	ifreechat->user 	= create_user(pool);
+
+	/* register protcol */
+	ifreechat->proto = (protocol_t*)malloc(sizeof(protocol_t));
+
+	protocol_register(ifreechat->proto, 
+			"feiq", 
+			"1_lbt",
+			feiq_build_packet,
+			feiq_parse_packet,
+			feiq_handle_msg
+			);
+
+	printf("proto name: %s\n", ifreechat->proto->protocol_name);
+
+	/* register callback functions to protocol */
+	protocol_reg_entry_callback(ifreechat->proto, on_entry_callback);
+	protocol_reg_exit_callback(ifreechat->proto, on_exit_callback);
+	protocol_reg_pchat_callback(ifreechat->proto, on_pchat_callback);
+	protocol_reg_gchat_callback(ifreechat->proto, on_gchat_callback);
+	protocol_reg_sendcheck_callback(ifreechat->proto, on_sendcheck_callback);
 
 	return 0;
 }

@@ -28,7 +28,7 @@ typedef struct msg_t {
 	char version[16];
 	char username[32];
 	char hostname[32];
-	char *data; 
+	char data[1024]; 
 
 	void *user_data;
 

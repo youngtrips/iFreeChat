@@ -31,6 +31,7 @@
 #include "dlist.h"
 #include "group.h"
 #include "user.h"
+#include "protocol.h"
 
 
 #define INIT_MEMPOOL_SIZE		(1024 * 1024 * 3)
@@ -58,6 +59,7 @@ typedef struct ifreechat_t {
 	udp_socket_t 	*usock;
 	group_t 		*group;
 	user_t 			*user;
+	protocol_t 		*proto;
 
 }ifreechat_t;
 

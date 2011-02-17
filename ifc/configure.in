@@ -65,11 +65,16 @@ AC_CONFIG_FILES(Makefile
 				lib/net/Makefile
 				lib/protocol/Makefile
 				src/Makefile
+				src/feiq/Makefile
 				src/ui/Makefile
 				include/Makefile
 				include/blowfish/Makefile
 				include/net/Makefile
 				include/protocol/Makefile
 				include/mem_pool/Makefile
+				include/queue/Makefile
+				include/feiq/Makefile
+				include/encoding/Makefile
+				include/hash/Makefile
 				)
 AC_OUTPUT
