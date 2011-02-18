@@ -81,17 +81,20 @@ int add_category_to_treeview(ifreechat_t *ifc, category_entry_t *entry) {
 
 	iter = (GtkTreeIter*)mem_pool_alloc(ifc->pool, sizeof(GtkTreeIter));
 	entry->pos = (void*)iter;
+//	gdk_thread_enter();
 	gtk_tree_store_append((GtkTreeStore*)model, iter, NULL);
 	gtk_tree_store_set((GtkTreeStore*)model, iter,
 			PIXBUF_COL, NULL,
 			NICKNAME_COL, entry->name,
 			-1
 			);
+//	gdk_thread_leave();
 	return 0;
 }
 
-int add_user_to_treeview(ifreechat_t *ifc, GtkTreeView *treeview, user_entry_t *user_entry) { 
+int add_user_to_treeview(ifreechat_t *ifc, user_entry_t *user_entry) { 
 	GtkTreeIter user_iter;
+	GtkTreeView *treeview;
 	GtkTreeModel *model;
 	GdkPixbuf *pixbuf;
 	category_entry_t *cat_entry;
@@ -101,6 +104,7 @@ int add_user_to_treeview(ifreechat_t *ifc, GtkTreeView *treeview, user_entry_t *
 
 	char title[128];
 
+	treeview = (GtkTreeView*)((ifc->main_window).contact_treeview);
 	if (treeview == NULL || user_entry == NULL)
 		return -1;
 
@@ -137,6 +141,18 @@ int add_user_to_treeview(ifreechat_t *ifc, GtkTreeView *treeview, user_entry_t *
 			);
 	gdk_pixbuf_unref(pixbuf);
 	user_entry->pos = (void*)uiter;
+	return 0;
+}
+
+int insert_chat_msg(ifreechat_t *ifc, user_entry_t *user_entry, msg_t *msg) {
+	chatbox_t *chatbox;
+
+	chatbox = (chatbox_t*)user_entry->chatbox;
+	if (chatbox == NULL) {
+		chatbox = (chatbox_t*)mem_pool_alloc(ifc->pool, sizeof(chatbox_t));
+		init_chatbox(ifc, chatbox, PCHATBOX);
+	}
+	chatbox_insert_msg(chatbox, user_entry->nickname, msg->data);
 	return 0;
 }
 

@@ -75,6 +75,10 @@ user_entry_t *new_user_entry(mem_pool_t *pool,
 	strcpy(user->category, 	category);
 	strcpy(user->encoding, 	encoding);
 
+	user->pos = NULL;
+	user->category_entry = NULL;
+	user->chatbox = NULL;
+
 	init_dlist_node(&(user->unode));
 
 	return user;

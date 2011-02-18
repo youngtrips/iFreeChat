@@ -57,7 +57,7 @@ int init_chatbox(ifreechat_t *ifc, chatbox_t *chatbox, chatbox_type_t type,
 	GladeXML *xml;
 	GtkTextBuffer *display_buffer;
 
-	xml = glade_xml_new("glade/chatbox.glade", NULL, NULL);
+	xml = glade_xml_new("../glade/chatbox.glade", NULL, NULL);
 	if (xml == NULL) {
 		return -1;
 	}
@@ -218,7 +218,7 @@ void insert_msg_with_emotion_to_textview(GtkTextView *textview, const char *msg)
 						gtk_text_buffer_insert(buffer, &iter, str + j, i - j);
 						j = i + n + 2;
 						i += n + 1;
-						sprintf(file, "pixmaps/faces/%d.gif", id + 1);
+						sprintf(file, "../pixmaps/faces/%d.gif", id + 1);
 						img = gtk_image_new_from_file(file);
 						gtk_widget_show(img);
 						anchor = gtk_text_buffer_create_child_anchor(buffer, &iter);

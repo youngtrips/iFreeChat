@@ -87,6 +87,7 @@ emotion_t emotion_list[96] = {
 	{50,	"/:yawn"	},
 	{51,	"/:snooty"	},
 	{52,	"/:chagrin"	},
+
 	{53,	"/:kcry"	},
 	{54,	"/:yinxian"	},
 	{55,	"/:qinqin"	},
@@ -229,7 +230,7 @@ void emotion_chose_dialg_init(pchatbox_t *chatbox, int x, int y) {
 			subframe = gtk_frame_new(NULL);
 			gtk_frame_set_shadow_type(GTK_FRAME(subframe) , GTK_SHADOW_ETCHED_IN);
 			bzero(path , sizeof(path));
-			sprintf(path , "pixmaps/faces/%d.gif" , k + 1);
+			sprintf(path , "../pixmaps/faces/%d.gif" , k + 1);
 			img = gtk_image_new_from_file(path);
 			if(!img)
 				continue;

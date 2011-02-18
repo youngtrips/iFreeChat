@@ -162,7 +162,10 @@ void feiq_on_entry(msg_t *msg) {
 	char *p;
 
 	msg->avatar_id = get_avatar_id_from_version(msg->version);
-	sprintf(msg->avatar, "../pixmaps/avatar/%d.bmp", msg->avatar_id);
+	if (msg->avatar_id == 0)
+		sprintf(msg->avatar, "../pixmaps/avatar/default.png");
+	else
+		sprintf(msg->avatar, "../pixmaps/avatar/%d.bmp", msg->avatar_id);
 
 	p = strchr(msg->data, '\0'); *p++ = '\0';
 	if (strlen(msg->data) == 0) 

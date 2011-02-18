@@ -83,6 +83,7 @@ int on_entry_callback(ifreechat_t *ifc, const void *msg) {
 		user_add_entry(ifc->ulist, user_entry);
 
 		/* update user ui */
+		add_user_to_treeview(ifc, user_entry);
 
 
 	} else {
