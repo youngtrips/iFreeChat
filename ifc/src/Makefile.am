@@ -29,4 +29,5 @@ ifreechat_SOURCES = ifreechat.c \
 					group.c \
 					user.c \
 					handle_message.c \
-					config.c
+					config.c \
+					category.c

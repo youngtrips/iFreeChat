@@ -49,7 +49,8 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_ifreechat_OBJECTS = ifreechat-ifreechat.$(OBJEXT) \
 	ifreechat-group.$(OBJEXT) ifreechat-user.$(OBJEXT) \
-	ifreechat-handle_message.$(OBJEXT) ifreechat-config.$(OBJEXT)
+	ifreechat-handle_message.$(OBJEXT) ifreechat-config.$(OBJEXT) \
+	ifreechat-category.$(OBJEXT)
 ifreechat_OBJECTS = $(am_ifreechat_OBJECTS)
 am__DEPENDENCIES_1 =
 ifreechat_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -263,7 +264,8 @@ ifreechat_SOURCES = ifreechat.c \
 					group.c \
 					user.c \
 					handle_message.c \
-					config.c
+					config.c \
+					category.c
 
 all: all-recursive
 
@@ -352,6 +354,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ifreechat-category.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ifreechat-config.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ifreechat-group.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ifreechat-handle_message.Po@am__quote@
@@ -448,6 +451,20 @@ ifreechat-config.obj: config.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='config.c' object='ifreechat-config.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ifreechat-config.obj `if test -f 'config.c'; then $(CYGPATH_W) 'config.c'; else $(CYGPATH_W) '$(srcdir)/config.c'; fi`
+
+ifreechat-category.o: category.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ifreechat-category.o -MD -MP -MF $(DEPDIR)/ifreechat-category.Tpo -c -o ifreechat-category.o `test -f 'category.c' || echo '$(srcdir)/'`category.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/ifreechat-category.Tpo $(DEPDIR)/ifreechat-category.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='category.c' object='ifreechat-category.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ifreechat-category.o `test -f 'category.c' || echo '$(srcdir)/'`category.c
+
+ifreechat-category.obj: category.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ifreechat-category.obj -MD -MP -MF $(DEPDIR)/ifreechat-category.Tpo -c -o ifreechat-category.obj `if test -f 'category.c'; then $(CYGPATH_W) 'category.c'; else $(CYGPATH_W) '$(srcdir)/category.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/ifreechat-category.Tpo $(DEPDIR)/ifreechat-category.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='category.c' object='ifreechat-category.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ifreechat-category.obj `if test -f 'category.c'; then $(CYGPATH_W) 'category.c'; else $(CYGPATH_W) '$(srcdir)/category.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

@@ -39,6 +39,9 @@ typedef struct user_entry_t {
 	char *category;
 	char *encoding;
 
+	void *pos;
+	void *category_entry;
+
 	dlist_t unode; /* user list node */
 }user_entry_t;
 

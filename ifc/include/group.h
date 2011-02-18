@@ -36,6 +36,8 @@ typedef struct group_entry_t {
 	char *group_info;
 	uint32_t group_id;
 
+	void *pos;
+
 	dlist_t gnode;
 	dlist_t ulist;
 }group_entry_t;
