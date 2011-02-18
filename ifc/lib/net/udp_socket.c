@@ -101,8 +101,10 @@ int udp_stop(udp_socket_t *usock) {
 	usock->shutdown = 1;
 	destroy_msg_queue(usock->recv_que);
 	destroy_msg_queue(usock->send_que);
+
 	pthread_join(usock->listen_tid, NULL);
 	pthread_join(usock->send_tid, NULL);
+
 	close(usock->fd);
 	mem_pool_free(usock->pool, usock);
 	return 0;
@@ -184,7 +186,9 @@ void *udp_send_routine(void *arg) {
 	pool = usock->pool;
 
 	for(;;) {
+		printf("start wait...\n");
 		msg_queue_get(usock->send_que, (void**)&pkt);
+		printf("wait...\n");
 		if (usock->shutdown == 1)
 			break;
 		memset(&addr, 0, sizeof(addr));

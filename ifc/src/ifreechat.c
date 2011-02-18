@@ -47,6 +47,7 @@ static int init_freechat(ifreechat_t **ifc) {
 	ifreechat->ulist 	= create_user(pool);
 	ifreechat->clist	= create_category(pool);
 
+	ifreechat->shutdown = 0;
 	/* register protcol */
 	ifreechat->proto = (protocol_t*)malloc(sizeof(protocol_t));
 
@@ -91,7 +92,9 @@ static void stop_network(ifreechat_t *ifc) {
 }
 
 static void freechat_main(ifreechat_t *ifc) {
-	process_message_loop(ifc);
+	
+	pthread_create(&(ifc->main_loop_thread), NULL,
+			process_message_loop, (void*)ifc);
 }
 
 int main(int argc, char *argv[]) {
@@ -112,9 +115,13 @@ int main(int argc, char *argv[]) {
 
 	/* init network */
 	init_network(ifc);
-	gtk_main();
 	freechat_main(ifc);
+
+	gtk_main();
+	ifc->shutdown = 1;
+
 	stop_network(ifc);
+	pthread_join(ifc->main_loop_thread, NULL);
 	destroy_freechat(ifc);
 	return 0;
 }

@@ -119,7 +119,7 @@ int on_sendcheck_callback(ifreechat_t *ifc, const void *msg) {
 	return 0;
 }
 
-void process_message_loop(ifreechat_t *ifc) {
+void *process_message_loop(ifreechat_t *ifc) {
 	udp_socket_t *usock;
 	mem_pool_t *pool;
 	packet_t *pkt;
@@ -130,7 +130,10 @@ void process_message_loop(ifreechat_t *ifc) {
 	proto = (protocol_t*)ifc->proto;
 
 	for(;;) {
+		printf("enter into process msg loop...\n");
 		udp_recv(usock, (void**)&pkt);
+		if (ifc->shutdown == 1)
+			break;
 		if (protocol_parse_packet(proto, pkt, &msg) < 0) {
 			fprintf(stderr, "parse protocol error...\n");
 		} else {
@@ -142,6 +145,7 @@ void process_message_loop(ifreechat_t *ifc) {
 		}
 		mem_pool_free(pool, pkt);
 	}
+	return 0;
 }
 
 

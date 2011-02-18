@@ -26,6 +26,8 @@
 
 #include <stdint.h>
 
+#include <pthread.h>
+
 #include "mem_pool.h"
 #include "udp_socket.h"
 #include "dlist.h"
@@ -36,7 +38,7 @@
 
 #include "window.h"
 
-#define INIT_MEMPOOL_SIZE		(1024 * 1024 * 3)
+#define INIT_MEMPOOL_SIZE		(1024 * 1024 * 5)
 
 typedef struct ifreechat_t {
 
@@ -57,6 +59,7 @@ typedef struct ifreechat_t {
 	char multicast_ip[20];
 	uint16_t port;
 
+	pthread_t main_loop_thread;
 	window_t main_window;
 
 	mem_pool_t 		*pool;
@@ -66,6 +69,7 @@ typedef struct ifreechat_t {
 	user_t 			*ulist;
 	protocol_t 		*proto;
 
+	volatile int 	shutdown;
 }ifreechat_t;
 
 typedef struct ui_t {

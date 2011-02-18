@@ -32,4 +32,6 @@ int on_pchat_callback(ifreechat_t *ifc, const void *msg);
 int on_gchat_callback(ifreechat_t *ifc, const void *msg);
 int on_sendcheck_callback(ifreechat_t *ifc, const void *msg);
 
+void *process_message_loop(ifreechat_t *ifc);
+
 #endif

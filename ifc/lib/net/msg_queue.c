@@ -59,7 +59,7 @@ void destroy_msg_queue(msg_queue_t *que) {
 	mem_pool_t *pool;
 
 	pool = que->pool;
-	pthread_cond_broadcast(&(que->cond));
+	msg_queue_put(que, NULL);
 	destroy_queue(que->que);
 	mem_pool_free(pool, que);
 }
