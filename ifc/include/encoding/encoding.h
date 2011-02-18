@@ -6,4 +6,10 @@
  *
  */
 
+#ifndef __ENCODING_H
+#define __ENCODING_H
+
+char *string_validate(const char *string, const char *codeset, char **encode);
+
+#endif
 

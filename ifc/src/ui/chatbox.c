@@ -25,6 +25,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <time.h>
+#include <unistd.h>
 
 #include "chatbox.h"
 #include "ifreechat.h"
@@ -56,11 +57,17 @@ int init_chatbox(ifreechat_t *ifc, chatbox_t *chatbox, chatbox_type_t type,
 	char title[128];
 	GladeXML *xml;
 	GtkTextBuffer *display_buffer;
+	static const char *xml_file = "../glade/chatbox.glade";
+	char buf[1024];
 
-	xml = glade_xml_new("../glade/chatbox.glade", NULL, NULL);
+	printf("cwd: [%s]\n", getcwd(buf, sizeof(buf)));
+	printf("[%s]\n", xml_file);
+	xml = glade_xml_new(xml_file, NULL, NULL);
 	if (xml == NULL) {
+		fprintf(stderr, "load glade file error.\n");
 		return -1;
 	}
+	printf("cwd: [%s]\n", getcwd(buf, sizeof(buf)));
 
 	glade_xml_signal_autoconnect(xml);
 
@@ -77,8 +84,6 @@ int init_chatbox(ifreechat_t *ifc, chatbox_t *chatbox, chatbox_type_t type,
 	chatbox->ifreechat			= (void*)ifc;
 	chatbox->data				= (void*)data;
 	chatbox->type				= type;
-
-	init_dlist_node(&(chatbox->chatbox_node));
 
 //	sprintf(title, "Chat with %s", user->nickname);
 //	gtk_window_set_title((GtkWindow*)chatbox->window, title);
@@ -146,7 +151,7 @@ static void close_chatbox(GtkWidget *widget, gpointer data) {
 		group_entry->chatbox = NULL;
 	}
 
-	free(chatbox);
+	mem_pool_free(ifc->pool, chatbox);
 }
 
 void chatbox_insert_msg(chatbox_t *chatbox, char *sender, time_t *tm, char *msg) {

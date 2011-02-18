@@ -41,7 +41,8 @@ pchatbox_t *new_pchatbox(ifreechat_t *ifc, user_entry_t *user) {
 	GladeXML *xml;
 	GtkTextBuffer *display_buffer;
 
-	pchatbox = (pchatbox_t*)malloc(sizeof(pchatbox_t));
+	pchatbox = (pchatbox_t*)mem_pool_alloc(ifc->pool, sizeof(pchatbox_t));
+	user->chatbox = (void*)pchatbox;
 
 	init_chatbox(ifc, pchatbox, PCHATBOX, (void*)user);
 

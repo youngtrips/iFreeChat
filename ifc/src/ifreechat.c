@@ -100,8 +100,10 @@ static void freechat_main(ifreechat_t *ifc) {
 int main(int argc, char *argv[]) {
 
 	ifreechat_t *ifc;
-	int i;
 
+	if (!g_thread_supported()) {
+		g_thread_init(NULL);
+	}
 	gtk_init(&argc, &argv);
 	if (init_freechat(&ifc) < 0)
 		return 1;
@@ -117,7 +119,10 @@ int main(int argc, char *argv[]) {
 	init_network(ifc);
 	freechat_main(ifc);
 
+	gdk_threads_enter();
 	gtk_main();
+	gdk_threads_leave();
+
 	ifc->shutdown = 1;
 
 	stop_network(ifc);

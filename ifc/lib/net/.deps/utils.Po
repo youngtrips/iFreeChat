@@ -15,7 +15,7 @@ utils.o: utils.c /usr/include/string.h /usr/include/features.h \
  /usr/include/errno.h /usr/include/bits/errno.h \
  /usr/include/linux/errno.h /usr/include/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
- /usr/include/time.h /usr/include/bits/time.h ../../include/utils.h \
+ /usr/include/time.h /usr/include/bits/time.h ../../include/net/utils.h \
  /usr/include/sys/types.h /usr/include/sys/select.h \
  /usr/include/bits/select.h /usr/include/bits/sigset.h \
  /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h \
@@ -105,7 +105,7 @@ utils.o: utils.c /usr/include/string.h /usr/include/features.h \
 
 /usr/include/bits/time.h:
 
-../../include/utils.h:
+../../include/net/utils.h:
 
 /usr/include/sys/types.h:
 

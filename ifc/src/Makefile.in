@@ -55,10 +55,10 @@ ifreechat_OBJECTS = $(am_ifreechat_OBJECTS)
 am__DEPENDENCIES_1 =
 ifreechat_DEPENDENCIES = ui/libmygui.a $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	../lib/blowfish/libblowfish.a ../lib/encoding/libencoding.a \
-	../lib/mem_pool/libmempool.a ../lib/hash/libmyhash.a \
-	../lib/net/libmynet.a ../lib/queue/libqueue.a \
-	../lib/protocol/libprotocol.a feiq/libfeiq.a
+	../lib/blowfish/libblowfish.a ../lib/mem_pool/libmempool.a \
+	../lib/hash/libmyhash.a ../lib/net/libmynet.a \
+	../lib/queue/libqueue.a ../lib/protocol/libprotocol.a \
+	feiq/libfeiq.a ../lib/encoding/libencoding.a
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -253,13 +253,13 @@ ifreechat_LDADD = ui/libmygui.a \
 				  $(LIBXML_LIBS) $(GTK_LIBS) \
 				  $(GLIB_LIBS) $(LIBGLADE_LIBS) \
 				  ../lib/blowfish/libblowfish.a \
-				  ../lib/encoding/libencoding.a \
 				  ../lib/mem_pool/libmempool.a \
 				  ../lib/hash/libmyhash.a \
 				  ../lib/net/libmynet.a \
 				  ../lib/queue/libqueue.a \
 				  ../lib/protocol/libprotocol.a \
 				  feiq/libfeiq.a \
+				  ../lib/encoding/libencoding.a \
 				  -lpthread
 
 ifreechat_SOURCES = ifreechat.c \

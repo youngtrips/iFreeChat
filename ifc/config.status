@@ -404,7 +404,7 @@ on `(hostname || uname -n) 2>/dev/null | sed 1q`
 "
 
 # Files that config.status was made for.
-config_files=" Makefile lib/Makefile lib/blowfish/Makefile lib/hash/Makefile lib/mem_pool/Makefile lib/encoding/Makefile lib/queue/Makefile lib/net/Makefile lib/protocol/Makefile src/Makefile src/ui/Makefile include/Makefile include/blowfish/Makefile include/net/Makefile include/protocol/Makefile include/mem_pool/Makefile"
+config_files=" Makefile lib/Makefile lib/blowfish/Makefile lib/hash/Makefile lib/mem_pool/Makefile lib/encoding/Makefile lib/queue/Makefile lib/net/Makefile lib/protocol/Makefile src/Makefile src/feiq/Makefile src/ui/Makefile include/Makefile include/blowfish/Makefile include/net/Makefile include/protocol/Makefile include/mem_pool/Makefile include/queue/Makefile include/feiq/Makefile include/encoding/Makefile include/hash/Makefile"
 config_headers=" config.h"
 config_commands=" depfiles libtool"
 
@@ -748,12 +748,17 @@ do
     "lib/net/Makefile") CONFIG_FILES="$CONFIG_FILES lib/net/Makefile" ;;
     "lib/protocol/Makefile") CONFIG_FILES="$CONFIG_FILES lib/protocol/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
+    "src/feiq/Makefile") CONFIG_FILES="$CONFIG_FILES src/feiq/Makefile" ;;
     "src/ui/Makefile") CONFIG_FILES="$CONFIG_FILES src/ui/Makefile" ;;
     "include/Makefile") CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
     "include/blowfish/Makefile") CONFIG_FILES="$CONFIG_FILES include/blowfish/Makefile" ;;
     "include/net/Makefile") CONFIG_FILES="$CONFIG_FILES include/net/Makefile" ;;
     "include/protocol/Makefile") CONFIG_FILES="$CONFIG_FILES include/protocol/Makefile" ;;
     "include/mem_pool/Makefile") CONFIG_FILES="$CONFIG_FILES include/mem_pool/Makefile" ;;
+    "include/queue/Makefile") CONFIG_FILES="$CONFIG_FILES include/queue/Makefile" ;;
+    "include/feiq/Makefile") CONFIG_FILES="$CONFIG_FILES include/feiq/Makefile" ;;
+    "include/encoding/Makefile") CONFIG_FILES="$CONFIG_FILES include/encoding/Makefile" ;;
+    "include/hash/Makefile") CONFIG_FILES="$CONFIG_FILES include/hash/Makefile" ;;
 
   *) as_fn_error "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

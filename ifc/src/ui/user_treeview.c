@@ -149,9 +149,13 @@ int insert_chat_msg(ifreechat_t *ifc, user_entry_t *user_entry, msg_t *msg) {
 
 	chatbox = (chatbox_t*)user_entry->chatbox;
 	if (chatbox == NULL) {
-		chatbox = (chatbox_t*)mem_pool_alloc(ifc->pool, sizeof(chatbox_t));
-		init_chatbox(ifc, chatbox, PCHATBOX);
+//		chatbox = (pchatbox_t*)new_pchatbox(ifc, user_entry);
+		//notify
+		return 0;
 	}
+
+	printf("nickname:[%s]\n", user_entry->nickname);
+	printf("data: [%s]\n", msg->data);
 	chatbox_insert_msg(chatbox, user_entry->nickname, msg->data);
 	return 0;
 }

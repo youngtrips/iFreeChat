@@ -25,6 +25,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "encoding.h"
 #include "protocol.h"
 #include "utils.h"
 #include "feiq.h"
@@ -178,6 +179,17 @@ void feiq_on_entry(msg_t *msg) {
 		strcpy(msg->category, p);
 }
 
+void feiq_on_pchat(msg_t *msg) {
+	char *encode;
+	char *plain;
+
+	plain = string_validate(msg->data, "GBK", &encode);
+	if (plain) {
+		memcpy(msg->data, plain, strlen(plain));
+		msg->data_size = strlen(plain);
+	}
+}
+
 int feiq_handle_msg(const msg_t *msg, void *user_data) {
 	protocol_t *proto;
 
@@ -191,6 +203,7 @@ int feiq_handle_msg(const msg_t *msg, void *user_data) {
 			proto->on_exit(user_data, msg);
 			break;
 		case CMD_SENDMSG:
+			feiq_on_pchat(msg);
 			proto->on_pchat(user_data, msg);
 			break;
 	}

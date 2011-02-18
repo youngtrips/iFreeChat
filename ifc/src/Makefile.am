@@ -18,13 +18,13 @@ ifreechat_LDADD = ui/libmygui.a \
 				  $(LIBXML_LIBS) $(GTK_LIBS) \
 				  $(GLIB_LIBS) $(LIBGLADE_LIBS) \
 				  ../lib/blowfish/libblowfish.a \
-				  ../lib/encoding/libencoding.a \
 				  ../lib/mem_pool/libmempool.a \
 				  ../lib/hash/libmyhash.a \
 				  ../lib/net/libmynet.a \
 				  ../lib/queue/libqueue.a \
 				  ../lib/protocol/libprotocol.a \
 				  feiq/libfeiq.a \
+				  ../lib/encoding/libencoding.a \
 				  -lpthread
 
 ifreechat_SOURCES = ifreechat.c \

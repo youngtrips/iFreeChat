@@ -102,6 +102,7 @@ int on_entry_callback(ifreechat_t *ifc, const void *msg) {
 		}
 		
 		/* update user entry ui */
+		add_user_to_treeview(ifc, user_entry);
 	}
 
 	return 0;
@@ -114,8 +115,18 @@ int on_exit_callback(ifreechat_t *ifc, const void *msg) {
 
 int on_pchat_callback(ifreechat_t *ifc, const void *msg) {
 	msg_t *pmsg = (msg_t*)msg;
+	user_entry_t *user_entry;
+
 	printf("user(%s) send message:\n", pmsg->username);
 	printf("[%s]\n", pmsg->data);
+
+	user_entry = user_find_entry(ifc->ulist, pmsg->ip);
+	if (user_entry == NULL) {
+		printf("no such user(ip=%s) ...\n", pmsg->ip);
+		return -1;
+	}
+
+ 	insert_chat_msg(ifc, user_entry, pmsg);
 
 	return 0;
 }

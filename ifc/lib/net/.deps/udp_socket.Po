@@ -36,9 +36,9 @@ udp_socket.o: udp_socket.c /usr/include/stdio.h /usr/include/features.h \
  /usr/include/bits/fcntl.h /usr/include/bits/fcntl2.h \
  ../../include/mem_pool/mem_pool.h ../../include/net/msg_queue.h \
  ../../include/queue/queue.h ../../include/net/msg.h \
- ../../include/dlist.h ../../include/net/packet.h ../../include/utils.h \
- /usr/include/sys/stat.h /usr/include/bits/stat.h \
- ../../include/net/socket.h
+ ../../include/dlist.h ../../include/net/packet.h \
+ ../../include/net/utils.h /usr/include/sys/stat.h \
+ /usr/include/bits/stat.h
 
 /usr/include/stdio.h:
 
@@ -206,10 +206,8 @@ udp_socket.o: udp_socket.c /usr/include/stdio.h /usr/include/features.h \
 
 ../../include/net/packet.h:
 
-../../include/utils.h:
+../../include/net/utils.h:
 
 /usr/include/sys/stat.h:
 
 /usr/include/bits/stat.h:
-
-../../include/net/socket.h:
