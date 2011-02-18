@@ -155,6 +155,7 @@ int feiq_parse_packet(const packet_t *pkt, msg_t *msg) {
 	msg->data_size = size;
 
 	msg->user_data = NULL;
+	msg->gpid = 0;
 	init_dlist_node(&(msg->list_node));
 	return 0;
 }

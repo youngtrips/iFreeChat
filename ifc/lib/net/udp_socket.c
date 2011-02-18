@@ -80,6 +80,8 @@ int udp_start(udp_socket_t *usock) {
 		return -1;
 	}
 
+	
+
 	if (pthread_create(&(usock->send_tid), NULL, udp_send_routine, 
 				(void*)usock) != 0) {
 		fprintf(stderr, "pthread_create() error: %s@%s:%d\n",
@@ -88,6 +90,7 @@ int udp_start(udp_socket_t *usock) {
 		pthread_join(usock->listen_tid, NULL);
 		return -1;
 	}
+
 
 	return 0;
 }
@@ -149,7 +152,7 @@ void *udp_listen_routine(void *arg) {
 
 		if (usock->shutdown == 1)
 			break;
-		nfds = epoll_wait(epfd, events, sizeof(events), 10);
+		nfds = epoll_wait(epfd, events, sizeof(events), 100);
 		if (nfds < 0) {
 			fprintf(stderr, "epoll_wait() error: %s@%s:%d\n",
 					strerror(errno), __FILE__, __LINE__);
@@ -186,7 +189,7 @@ void *udp_send_routine(void *arg) {
 	pool = usock->pool;
 
 	for(;;) {
-		printf("start wait...\n");
+		printf("send ...start wait...\n");
 		msg_queue_get(usock->send_que, (void**)&pkt);
 		printf("wait...\n");
 		if (usock->shutdown == 1)

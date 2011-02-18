@@ -1,3 +1,19 @@
+Wed Feb 16 22:54:32 2011  youngtrips <youngtrips@163.com>
+
+  * ifc/Makefile, ifc/Makefile.in, ifc/config.log, ifc/include/config.h,
+  ifc/lib/Makefile, ifc/lib/Makefile.am, ifc/lib/Makefile.in, ifc/lib/queue.c,
+  ifc/src/.deps/ifreechat-group.Po, ifc/src/.deps/ifreechat-handle_message.Po,
+  ifc/src/.deps/ifreechat-ifreechat.Po, ifc/src/.deps/ifreechat-user.Po,
+  ifc/src/Makefile, ifc/src/Makefile.am, ifc/src/Makefile.in,
+  ifc/src/handle_message.c, ifc/src/ifreechat.c,
+  ifc/src/net/.deps/msg_queue.Po, ifc/src/net/.deps/packet.Po,
+  ifc/src/net/.deps/queue.Po, ifc/src/net/.deps/udp_socket.Po,
+  ifc/src/net/.deps/utils.Po, ifc/src/net/Makefile, ifc/src/net/Makefile.am,
+  ifc/src/net/Makefile.in, ifc/src/net/msg_queue.c, ifc/src/net/queue.c,
+  ifc/src/protocol/.deps/protocol.Po, ifc/src/protocol/Makefile,
+  ifc/src/protocol/Makefile.am, ifc/src/protocol/Makefile.in,
+  ifc/src/ui/Makefile, ifc/src/ui/Makefile.in: update
+
 Wed Feb 16 22:12:41 2011  youngtrips <youngtrips@163.com>
 
   * ifc/Makefile, ifc/Makefile.am, ifc/Makefile.in,

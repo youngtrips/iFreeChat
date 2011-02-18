@@ -47,6 +47,7 @@ static int init_freechat(ifreechat_t **ifc) {
 	ifreechat->ulist 	= create_user(pool);
 	ifreechat->clist	= create_category(pool);
 
+	init_dlist_node(&(ifreechat->mlist));
 	ifreechat->shutdown = 0;
 	/* register protcol */
 	ifreechat->proto = (protocol_t*)malloc(sizeof(protocol_t));

@@ -21,6 +21,8 @@
  *
  */
 
+#include <stdio.h>
+
 #include "msg_queue.h"
 #include "queue.h"
 
@@ -34,25 +36,38 @@ msg_queue_t *create_msg_queue(mem_pool_t *pool, size_t size) {
 
 	msgque->que = (queue_t*)create_queue(pool, size);
 	msgque->pool = pool;
+#ifdef __USE_SIGNAL
 	pthread_mutex_init(&(msgque->lock), NULL);
 	pthread_cond_init(&(msgque->cond), NULL);
-
+#endif
 	return msgque;
 }
 
 void msg_queue_get(msg_queue_t *que, void **data) {
+#ifdef __USE_SIGNAL
 	pthread_mutex_lock(&(que->lock));
+#endif
 	while(queue_pop(que->que, data) < 0) {
+#ifdef __USE_SIGNAL
 		pthread_cond_wait(&(que->cond), &(que->lock));
+#endif
+
+		usleep(200);
 	}
+#ifdef __USE_SIGNAL
 	pthread_mutex_unlock(&(que->lock));
+#endif
 }
 
 void msg_queue_put(msg_queue_t *que, const void *data) {
+#ifdef __USE_SIGNAL
 	pthread_mutex_lock(&(que->lock));
+#endif
 	queue_push(que->que, data);
+#ifdef __USE_SIGNAL
 	pthread_cond_signal(&(que->cond));
 	pthread_mutex_unlock(&(que->lock));
+#endif
 }
 
 void destroy_msg_queue(msg_queue_t *que) {

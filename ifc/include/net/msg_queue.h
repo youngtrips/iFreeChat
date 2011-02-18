@@ -33,8 +33,11 @@ typedef struct msg_queue_t {
 	queue_t *que;
 	mem_pool_t *pool;
 
+#ifdef __USE_SIGNAL
 	pthread_mutex_t lock;
 	pthread_cond_t cond;
+#endif
+
 }msg_queue_t;
 
 msg_queue_t *create_msg_queue(mem_pool_t *pool, size_t size);

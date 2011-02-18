@@ -93,7 +93,7 @@ int on_entry_callback(ifreechat_t *ifc, const void *msg) {
 			old_cat_entry = user_entry->category_entry;
 			old_cat_entry->count--;
 			new_cat_entry->count++;
-			user_entry->category = new_cat_entry;
+			user_entry->category_entry = new_cat_entry;
 
 			/* update old category ui */
 
@@ -144,27 +144,27 @@ void *process_message_loop(ifreechat_t *ifc) {
 	mem_pool_t *pool;
 	packet_t *pkt;
 	protocol_t *proto;
-	msg_t msg;
+	msg_t *msg;
 
 	usock = (udp_socket_t*)ifc->usock;
 	proto = (protocol_t*)ifc->proto;
 
 	for(;;) {
-		printf("enter into process msg loop...\n");
 		udp_recv(usock, (void**)&pkt);
 		if (ifc->shutdown == 1)
 			break;
-		if (protocol_parse_packet(proto, pkt, &msg) < 0) {
+		msg = (msg_t*)mem_pool_alloc(ifc->pool, sizeof(msg_t));
+		if (protocol_parse_packet(proto, pkt, msg) < 0) {
 			fprintf(stderr, "parse protocol error...\n");
 		} else {
-			/* this time msg takes protocol pointer */
-			msg.user_data = (void*)proto;
-			if (protocol_handle_msg(proto, &msg, (void*)ifc) < 0) {
+			msg->user_data = (void*)proto;
+			if (protocol_handle_msg(proto, msg, (void*)ifc) < 0) {
 				fprintf(stderr, "handle_message() occurs errors...\n");
 			}
 		}
 		mem_pool_free(pool, pkt);
 	}
+	pthread_exit(0);
 	return 0;
 }
 

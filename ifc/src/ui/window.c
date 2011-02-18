@@ -86,6 +86,11 @@ gboolean on_nickname_entry_activate(GtkWidget* widget , gpointer data) {
 	return TRUE;
 }
 
+void set_message_alert(ifreechat_t *ifc) {
+	gdk_threads_enter();
+	gtk_status_icon_set_blinking((ifc->main_window).icon, TRUE);
+	gdk_threads_leave();
+}
 
 void tray_icon_activated(GtkWidget *widget, gpointer data) {
 	ifreechat_t *ifc;
@@ -94,12 +99,12 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 	dlist_t *msg_node;
 	dlist_t *p;
 	group_t *group;
-	user_t *user;
+	user_entry_t *user_entry;
 	time_t tm;
 
 	ifc = (ifreechat_t*)data;
 
-	/*
+	
 	msg_node = (ifc->mlist).next;
 	if (msg_node == &(ifc->mlist)) {
 		gtk_status_icon_set_blinking((ifc->main_window).icon, FALSE);
@@ -107,37 +112,30 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 		gtk_window_deiconify(GTK_WINDOW((ifc->main_window).window));
 		return;
 	}
-	pthread_mutex_lock(&(ifc->mlist_lock));
-	dlist_del(msg_node);
-	pthread_mutex_unlock(&(ifc->mlist_lock));
+
 	
-	msg = (msg_t*)dlist_entry(msg_node, msg_t, node);
-//	tm = (time_t)atoi(msg->packet_no);
-	tm = time(NULL);
+//	pthread_mutex_lock(&(ifc->mlist_lock));
+	dlist_del(msg_node);
+//	pthread_mutex_unlock(&(ifc->mlist_lock));
+	
+	msg = (msg_t*)dlist_entry(msg_node, msg_t, list_node);
+	tm = (time_t)msg->mtime;
 
 	if (msg->gpid == 0) {
-		chatbox = NULL;
-		pthread_mutex_lock(&(ifc->pchatbox_lock));
-		dlist_foreach(p, &(ifc->pchatbox)) {
-			chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, chatbox_node);
-			user = (user_t*)chatbox->data;
-			if (!strcmp(user->ipaddr, msg->ip)) {
-				gtk_window_present((GtkWindow*)chatbox->window);
-				break;
-			}
-		}
-		pthread_mutex_unlock(&(ifc->pchatbox_lock));
-
-		if (chatbox == NULL) {
-			user = (user_t*)msg->user;
-			chatbox = (pchatbox_t*)new_pchatbox(ifc, user);
+		user_entry = (user_entry_t*)msg->user_data;
+		chatbox = (pchatbox_t*)user_entry->chatbox;
+		if (chatbox != NULL) {
+			gtk_window_present((GtkWindow*)chatbox->window);
+		} else  {
+			chatbox = (pchatbox_t*)new_pchatbox(ifc, user_entry);
 			if (chatbox == NULL) {
 				printf("create chatbox error...\n");
 			} else {
-				chatbox_insert_msg(chatbox, user->nickname, &tm, msg->data);
+				chatbox_insert_msg(chatbox, user_entry->nickname, &tm, msg->data);
 			}
 		}
 	} else {
+		/*
 		chatbox = NULL;
 		pthread_mutex_lock(&(ifc->gchatbox_lock));
 		dlist_foreach(p, &(ifc->gchatbox)) {
@@ -161,15 +159,14 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 			chatbox = (gchatbox_t*)new_gchatbox(ifc, group);
 			chatbox_insert_msg(chatbox, user->nickname, &tm, msg->data);
 		}
+		*/
 	}
 	
 	if (&(ifc->mlist) == (ifc->mlist).next) {
 		gtk_status_icon_set_blinking((ifc->main_window).icon, FALSE);
 	}
 
-	
-	free(msg);
-	*/
+	mem_pool_free(ifc->pool, msg);
 }
 
 int init_window(ifreechat_t *ifc , const char *uifile) {
@@ -217,7 +214,9 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	if (ifc->avatar_type == 0) {
 		/* use internal avatar */
 		sprintf(file, "../pixmaps/avatar/%d.bmp", ifc->avatar_id);
+		printf("file: [%s]\n", file);
 		gtk_image_set_from_file(win->avatar, file);
+		printf("file: [%s]\n", file);
 	} else {
 		gtk_image_set_from_file(win->avatar, ifc->custom_avatar);
 	}
@@ -232,6 +231,8 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 
 	/* trayicon */
 	win->icon = gtk_status_icon_new_from_file("../pixmaps/icon.png");
+//	gtk_status_icon_set_blinking(win->icon, FALSE);
+
 	g_signal_connect(GTK_STATUS_ICON (win->icon), 
 			"activate", 
 			G_CALLBACK(tray_icon_activated), 
@@ -276,10 +277,10 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 	init_treeview(win->contact_treeview);
 
 
-	group_store = create_listview_model();
-	gtk_tree_view_set_model(win->group_treeview, (GtkTreeModel*)group_store);
-	gtk_tree_view_set_headers_visible(win->group_treeview, FALSE);
-	init_listview(win->group_treeview);
+//	group_store = create_listview_model();
+//	gtk_tree_view_set_model(win->group_treeview, (GtkTreeModel*)group_store);
+//	gtk_tree_view_set_headers_visible(win->group_treeview, FALSE);
+//	init_listview(win->group_treeview);
 
 	/* add default group to listview */
 //	dlist_foreach(p, &(ifc->glist)) {
@@ -288,10 +289,10 @@ int init_window(ifreechat_t *ifc , const char *uifile) {
 //	}
 
 
-	history_store = create_listview_model();
-	gtk_tree_view_set_model(win->history_treeview, (GtkTreeModel*)history_store);
-	gtk_tree_view_set_headers_visible(win->history_treeview, FALSE);
-	init_listview(win->history_treeview);
+//	history_store = create_listview_model();
+//	gtk_tree_view_set_model(win->history_treeview, (GtkTreeModel*)history_store);
+//	gtk_tree_view_set_headers_visible(win->history_treeview, FALSE);
+//	init_listview(win->history_treeview);
 
 	return 0;
 }

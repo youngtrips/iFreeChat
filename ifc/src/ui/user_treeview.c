@@ -81,14 +81,14 @@ int add_category_to_treeview(ifreechat_t *ifc, category_entry_t *entry) {
 
 	iter = (GtkTreeIter*)mem_pool_alloc(ifc->pool, sizeof(GtkTreeIter));
 	entry->pos = (void*)iter;
-//	gdk_thread_enter();
+	gdk_threads_enter();
 	gtk_tree_store_append((GtkTreeStore*)model, iter, NULL);
 	gtk_tree_store_set((GtkTreeStore*)model, iter,
 			PIXBUF_COL, NULL,
 			NICKNAME_COL, entry->name,
 			-1
 			);
-//	gdk_thread_leave();
+	gdk_threads_leave();
 	return 0;
 }
 
@@ -149,15 +149,17 @@ int insert_chat_msg(ifreechat_t *ifc, user_entry_t *user_entry, msg_t *msg) {
 
 	chatbox = (chatbox_t*)user_entry->chatbox;
 	if (chatbox == NULL) {
-//		chatbox = (pchatbox_t*)new_pchatbox(ifc, user_entry);
-		//notify
 		msg->user_data = (void*)user_entry;
+		init_dlist_node(&(msg->list_node));
+		dlist_add_tail(&(msg->list_node), &(ifc->mlist));
+		set_message_alert(ifc);
 		return 0;
 	}
 
 	printf("nickname:[%s]\n", user_entry->nickname);
 	printf("data: [%s]\n", msg->data);
-	chatbox_insert_msg(chatbox, user_entry->nickname, msg->data);
+	chatbox_insert_msg(chatbox, user_entry->nickname, &(msg->mtime), msg->data);
+	mem_pool_free(ifc->pool, msg);
 	return 0;
 }
 

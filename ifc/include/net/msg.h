@@ -22,6 +22,7 @@ typedef struct msg_t {
 	uint16_t port;
 	uint16_t avatar_id;
 	uint16_t gpmsg_size;
+	uint32_t gpid;
 
 	char ip[32];
 	char macaddr[32];

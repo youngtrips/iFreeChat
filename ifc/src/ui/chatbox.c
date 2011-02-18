@@ -58,17 +58,12 @@ int init_chatbox(ifreechat_t *ifc, chatbox_t *chatbox, chatbox_type_t type,
 	GladeXML *xml;
 	GtkTextBuffer *display_buffer;
 	static const char *xml_file = "../glade/chatbox.glade";
-	char buf[1024];
 
-	printf("cwd: [%s]\n", getcwd(buf, sizeof(buf)));
-	printf("[%s]\n", xml_file);
 	xml = glade_xml_new(xml_file, NULL, NULL);
 	if (xml == NULL) {
 		fprintf(stderr, "load glade file error.\n");
 		return -1;
 	}
-	printf("cwd: [%s]\n", getcwd(buf, sizeof(buf)));
-
 	glade_xml_signal_autoconnect(xml);
 
 	/* load widgets from xml */

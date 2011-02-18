@@ -38,7 +38,7 @@
 
 #include "window.h"
 
-#define INIT_MEMPOOL_SIZE		(1024 * 1024 * 5)
+#define INIT_MEMPOOL_SIZE		(1024 * 1024 * 8)
 
 typedef struct ifreechat_t {
 
@@ -68,6 +68,7 @@ typedef struct ifreechat_t {
 	group_t 		*glist;
 	user_t 			*ulist;
 	protocol_t 		*proto;
+	dlist_t			mlist;
 
 	volatile int 	shutdown;
 }ifreechat_t;

@@ -65,11 +65,13 @@ void mem_pool_destroy(mem_pool_t* p) {
 	mem_chunk_t *next;
 	mem_chunk_t *cur;
 
+	pthread_mutex_lock(p->mutex);
 	for(cur = p->chunk;cur; cur = next) {
 		next = cur->next;
 		free(cur->start);
 		free(cur);
 	}
+	pthread_mutex_unlock(p->mutex);
 	pthread_mutex_destroy(p->mutex);
 	free(p->mutex);
 	free(p);
@@ -88,11 +90,11 @@ void *mem_pool_alloc(mem_pool_t *pool, size_t size) {
 	}
 	size += sizeof(size_t);
 	
+	pthread_mutex_lock(pool->mutex);
 	if (size > pool->size) {
 		fprintf(stderr, "require too much memory...\n");
 		return NULL;
 	}
-	pthread_mutex_lock(pool->mutex);
 	if (pool->chunk == NULL || size > pool->chunk->free) {
 		chunk = (mem_chunk_t*)malloc(sizeof(mem_chunk_t));
 		if (chunk == NULL) {
@@ -102,9 +104,14 @@ void *mem_pool_alloc(mem_pool_t *pool, size_t size) {
 		}
 
 		start = malloc(pool->size);
+		if (start == NULL) {
+			fprintf(stderr, "cannot alloc memory for memory chuncks: %s@%s:%d\n",
+					strerror(errno), __FILE__, __LINE__);
+		}
 		chunk->start = start;
 		chunk->free = pool->size;
 		chunk->bound = 0;
+		chunk->next = NULL;
 		
 		pool->chunk = chunk;
 	}

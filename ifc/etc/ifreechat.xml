@@ -13,7 +13,7 @@
 		<category>2012</category>
 		<avatar_type>0</avatar_type>
 		<avatar_id>2</avatar_id>
-		<custom_avatar>pixmaps/avatar/default.png</custom_avatar>
+		<custom_avatar>../pixmaps/avatar/default.png</custom_avatar>
 		<signature>hello java</signature>
 	</user>
 
