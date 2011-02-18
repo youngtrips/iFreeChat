@@ -24,19 +24,19 @@
 #include <stdio.h>
 #include "gtk_common.h"
 
-//enum {
-//	PIXBUF_COL,
-//	TITLE_COL,
-//	URI_COL,
-//	COL_NUM
-//};
-
 enum {
-	AVATAR_COL,
-	NICKNAME_COL,
-	IP_COL,
+	PIXBUF_COL,
+	TITLE_COL,
+	URI_COL,
 	COL_NUM
 };
+
+//enum {
+//	AVATAR_COL,
+	NICKNAME_COL,
+//	IP_COL,
+//	COL_NUM
+//};
 
 GtkListStore *create_listview_model() {
 	GtkListStore *model;

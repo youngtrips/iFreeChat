@@ -30,20 +30,12 @@
 #include "pair.h"
 #include "category.h"
 
-//enum {
-//	PIXBUF_COL,
-//	TEXT_COL,
-//	IP_COL,
-//	MAC_COL,
-//	URI_COL,
-//	COL_NUM
-//};
-
 enum {
 	PIXBUF_COL,
-	NICKNAME_COL,
+	TEXT_COL,
 	IP_COL,
 	MAC_COL,
+	URI_COL,
 	COL_NUM
 };
 
@@ -76,103 +68,74 @@ GtkTreeStore *create_contact_treevie_model() {
 	return store;
 }
 
-int add_user_to_treeview(ifreechat_t *ifc, GtkTreeView *treeview, 
-		const char *avatar,
-		const char *nickname,
-		const char *ipaddr,
-		const char *macaddr) {
+int add_user_to_treeview(ifreechat_t *ifc, GtkTreeView *treeview, user_entry_t *user_entry) { 
 	GtkTreeIter user_iter;
 	GtkTreeModel *model;
 	GdkPixbuf *pixbuf;
-	category_t *cat;
+	category_entry_t *cat_entry;
 	dlist_t *p;
+	GtkTreeIter *citer;
+	GtkTreeIter *uiter;
+
 	char title[128];
 
 	if (treeview == NULL || user == NULL)
 		return -1;
 
+	cat_entry = (category_entry_t*)user_entry->category_entry;
+	citer = (GtkTreeIter*)cat_entry->pos;
 	model = (GtkTreeModel*)gtk_tree_view_get_model(treeview);
-	cat == NULL;
-	dlist_foreach(p, &(ifc->clist)) {
-		cat = (category_t*)dlist_entry(p, category_t, cnode);
-		if (!strcmp(cat->name, user->category))
-			break;
-	}
 
-	if (p == &(ifc->clist)) {
+	if (citer == NULL) {
 		/* new category */
-		cat = (category_t*)new_category(user->category);
-		gtk_tree_store_append((GtkTreeStore*)model, &(cat->iter), NULL);
-		gtk_tree_store_set((GtkTreeStore*)model, &(cat->iter),
+		citer = (GtkTreeIter*)mem_pool_alloc(ifc->pool, sizeof(GtkTreeIter));
+		gtk_tree_store_append((GtkTreeStore*)model, citer, NULL);
+		gtk_tree_store_set((GtkTreeStore*)model, citer,
 				PIXBUF_COL, NULL,
-				TEXT_COL, cat->name,
+				TEXT_COL, cat_entry->name,
 				-1);
-		dlist_add_tail(&(cat->cnode), &(ifc->clist));
+		cat_entry->pos = (void*)citer;
 	}
 
-	cat->count++;
-	sprintf(title, "%s[%d]", cat->name, cat->count);
-	gtk_tree_store_set((GtkTreeStore*)model, &(cat->iter),
+	sprintf(title, "%s[%d]", cat_entry->name, cat_entry->count);
+	gtk_tree_store_set((GtkTreeStore*)model, citer,
 			TEXT_COL, title,
 			-1);
 
+	uiter = (GtkTreeIter*)mem_pool_alloc(ifc->pool, sizeof(GtkTreeIter));
 	pixbuf = (GdkPixbuf*)gdk_pixbuf_new_from_file(user->avatar, NULL);
-	gtk_tree_store_append((GtkTreeStore*)model, &user_iter, &(cat->iter));
-	gtk_tree_store_set((GtkTreeStore*)model, &user_iter,
+	gtk_tree_store_append((GtkTreeStore*)model, uiter, citer);
+	gtk_tree_store_set((GtkTreeStore*)model, uiter,
 			PIXBUF_COL, pixbuf,
 			TEXT_COL, user->nickname,
 			IP_COL, user->ipaddr,
 			MAC_COL, user->macaddr,
 			URI_COL, (void*)user,
-			-1);
+			-1
+			);
 	gdk_pixbuf_unref(pixbuf);
+	user_entry->pos = (void*)uiter;
 	return 0;
 }
 
-gboolean update_userinfo_func(GtkTreeModel *model,
-		GtkTreePath *path, GtkTreeIter *iter, gpointer data) {
-	pair_t *arg;
-	user_t *user;
-
-	char *old_category;
-	char *new_category;
-	char *ipaddr;
-	GdkPixbuf *pixbuf;
-
-	arg = (pair_t*)data;
-	user = (user_t*)arg->first;
-
-	if (gtk_tree_path_get_depth(path) > 1) {
-		gtk_tree_model_get(model, iter, 
-				TEXT_COL, 	&old_category,
-			   	IP_COL,		&ipaddr,
-				-1);
-		if (!strcmp(ipaddr, user->ipaddr)) {
-			pixbuf = (GdkPixbuf*)gdk_pixbuf_new_from_file(user->avatar, NULL);
-			gtk_tree_store_set((GtkTreeStore*)model, iter,
-					PIXBUF_COL, pixbuf,
-					TEXT_COL, user->nickname,
-					IP_COL, user->ipaddr,
-					MAC_COL, user->macaddr,
-					-1);
-			gdk_pixbuf_unref(pixbuf);
-			return TRUE;
-		}
-	}
-	return FALSE;
-}
-
-int update_user_to_treeview(GtkTreeView *treeview, user_t *user) {
+int update_user_to_treeview(GtkTreeView *treeview, user_entry_t *user_entry) {
 	GtkTreeModel *model;
-	pair_t arg;
+	GtkTreeIter *uiter;
+	GdkPixbuf *pixbuf;
 
 	if (treeview == NULL || user == NULL)
 		return -1;
 
-	make_pair(&arg, (void*)user, NULL);
-
+	uiter = (GtkTreeIter*)user->pos;
 	model = gtk_tree_view_get_model(treeview);
-	gtk_tree_model_foreach(model, update_userinfo_func, (gpointer)&arg);
+	pixbuf = (GdkPixbuf*)gdk_pixbuf_new_from_file(user->avatar, NULL);
+	gtk_tree_store_set((GtkTreeStore*)model, iter,
+			PIXBUF_COL, pixbuf,
+			TEXT_COL, user->nickname,
+			IP_COL, user->ipaddr,
+			MAC_COL, user->macaddr,
+			-1);
+	gdk_pixbuf_unref(pixbuf);
 
 	return 0;
 }
