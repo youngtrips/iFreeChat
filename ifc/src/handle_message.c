@@ -32,6 +32,9 @@
 #include "packet.h"
 #include "protocol.h"
 #include "msg.h"
+#include "user.h"
+#include "group.h"
+#include "category.h"
 
 #define MAXN_TABLES 0xff
 
@@ -40,10 +43,37 @@ typedef int (*msg_func)(ifreechat_t *ifc, const void *msg);
 static msg_func msg_func_table[MAXN_TABLES];
 
 int on_entry_callback(ifreechat_t *ifc, const void *msg) {
+
+	category_entry_t *cat_entry;
+	user_entry_t *user_entry;
+	msg_t *pmsg;
+
+	pmsg = (msg_t*)msg;
 	printf("user(%s--%s) entry\n", 
 			((msg_t*)msg)->nickname,
 			((msg_t*)msg)->category
 			);
+
+	user_entry = (user_entry_t*)user_find_entry(ifc->user, pmsg->ip);
+	if (user_entry == NULL) {
+		user_entry = (user_entry_t*)new_user_entry(ifc->pool,
+				pmsg->nickname, pmsg->username,
+				pmsg->hostname, pmsg->avatar,
+				pmsg->ip,		pmsg->macaddr,
+				" ",			pmsg->category,
+				"GBK");
+		user_entry->category_entry = NULL;
+		user_entry->pos = NULL;
+
+		/* add user to user list */
+
+		/* update ui */
+	}
+	if (category_find_entry(ifc->category, pmsg->category, &cat_entry) < 0) {
+		cat_entry = new_category_entry(ifc->pool, pmsg->category);
+		category_insert_entry(ifc->cateogry, pmsg->category, cat_entry);
+	}
+	
 	return 0;
 }
 
@@ -67,9 +97,6 @@ int on_gchat_callback(ifreechat_t *ifc, const void *msg) {
 int on_sendcheck_callback(ifreechat_t *ifc, const void *msg) {
 	return 0;
 }
-
-//int handle_message(ifreechat_t *ifc, const void *msg) {
-//}
 
 void process_message_loop(ifreechat_t *ifc) {
 	udp_socket_t *usock;
