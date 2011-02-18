@@ -86,6 +86,5 @@ int category_del_entry(category_t *cat, const char *key, category_entry_t *entry
 }
 
 int category_find_entry(category_t *cat, const char *key, category_entry_t **entry) {
-	hash_find(cat->hash, key, (void**)entry);
-	return 0;
+	return hash_find(cat->hash, key, (void**)entry);
 }

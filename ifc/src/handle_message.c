@@ -54,15 +54,21 @@ int on_entry_callback(ifreechat_t *ifc, const void *msg) {
 			((msg_t*)msg)->nickname,
 			((msg_t*)msg)->category
 			);
+	printf("avatar: [%s]\n", pmsg->avatar);
+	printf("\n");
 
-	if (category_find_entry(ifc->category, pmsg->category, &new_cat_entry) < 0) {
+	if (category_find_entry(ifc->clist, pmsg->category, &new_cat_entry) < 0) {
 		new_cat_entry = new_category_entry(ifc->pool, pmsg->category);
 		category_insert_entry(ifc->clist, pmsg->category, new_cat_entry);
 		/* update category ui */
+		printf("new category...\n");
+		add_category_to_treeview(ifc, new_cat_entry);
+
 	}
 
 	user_entry = (user_entry_t*)user_find_entry(ifc->ulist, pmsg->ip);
 	if (user_entry == NULL) {
+		printf("new user...\n");
 		user_entry = (user_entry_t*)new_user_entry(ifc->pool,
 				pmsg->nickname, pmsg->username,
 				pmsg->hostname, pmsg->avatar,
@@ -78,7 +84,9 @@ int on_entry_callback(ifreechat_t *ifc, const void *msg) {
 
 		/* update user ui */
 
+
 	} else {
+		printf("the user is already in userlist...\n");
 		if (strcmp(pmsg->category, user_entry->category) != 0) {
 			/* change category */
 			old_cat_entry = user_entry->category_entry;

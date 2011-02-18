@@ -70,6 +70,26 @@ GtkTreeStore *create_contact_treevie_model() {
 	return store;
 }
 
+int add_category_to_treeview(ifreechat_t *ifc, category_entry_t *entry) {
+	GtkTreeView *treeview;
+	GtkTreeModel *model;
+	GtkTreeIter *iter;
+
+
+	treeview = (GtkTreeView*)((ifc->main_window).contact_treeview);
+	model = (GtkTreeModel*)gtk_tree_view_get_model(treeview);
+
+	iter = (GtkTreeIter*)mem_pool_alloc(ifc->pool, sizeof(GtkTreeIter));
+	entry->pos = (void*)iter;
+	gtk_tree_store_append((GtkTreeStore*)model, iter, NULL);
+	gtk_tree_store_set((GtkTreeStore*)model, iter,
+			PIXBUF_COL, NULL,
+			NICKNAME_COL, entry->name,
+			-1
+			);
+	return 0;
+}
+
 int add_user_to_treeview(ifreechat_t *ifc, GtkTreeView *treeview, user_entry_t *user_entry) { 
 	GtkTreeIter user_iter;
 	GtkTreeModel *model;
