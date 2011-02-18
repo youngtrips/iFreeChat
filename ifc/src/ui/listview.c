@@ -31,13 +31,6 @@ enum {
 	COL_NUM
 };
 
-//enum {
-//	AVATAR_COL,
-	NICKNAME_COL,
-//	IP_COL,
-//	COL_NUM
-//};
-
 GtkListStore *create_listview_model() {
 	GtkListStore *model;
 	GtkTreeIter iter;
@@ -47,7 +40,7 @@ GtkListStore *create_listview_model() {
 	model = gtk_list_store_new(COL_NUM,
 			GDK_TYPE_PIXBUF,
 			G_TYPE_STRING,
-			G_TYPE_STRING
+			G_TYPE_POINTER
 			);
 
 	/* just for test*/

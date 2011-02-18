@@ -24,7 +24,7 @@
 #include "category.h"
 
 
-category_entry_t *new_catgory_entry(mem_pool_t *pool, const char *name) {
+category_entry_t *new_category_entry(mem_pool_t *pool, const char *name) {
 	category_entry_t *entry;
 
 	entry = (category_entry_t*)mem_pool_alloc(pool, sizeof(category_entry_t));
@@ -38,18 +38,18 @@ category_entry_t *new_catgory_entry(mem_pool_t *pool, const char *name) {
 	return entry;
 }
 
-void free_catgory_entry(mem_pool_t *pool, category_entry_t *entry) {
+void free_category_entry(mem_pool_t *pool, category_entry_t *entry) {
 	if (entry) {
 		if (entry->pos)
 			mem_pool_free(pool, entry->pos);
-		mem_pool_free(poo, entry);
+		mem_pool_free(pool, entry);
 	}
 }
 
 category_t *create_category(mem_pool_t *pool) {
 	category_t *cat;
 
-	cat = (category_t*)mem_pool_alloc(sizeof(category_t));
+	cat = (category_t*)mem_pool_alloc(pool, sizeof(category_t));
 	if (cat == NULL)
 		return NULL;
 	cat->hash = create_hash(pool, 0xff, KEY_STR);

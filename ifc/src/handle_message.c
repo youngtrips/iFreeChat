@@ -57,11 +57,11 @@ int on_entry_callback(ifreechat_t *ifc, const void *msg) {
 
 	if (category_find_entry(ifc->category, pmsg->category, &new_cat_entry) < 0) {
 		new_cat_entry = new_category_entry(ifc->pool, pmsg->category);
-		category_insert_entry(ifc->cateogry, pmsg->category, new_cat_entry);
+		category_insert_entry(ifc->clist, pmsg->category, new_cat_entry);
 		/* update category ui */
 	}
 
-	user_entry = (user_entry_t*)user_find_entry(ifc->user, pmsg->ip);
+	user_entry = (user_entry_t*)user_find_entry(ifc->ulist, pmsg->ip);
 	if (user_entry == NULL) {
 		user_entry = (user_entry_t*)new_user_entry(ifc->pool,
 				pmsg->nickname, pmsg->username,
@@ -74,14 +74,14 @@ int on_entry_callback(ifreechat_t *ifc, const void *msg) {
 		new_cat_entry->count++;
 
 		/* add user to user list */
-		user_add_entry(ifc->user, user_entry);
+		user_add_entry(ifc->ulist, user_entry);
 
 		/* update user ui */
 
 	} else {
 		if (strcmp(pmsg->category, user_entry->category) != 0) {
 			/* change category */
-			old_cat_entry = user->category_entry;
+			old_cat_entry = user_entry->category_entry;
 			old_cat_entry->count--;
 			new_cat_entry->count++;
 			user_entry->category = new_cat_entry;

@@ -28,4 +28,6 @@ uint32_t str2ip (const char *ip);
 
 char *ip2str (uint32_t ip, char *buf);
 
+char *my_ctime(time_t *tm);
+	
 #endif

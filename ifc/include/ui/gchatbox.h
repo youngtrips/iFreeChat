@@ -1,7 +1,7 @@
 /*
  * Author: youngtrips(youngtrips@163.com)
- * Created Time:  2011-02-16
- * File Name: handle_message.h
+ * Created Time:  2011-02-10
+ * File Name: gchatbox.h
  * Description: 
  *
  * This program is free software; you can redistribute it and/or
@@ -21,15 +21,13 @@
  *
  */
 
-#ifndef __HANDLE_MESSAGE_H
-#define __HANDLE_MESSAGE_H
+#ifndef __GCHATBOX_H
+#define __GCHATBOX_H
 
-#include "ifreechat.h"
+#include "gtk_common.h"
+#include "group.h"
+#include "chatbox.h"
 
-int on_entry_callback(ifreechat_t *ifc, const void *msg);
-int on_exit_callback(ifreechat_t *ifc, const void *msg);
-int on_pchat_callback(ifreechat_t *ifc, const void *msg);
-int on_gchat_callback(ifreechat_t *ifc, const void *msg);
-int on_sendcheck_callback(ifreechat_t *ifc, const void *msg);
+typedef chatbox_t gchatbox_t;
 
 #endif

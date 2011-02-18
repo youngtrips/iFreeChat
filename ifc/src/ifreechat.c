@@ -23,13 +23,14 @@
 
 #include <stdio.h>
 
+#include "handle_message.h"
 #include "mem_pool.h"
 #include "udp_socket.h"
-#include "ifreechat.h"
 #include "config.h"
 #include "protocol.h"
 #include "feiq.h"
-#include "handle_message.h"
+#include "category.h"
+#include "ifreechat.h"
 
 static int init_freechat(ifreechat_t **ifc) {
 	ifreechat_t *ifreechat;
@@ -42,8 +43,9 @@ static int init_freechat(ifreechat_t **ifc) {
 	*ifc = ifreechat;
 	pool = mem_pool_init(INIT_MEMPOOL_SIZE, sizeof(char));
 	ifreechat->pool 	= pool;
-	ifreechat->group 	= create_group(pool);
-	ifreechat->user 	= create_user(pool);
+	ifreechat->glist 	= create_group(pool);
+	ifreechat->ulist 	= create_user(pool);
+	ifreechat->clist	= create_category(pool);
 
 	/* register protcol */
 	ifreechat->proto = (protocol_t*)malloc(sizeof(protocol_t));
@@ -59,11 +61,11 @@ static int init_freechat(ifreechat_t **ifc) {
 	printf("proto name: %s\n", ifreechat->proto->protocol_name);
 
 	/* register callback functions to protocol */
-	protocol_reg_entry_callback(ifreechat->proto, on_entry_callback);
-	protocol_reg_exit_callback(ifreechat->proto, on_exit_callback);
-	protocol_reg_pchat_callback(ifreechat->proto, on_pchat_callback);
-	protocol_reg_gchat_callback(ifreechat->proto, on_gchat_callback);
-	protocol_reg_sendcheck_callback(ifreechat->proto, on_sendcheck_callback);
+	protocol_reg_entry_callback(ifreechat->proto, 		on_entry_callback);
+	protocol_reg_exit_callback(ifreechat->proto, 		on_exit_callback);
+	protocol_reg_pchat_callback(ifreechat->proto, 		on_pchat_callback);
+	protocol_reg_gchat_callback(ifreechat->proto, 		on_gchat_callback);
+	protocol_reg_sendcheck_callback(ifreechat->proto, 	on_sendcheck_callback);
 
 	return 0;
 }
@@ -92,18 +94,25 @@ static void freechat_main(ifreechat_t *ifc) {
 	process_message_loop(ifc);
 }
 
-int main() {
+int main(int argc, char *argv[]) {
 
 	ifreechat_t *ifc;
 	int i;
 
+	gtk_init(&argc, &argv);
 	if (init_freechat(&ifc) < 0)
 		return 1;
 	if (read_cfg(ifc) < 0) {
 		printf("read config file error\n");
 		return 1;
 	}
+	/* init gui */
+	init_window(ifc, "../glade/ui.glade");
+	show_window(ifc);
+
+	/* init network */
 	init_network(ifc);
+	gtk_main();
 	freechat_main(ifc);
 	stop_network(ifc);
 	destroy_freechat(ifc);

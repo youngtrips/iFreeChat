@@ -37,6 +37,7 @@ typedef struct group_entry_t {
 	uint32_t group_id;
 
 	void *pos;
+	void *chatbox;
 
 	dlist_t gnode;
 	dlist_t ulist;

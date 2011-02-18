@@ -32,7 +32,9 @@
 #include "group.h"
 #include "user.h"
 #include "protocol.h"
+#include "category.h"
 
+#include "window.h"
 
 #define INIT_MEMPOOL_SIZE		(1024 * 1024 * 3)
 
@@ -55,10 +57,13 @@ typedef struct ifreechat_t {
 	char multicast_ip[20];
 	uint16_t port;
 
+	window_t main_window;
+
 	mem_pool_t 		*pool;
 	udp_socket_t 	*usock;
-	group_t 		*group;
-	user_t 			*user;
+	category_t		*clist;
+	group_t 		*glist;
+	user_t 			*ulist;
 	protocol_t 		*proto;
 
 }ifreechat_t;

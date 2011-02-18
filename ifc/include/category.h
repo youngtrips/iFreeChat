@@ -46,9 +46,9 @@ typedef struct category_t {
 }category_t;
 
 
-category_entry_t *new_catgory_entry(mem_pool_t *pool, const char *name);
+category_entry_t *new_category_entry(mem_pool_t *pool, const char *name);
 
-void free_catgory_entry(mem_pool_t *pool, category_entry_t *entry);
+void free_category_entry(mem_pool_t *pool, category_entry_t *entry);
 
 category_t *create_category(mem_pool_t *pool);
 

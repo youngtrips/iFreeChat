@@ -76,7 +76,7 @@ gboolean on_nickname_entry_activate(GtkWidget* widget , gpointer data) {
 	strcpy(ifc->nickname, nickname);
 
 	/* to broadcast others with my new nickname*/
-	online_broadcast(ifc);
+//	online_broadcast(ifc);
 
 	gtk_button_set_label(win->nickname_button, nickname);
 	gtk_widget_hide((GtkWidget*)win->nickname_entry);
@@ -99,6 +99,7 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 
 	ifc = (ifreechat_t*)data;
 
+	/*
 	msg_node = (ifc->mlist).next;
 	if (msg_node == &(ifc->mlist)) {
 		gtk_status_icon_set_blinking((ifc->main_window).icon, FALSE);
@@ -166,11 +167,14 @@ void tray_icon_activated(GtkWidget *widget, gpointer data) {
 		gtk_status_icon_set_blinking((ifc->main_window).icon, FALSE);
 	}
 
+	
 	free(msg);
+	*/
 }
 
-int init_window(windows_t *win , const char *uifile) {
+int init_window(ifreechat_t *ifc , const char *uifile) {
 
+	window_t *win;
 	GladeXML *xml;
 	GtkTreeStore *contact_store;
 	GtkListStore *group_store;
@@ -188,6 +192,7 @@ int init_window(windows_t *win , const char *uifile) {
 		printf("wrong args...\n");
 		return -1;
 	}
+	win = (window_t*)&(ifc->main_window);
 
 	xml = glade_xml_new(uifile, NULL, NULL);
 	if (xml == NULL) {
@@ -211,7 +216,7 @@ int init_window(windows_t *win , const char *uifile) {
 	/* initial avatar */
 	if (ifc->avatar_type == 0) {
 		/* use internal avatar */
-		sprintf(file, "pixmaps/avatar/%d.bmp", ifc->avatar_id);
+		sprintf(file, "../pixmaps/avatar/%d.bmp", ifc->avatar_id);
 		gtk_image_set_from_file(win->avatar, file);
 	} else {
 		gtk_image_set_from_file(win->avatar, ifc->custom_avatar);
@@ -226,7 +231,7 @@ int init_window(windows_t *win , const char *uifile) {
 	gtk_button_set_relief(win->signature_button, GTK_RELIEF_NONE);
 
 	/* trayicon */
-	win->icon = gtk_status_icon_new_from_file("pixmaps/icon.png");
+	win->icon = gtk_status_icon_new_from_file("../pixmaps/icon.png");
 	g_signal_connect(GTK_STATUS_ICON (win->icon), 
 			"activate", 
 			G_CALLBACK(tray_icon_activated), 

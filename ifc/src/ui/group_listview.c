@@ -26,24 +26,16 @@
 #include "gtk_common.h"
 #include "group.h"
 #include "group_listview.h"
-
-//enum {
-//	PIXBUF_COL,
-//	TITLE_COL,
-//	URI_COL,
-//	COL_NUM
-//};
+#include "gchatbox.h"
 
 enum {
 	PIXBUF_COL,
-	GPNAME_COL,
-	GPID_COL,
+	TITLE_COL,
+	URI_COL,
 	COL_NUM
 };
 
-
-void add_group_to_listview(GtkTreeView *listview, const char *gpname,
-		uint32_t gpid) {
+void add_group_to_listview(GtkTreeView *listview, group_entry_t *gp_entry) { 
 	GtkListStore *model;
 	GtkTreeIter iter;
 	GdkPixbuf *pixbuf;
@@ -52,9 +44,9 @@ void add_group_to_listview(GtkTreeView *listview, const char *gpname,
 	pixbuf = gdk_pixbuf_new_from_file("pixmaps/icon.png", NULL);
 	gtk_list_store_append(model, &iter);
 	gtk_list_store_set(model, &iter,
-			PIXBUF_COL, pixbuf,
-			GPNAME,		gpname,
-			GPID_COL,	gpid,
+			PIXBUF_COL, 	pixbuf,
+			TITLE_COL,		gp_entry->group_name,
+			URI_COL,		(gpointer)gp_entry,
 			-1
 			);
 }
@@ -70,24 +62,22 @@ void group_treeview_ondoubleclicked(GtkTreeView *tree_view,
 	ifreechat_t *ifc;
 	dlist_t *p;
 	gchatbox_t *chatbox;
-	group_t *group;
+	group_entry_t *group_entry;
 
 	ifc = (ifreechat_t*)data;
 
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view));
 	gtk_tree_model_get_iter(model, &iter, path);
 	gtk_tree_model_get(model, &iter, 
-			URI_COL, &group,
+			URI_COL, &group_entry,
 			-1);
 
-	dlist_foreach(p, &(ifc->gchatbox)) {
-		chatbox = (gchatbox_t*)dlist_entry(p, gchatbox_t, chatbox_node);
-		if (group->group_id == ((group_t*)chatbox->data)->group_id) {
-			gtk_window_present((GtkWindow*)chatbox->window);
-			return;
-		}
-	}
+	chatbox = (gchatbox_t*)group_entry->chatbox;
 
-	/* create new private chatbox */
-	new_gchatbox(ifc, group);
+	if (chatbox != NULL) {
+		gtk_window_present((GtkWindow*)chatbox->window);
+	} else {
+		/* create new private chatbox */
+		new_gchatbox(ifc, group_entry);
+	}
 }

@@ -1,7 +1,7 @@
 /*
- * Author: youngtrips(youngtrips@163.com)
- * Created Time:  2011-02-10
- * File Name: pchatbox.c
+ * Author: youngtrips
+ * Created Time:  2011-02-13
+ * File Name: gchatbox.c
  * Description: 
  *
  * This program is free software; you can redistribute it and/or
@@ -25,48 +25,58 @@
 #include <string.h>
 #include <pthread.h>
 #include <time.h>
+#include <openssl/blowfish.h>
 
+#include "group.h"
 #include "user.h"
-#include "pchatbox.h"
+#include "gchatbox.h"
 #include "ifreechat.h"
 #include "emotion_box.h"
+#include "blowfish.h"
 
-void on_send_message(GtkWidget *widget, pchatbox_t *chatbox);
+void on_send_gpmessage(GtkWidget *widget, gchatbox_t *chatbox);
 
-pchatbox_t *new_pchatbox(ifreechat_t *ifc, user_entry_t *user) {
-	pchatbox_t *pchatbox;
-	dlist_t *pchatbox_list;
+gchatbox_t *new_gchatbox(ifreechat_t *ifc, group_entry_t *group) {
+	gchatbox_t *gchatbox;
+	dlist_t *gchatbox_list;
 
 	char title[128];
-	GladeXML *xml;
-	GtkTextBuffer *display_buffer;
 
-	pchatbox = (pchatbox_t*)malloc(sizeof(pchatbox_t));
+	gchatbox = (gchatbox_t*)malloc(sizeof(gchatbox_t));
 
-	init_chatbox(ifc, pchatbox, PCHATBOX, (void*)user);
+	init_chatbox(ifc, gchatbox, GCHATBOX, (void*)group);
 
-	sprintf(title, "Chat with %s", user->nickname);
-	gtk_window_set_title((GtkWindow*)pchatbox->window, title);
-	gtk_image_set_from_file(pchatbox->avatar_image, user->avatar);
-	gtk_label_set_text(pchatbox->first_label, user->nickname);
-	gtk_label_set_text(pchatbox->second_label, ""/*user->signature*/);
+	sprintf(title, "Group Room %s", group->group_name);
+	gtk_window_set_title((GtkWindow*)gchatbox->window, title);
 
-	chatbox_set_sendmsg_func(pchatbox, on_send_message);
-	show_chatbox(pchatbox);
-	return pchatbox;
+//	gtk_image_set_from_file(gchatbox->avatar_image, user->avatar);
+	gtk_label_set_text(gchatbox->first_label, group->group_name);
+	gtk_label_set_text(gchatbox->second_label, group->group_info);
+
+	chatbox_set_sendmsg_func(gchatbox, on_send_gpmessage);
+	show_chatbox(gchatbox);
+	return gchatbox;
 }
 
-void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
+void on_send_gpmessage(GtkWidget *widget, gchatbox_t *chatbox) {
 
-	pchatbox_t *pchatbox;
+	gchatbox_t *gchatbox;
 	ifreechat_t *ifc;
-	user_entry_t *user_entry;
+	group_entry_t *group;
 	char buf[65535];
+	char plain[1024];
+	char cipher[1024];
+	unsigned char ivec[8];
+	BF_KEY key;
+	size_t size;
+	int len;
+
 	char *msg;
 	time_t pno;
 
 	GtkTextView *input_textview;
 	GtkTextView *output_textview;
+	CBlowFish *bf;
 	
 
 	GtkTextBuffer *input_buffer;
@@ -76,13 +86,13 @@ void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 	GtkTextMark *mark;
 	GdkPixbuf *pixbuf;
 
-	pchatbox = (pchatbox_t*)(chatbox);
-	ifc = (ifreechat_t*)pchatbox->ifreechat;
-	user_entry = (user_entry_t*)pchatbox->data;
+	gchatbox = (gchatbox_t*)(chatbox);
+	ifc = (ifreechat_t*)gchatbox->ifreechat;
+	group = (group_t*)gchatbox->data;
 
 	pno = time(NULL);
-	input_textview = pchatbox->input_textview;
-	output_textview = pchatbox->display_textview;
+	input_textview = gchatbox->input_textview;
+	output_textview = gchatbox->display_textview;
 
 	input_buffer = gtk_text_view_get_buffer(input_textview);
 	output_buffer = gtk_text_view_get_buffer(output_textview);
@@ -110,14 +120,29 @@ void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 		0.0, TRUE, 0.0, 0.0);
 	gtk_text_buffer_delete_mark(output_buffer, mark);
 
-	printf("msg: [%s]\n", msg);
-//	sprintf(buf, "1_lbt4_%d#128#%s#0#0#0:%lu:%s:%s:%u:%s",
-//			ifc->avatar_id,
-//			ifc->macaddr,
-//			pno,
-//			ifc->username,
-//			ifc->hostname,
-//			0x120,
-//			msg);
-//	printf("buf: %s\n", buf);
+	/*
+	bf = CreateBlowFish(ifc->macaddr, strlen(ifc->macaddr));
+
+//	BF_set_key(&key, 12, ifc->macaddr);
+	sprintf(plain, "QUNMSGMARK#%lx#%s",
+			group->group_id,
+			msg);
+	len = strlen(plain);
+	len = BlowFish_Encrypt(bf, plain, cipher, len);
+
+//	printf("msg: [%s]\n", msg);
+	sprintf(buf, "1_lbt4_%d#128#%s#0#0#%d:%lu:%s:%s:%u:",
+			ifc->avatar_id,
+			ifc->macaddr,
+			len,
+			pno,
+			ifc->username,
+			ifc->hostname,
+			4194339);
+	size = strlen(buf);
+	memcpy(buf + size, cipher, len + 1);
+	size += len + 1;
+	udp_send_msg((ifreechat_t*)chatbox->ifreechat, ifc->multicast_ip, ifc->port, buf, size);
+	DestroyBlowFish(bf);
+	*/
 }

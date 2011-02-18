@@ -28,6 +28,7 @@
 
 #include "chatbox.h"
 #include "ifreechat.h"
+#include "utils.h"
 #include "emotion_box.h"
 
 static void close_chatbox(GtkWidget *widget, gpointer arg);
@@ -127,7 +128,8 @@ static void close_chatbox(GtkWidget *widget, gpointer data) {
 	chatbox_t *chatbox;
 	ifreechat_t *ifc;
 	GtkWidget *p;
-	pthread_mutex_t *lock;
+	user_entry_t *user_entry;
+	group_entry_t *group_entry;
 
 	chatbox = (chatbox_t*)data;
 	ifc = (ifreechat_t*)chatbox->ifreechat;
@@ -135,15 +137,15 @@ static void close_chatbox(GtkWidget *widget, gpointer data) {
 	if (p != NULL) {
 		gtk_widget_destroy(chatbox->window);
 	}
+
 	if (chatbox->type == PCHATBOX) {
-		lock = &(ifc->pchatbox_lock);
+		user_entry = (user_entry_t*)chatbox->data;
+		user_entry->chatbox = NULL;
 	} else {
-		lock = &(ifc->gchatbox_lock);
+		group_entry = (group_entry_t*)chatbox->data;
+		group_entry->chatbox = NULL;
 	}
 
-	pthread_mutex_lock(lock);
-	dlist_del(&(chatbox->chatbox_node));
-	pthread_mutex_unlock(lock);
 	free(chatbox);
 }
 

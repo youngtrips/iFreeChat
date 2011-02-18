@@ -1,4 +1,4 @@
-SUBDIRS = feiq
+SUBDIRS = feiq ui
 bin_PROGRAMS = ifreechat
 
 ifreechat_CPPFLAGS=$(LIBXML_CFLAGS) $(GTK_CFLAGS) \
@@ -11,10 +11,12 @@ ifreechat_CPPFLAGS=$(LIBXML_CFLAGS) $(GTK_CFLAGS) \
 				 -I ../include/protocol \
 				 -I ../include/queue \
 				 -I ../include/net \
-				 -I ../include/feiq
+				 -I ../include/feiq \
+				 -I ../include/ui
 
-ifreechat_LDADD = $(LIBXML_LIBS) $(GTK_LIBS) \
-				  $(GLIB_LIBS) $(LIBGLADE_CFLAGS) \
+ifreechat_LDADD = ui/libmygui.a \
+				  $(LIBXML_LIBS) $(GTK_LIBS) \
+				  $(GLIB_LIBS) $(LIBGLADE_LIBS) \
 				  ../lib/blowfish/libblowfish.a \
 				  ../lib/encoding/libencoding.a \
 				  ../lib/mem_pool/libmempool.a \

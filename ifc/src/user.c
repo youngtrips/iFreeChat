@@ -132,7 +132,7 @@ int user_del_entry(user_t *user, user_entry_t *entry) {
 	return 0;
 }
 
-user_entry_t *find_user(user_t *user, const char *key) {
+user_entry_t *user_find_entry(user_t *user, const char *key) {
 	user_entry_t *entry;
 
 	if (hash_find(user->hash, key, (void**)&entry) < 0)

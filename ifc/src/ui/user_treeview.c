@@ -29,10 +29,11 @@
 #include "user.h"
 #include "pair.h"
 #include "category.h"
+#include "pchatbox.h"
 
 enum {
 	PIXBUF_COL,
-	TEXT_COL,
+	NICKNAME_COL,
 	IP_COL,
 	MAC_COL,
 	URI_COL,
@@ -63,7 +64,8 @@ GtkTreeStore *create_contact_treevie_model() {
 			GDK_TYPE_PIXBUF, 
 			G_TYPE_STRING,
 			G_TYPE_STRING,
-			G_TYPE_STRING
+			G_TYPE_STRING,
+			G_TYPE_POINTER
 			);
 	return store;
 }
@@ -79,7 +81,7 @@ int add_user_to_treeview(ifreechat_t *ifc, GtkTreeView *treeview, user_entry_t *
 
 	char title[128];
 
-	if (treeview == NULL || user == NULL)
+	if (treeview == NULL || user_entry == NULL)
 		return -1;
 
 	cat_entry = (category_entry_t*)user_entry->category_entry;
@@ -92,25 +94,25 @@ int add_user_to_treeview(ifreechat_t *ifc, GtkTreeView *treeview, user_entry_t *
 		gtk_tree_store_append((GtkTreeStore*)model, citer, NULL);
 		gtk_tree_store_set((GtkTreeStore*)model, citer,
 				PIXBUF_COL, NULL,
-				TEXT_COL, cat_entry->name,
+				NICKNAME_COL, cat_entry->name,
 				-1);
 		cat_entry->pos = (void*)citer;
 	}
 
 	sprintf(title, "%s[%d]", cat_entry->name, cat_entry->count);
 	gtk_tree_store_set((GtkTreeStore*)model, citer,
-			TEXT_COL, title,
+			NICKNAME_COL, title,
 			-1);
 
 	uiter = (GtkTreeIter*)mem_pool_alloc(ifc->pool, sizeof(GtkTreeIter));
-	pixbuf = (GdkPixbuf*)gdk_pixbuf_new_from_file(user->avatar, NULL);
+	pixbuf = (GdkPixbuf*)gdk_pixbuf_new_from_file(user_entry->avatar, NULL);
 	gtk_tree_store_append((GtkTreeStore*)model, uiter, citer);
 	gtk_tree_store_set((GtkTreeStore*)model, uiter,
-			PIXBUF_COL, pixbuf,
-			TEXT_COL, user->nickname,
-			IP_COL, user->ipaddr,
-			MAC_COL, user->macaddr,
-			URI_COL, (void*)user,
+			PIXBUF_COL, 	pixbuf,
+			NICKNAME_COL, 	user_entry->nickname,
+			IP_COL, 		user_entry->ipaddr,
+			MAC_COL, 		user_entry->macaddr,
+			URI_COL, 		(void*)user_entry,
 			-1
 			);
 	gdk_pixbuf_unref(pixbuf);
@@ -123,18 +125,19 @@ int update_user_to_treeview(GtkTreeView *treeview, user_entry_t *user_entry) {
 	GtkTreeIter *uiter;
 	GdkPixbuf *pixbuf;
 
-	if (treeview == NULL || user == NULL)
+	if (treeview == NULL || user_entry == NULL)
 		return -1;
 
-	uiter = (GtkTreeIter*)user->pos;
+	uiter = (GtkTreeIter*)user_entry->pos;
 	model = gtk_tree_view_get_model(treeview);
-	pixbuf = (GdkPixbuf*)gdk_pixbuf_new_from_file(user->avatar, NULL);
-	gtk_tree_store_set((GtkTreeStore*)model, iter,
-			PIXBUF_COL, pixbuf,
-			TEXT_COL, user->nickname,
-			IP_COL, user->ipaddr,
-			MAC_COL, user->macaddr,
-			-1);
+	pixbuf = (GdkPixbuf*)gdk_pixbuf_new_from_file(user_entry->avatar, NULL);
+	gtk_tree_store_set((GtkTreeStore*)model, uiter,
+			PIXBUF_COL, 	pixbuf,
+			NICKNAME_COL,	user_entry->nickname,
+			IP_COL, 		user_entry->ipaddr,
+			MAC_COL, 		user_entry->macaddr,
+			-1
+			);
 	gdk_pixbuf_unref(pixbuf);
 
 	return 0;
@@ -149,7 +152,7 @@ void contact_treeview_ondoubleclicked(GtkTreeView *tree_view,
 	ifreechat_t *ifc;
 	dlist_t *p;
 	pchatbox_t *chatbox;
-	user_t *user;
+	user_entry_t *user_entry;
 
 	ifc = (ifreechat_t*)data;
 
@@ -158,17 +161,16 @@ void contact_treeview_ondoubleclicked(GtkTreeView *tree_view,
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view));
 	gtk_tree_model_get_iter(model, &iter, path);
 	gtk_tree_model_get(model, &iter, 
-			URI_COL, &user,
+			URI_COL, &user_entry,
 			-1);
 
-	dlist_foreach(p, &(ifc->pchatbox)) {
-		chatbox = (pchatbox_t*)dlist_entry(p, pchatbox_t, chatbox_node);
-		if (!strcmp(user->ipaddr, ((user_t*)chatbox->data)->ipaddr)) {
-			gtk_window_present((GtkWindow*)chatbox->window);
-			return;
-		}
-	}
+	chatbox = (chatbox_t*)user_entry->chatbox;
 
-	/* create new private chatbox */
-	new_pchatbox(ifc, user);
+	if (chatbox != NULL) {
+		/* show chatbox */
+		gtk_window_present((GtkWindow*)chatbox->window);
+	} else {
+		/* create new private chatbox */
+		new_pchatbox(ifc, user_entry);
+	}
 }

@@ -24,6 +24,8 @@
 #ifndef __EMOTION_BOX_H
 #define __EMOTION_BOX_H
 
+#include "chatbox.h"
+
 typedef struct emotion_t {
 	int id;
 	char *desc;
@@ -33,6 +35,6 @@ extern emotion_t emotion_list[96];
 
 char *replace_emotion(char *str);
 
-void emotion_chose_dialg_init(pchatbox_t *chatbox, int x, int y);
+void emotion_chose_dialg_init(chatbox_t *chatbox, int x, int y);
 
 #endif

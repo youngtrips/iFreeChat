@@ -118,7 +118,7 @@ int read_cfg(ifreechat_t *ifc) {
 			}
 			gpentry = new_group_entry(ifc->pool, gpname, gpinfo, gpid);
 			if (gpentry) {
-				group_add_entry(ifc->group, gpentry);
+				group_add_entry(ifc->glist, gpentry);
 			}
 		}
 		curNode = curNode->next;

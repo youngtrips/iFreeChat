@@ -41,6 +41,7 @@ typedef struct user_entry_t {
 
 	void *pos;
 	void *category_entry;
+	void *chatbox;
 
 	dlist_t unode; /* user list node */
 }user_entry_t;
