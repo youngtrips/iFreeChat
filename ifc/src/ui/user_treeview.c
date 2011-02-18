@@ -151,6 +151,7 @@ int insert_chat_msg(ifreechat_t *ifc, user_entry_t *user_entry, msg_t *msg) {
 	if (chatbox == NULL) {
 //		chatbox = (pchatbox_t*)new_pchatbox(ifc, user_entry);
 		//notify
+		msg->user_data = (void*)user_entry;
 		return 0;
 	}
 
