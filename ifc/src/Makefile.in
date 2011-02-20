@@ -50,7 +50,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am_ifreechat_OBJECTS = ifreechat-ifreechat.$(OBJEXT) \
 	ifreechat-group.$(OBJEXT) ifreechat-user.$(OBJEXT) \
 	ifreechat-handle_message.$(OBJEXT) ifreechat-config.$(OBJEXT) \
-	ifreechat-category.$(OBJEXT)
+	ifreechat-category.$(OBJEXT) ifreechat-broadcast.$(OBJEXT)
 ifreechat_OBJECTS = $(am_ifreechat_OBJECTS)
 am__DEPENDENCIES_1 =
 ifreechat_DEPENDENCIES = ui/libmygui.a $(am__DEPENDENCIES_1) \
@@ -267,7 +267,8 @@ ifreechat_SOURCES = ifreechat.c \
 					user.c \
 					handle_message.c \
 					config.c \
-					category.c
+					category.c \
+					broadcast.c
 
 all: all-recursive
 
@@ -356,6 +357,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ifreechat-broadcast.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ifreechat-category.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ifreechat-config.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ifreechat-group.Po@am__quote@
@@ -467,6 +469,20 @@ ifreechat-category.obj: category.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='category.c' object='ifreechat-category.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ifreechat-category.obj `if test -f 'category.c'; then $(CYGPATH_W) 'category.c'; else $(CYGPATH_W) '$(srcdir)/category.c'; fi`
+
+ifreechat-broadcast.o: broadcast.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ifreechat-broadcast.o -MD -MP -MF $(DEPDIR)/ifreechat-broadcast.Tpo -c -o ifreechat-broadcast.o `test -f 'broadcast.c' || echo '$(srcdir)/'`broadcast.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/ifreechat-broadcast.Tpo $(DEPDIR)/ifreechat-broadcast.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='broadcast.c' object='ifreechat-broadcast.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ifreechat-broadcast.o `test -f 'broadcast.c' || echo '$(srcdir)/'`broadcast.c
+
+ifreechat-broadcast.obj: broadcast.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ifreechat-broadcast.obj -MD -MP -MF $(DEPDIR)/ifreechat-broadcast.Tpo -c -o ifreechat-broadcast.obj `if test -f 'broadcast.c'; then $(CYGPATH_W) 'broadcast.c'; else $(CYGPATH_W) '$(srcdir)/broadcast.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/ifreechat-broadcast.Tpo $(DEPDIR)/ifreechat-broadcast.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='broadcast.c' object='ifreechat-broadcast.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ifreechat-broadcast.obj `if test -f 'broadcast.c'; then $(CYGPATH_W) 'broadcast.c'; else $(CYGPATH_W) '$(srcdir)/broadcast.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

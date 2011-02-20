@@ -118,6 +118,7 @@ int main(int argc, char *argv[]) {
 
 	/* init network */
 	init_network(ifc);
+	online_broadcast(ifc);
 	freechat_main(ifc);
 
 	gdk_threads_enter();

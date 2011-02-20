@@ -78,29 +78,6 @@ int feiq_entry_broadcast_pkt(packet_t **pkt, mem_pool_t *pool, uint32_t avatar_i
 	return *pkt == NULL ? -1 : 0;
 }
 
-int feiq_sendmsg_pkt(packet_t **pkt, mem_pool_t *pool, 
-		const char *ip, uint32_t avatar_id, 
-		const char *macaddr, uint32_t packet_id,
-		const char *username, const char *hostname,
-		const char *data) {
-	char buf[65535];
-	size_t size;
-
-	memset(buf, 0, sizeof(buf));
-	sprintf(buf, "1_lbt4_%u#128#%s#0#0#0:%u:%s:%s:%u:%s",
-			avatar_id, 
-			macaddr,
-			packet_id,
-			username,
-			hostname,
-			0x120,
-			data);
-	size = strlen(buf) + 1;
-	*pkt = new_packet(pool, str2ip(ip), 2425, buf, size);
-	return *pkt == NULL ? -1 : 0;
-}
-
-
 int feiq_entry_gp_broadcast_pkt(uint32_t avatar_id, const char *macaddr, 
 		uint32_t packet_id, const char *username, const char *hostname,
 		uint32_t gpid) {
@@ -212,7 +189,6 @@ int feiq_parse_packet(const packet_t *pkt, msg_t *msg) {
 }
 
 void feiq_on_entry(msg_t *msg) {
-	char *encode;
 	char *p;
 
 	msg->avatar_id = get_avatar_id_from_version(msg->version);
@@ -231,16 +207,7 @@ void feiq_on_entry(msg_t *msg) {
 		strcpy(msg->category, "no group");
 	else
 		strcpy(msg->category, p);
-
-	p = string_validate(msg->nickname, "GBK", &encode);
-	if (p != NULL) {
-		strcpy(msg->nickname, p);
-	}
-
-	p = string_validate(msg->category, "GBK", &encode);
-	if (p != NULL) {
-		strcpy(msg->category, p);
-	}
+plain = string_validate(msg->data, "GBK", &encode);
 
 }
 

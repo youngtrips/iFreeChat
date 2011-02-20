@@ -166,6 +166,7 @@ void *udp_listen_routine(void *arg) {
 				socklen = sizeof(addr);
 				size = recvfrom(fd, buf, sizeof(buf), 0,
 						(struct sockaddr*)&addr, &socklen);
+				printf("buf: [%s]\n", buf);
 				if (size > 0) {
 					pkt = (packet_t*)new_packet(pool, ntohl(addr.sin_addr.s_addr), ntohs(addr.sin_port),
 							buf, size);

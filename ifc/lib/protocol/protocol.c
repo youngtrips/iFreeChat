@@ -54,5 +54,7 @@ int protocol_parse_packet(protocol_t *proto, const packet_t *pkt, msg_t *msg) {
 int protocol_handle_msg(protocol_t *proto, const msg_t *msg, void *user_data) {
 	return proto->handle_func(msg, user_data);
 }
-
+//int protocol_send_msg(protocol_t *proto, const user_t *user, const char *data) {
+//	return proto->send_msg(user, data);
+//}
 

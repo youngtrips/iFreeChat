@@ -55,7 +55,6 @@ int on_entry_callback(ifreechat_t *ifc, const void *msg) {
 			((msg_t*)msg)->category
 			);
 	printf("avatar: [%s]\n", pmsg->avatar);
-	printf("\n");
 
 	if (category_find_entry(ifc->clist, pmsg->category, &new_cat_entry) < 0) {
 		new_cat_entry = new_category_entry(ifc->pool, pmsg->category);
