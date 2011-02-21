@@ -289,144 +289,142 @@ configure:8112: result: yes
 configure:8120: checking if gcc supports -c -o file.o
 configure:8167: result: yes
 configure:8200: checking whether the gcc linker (/usr/bin/ld) supports shared libraries
-configure:9191: result: yes
-configure:9228: checking whether -lc should be explicitly linked in
-configure:9233: gcc -c -g -O2  conftest.c >&5
-configure:9236: $? = 0
-configure:9251: gcc -shared conftest.o  -v -Wl,-soname -Wl,conftest -o conftest 2\>\&1 \| /bin/grep  -lc  \>/dev/null 2\>\&1
-configure:9254: $? = 0
-configure:9266: result: no
-configure:9430: checking dynamic linker characteristics
-configure:9863: gcc -o conftest -g -O2   -Wl,-rpath -Wl,/foo conftest.c  >&5
-configure:9863: $? = 0
-configure:10093: result: GNU/Linux ld.so
-configure:10195: checking how to hardcode library paths into programs
-configure:10220: result: immediate
-configure:10740: checking whether stripping libraries is possible
-configure:10745: result: yes
-configure:10780: checking if libtool supports shared libraries
-configure:10782: result: yes
-configure:10785: checking whether to build shared libraries
-configure:10806: result: yes
-configure:10809: checking whether to build static libraries
-configure:10813: result: yes
-configure:10853: checking arpa/inet.h usability
-configure:10853: gcc -c -g -O2  conftest.c >&5
-configure:10853: $? = 0
-configure:10853: result: yes
-configure:10853: checking arpa/inet.h presence
-configure:10853: gcc -E  conftest.c
-configure:10853: $? = 0
-configure:10853: result: yes
-configure:10853: checking for arpa/inet.h
-configure:10853: result: yes
-configure:10853: checking fcntl.h usability
-configure:10853: gcc -c -g -O2  conftest.c >&5
-configure:10853: $? = 0
-configure:10853: result: yes
-configure:10853: checking fcntl.h presence
-configure:10853: gcc -E  conftest.c
-configure:10853: $? = 0
-configure:10853: result: yes
-configure:10853: checking for fcntl.h
-configure:10853: result: yes
-configure:10853: checking netdb.h usability
-configure:10853: gcc -c -g -O2  conftest.c >&5
-configure:10853: $? = 0
-configure:10853: result: yes
-configure:10853: checking netdb.h presence
-configure:10853: gcc -E  conftest.c
-configure:10853: $? = 0
-configure:10853: result: yes
-configure:10853: checking for netdb.h
-configure:10853: result: yes
-configure:10853: checking netinet/in.h usability
-configure:10853: gcc -c -g -O2  conftest.c >&5
-configure:10853: $? = 0
-configure:10853: result: yes
-configure:10853: checking netinet/in.h presence
-configure:10853: gcc -E  conftest.c
-configure:10853: $? = 0
-configure:10853: result: yes
-configure:10853: checking for netinet/in.h
-configure:10853: result: yes
-configure:10853: checking stddef.h usability
-configure:10853: gcc -c -g -O2  conftest.c >&5
-configure:10853: $? = 0
-configure:10853: result: yes
-configure:10853: checking stddef.h presence
-configure:10853: gcc -E  conftest.c
-configure:10853: $? = 0
-configure:10853: result: yes
-configure:10853: checking for stddef.h
-configure:10853: result: yes
-configure:10853: checking for stdint.h
-configure:10853: result: yes
-configure:10853: checking for stdlib.h
-configure:10853: result: yes
-configure:10853: checking for string.h
-configure:10853: result: yes
-configure:10853: checking sys/socket.h usability
-configure:10853: gcc -c -g -O2  conftest.c >&5
-configure:10853: $? = 0
-configure:10853: result: yes
-configure:10853: checking sys/socket.h presence
-configure:10853: gcc -E  conftest.c
-configure:10853: $? = 0
-configure:10853: result: yes
-configure:10853: checking for sys/socket.h
-configure:10853: result: yes
-configure:10853: checking for unistd.h
-configure:10853: result: yes
-configure:10915: checking for pkg-config
-configure:10933: found /usr/bin/pkg-config
-configure:10945: result: /usr/bin/pkg-config
-configure:10970: checking pkg-config is at least version 0.9.0
-configure:10973: result: yes
-configure:10984: checking for GTK
-configure:10992: $PKG_CONFIG --exists --print-errors "gtk+-2.0 >= 2.16"
-configure:10995: $? = 0
-configure:11010: $PKG_CONFIG --exists --print-errors "gtk+-2.0 >= 2.16"
-configure:11013: $? = 0
-configure:11068: result: yes
-configure:11081: checking for GLIB2
-configure:11091: $PKG_CONFIG --exists --print-errors "
+configure:9186: result: yes
+configure:9223: checking whether -lc should be explicitly linked in
+configure:9228: gcc -c -g -O2  conftest.c >&5
+configure:9231: $? = 0
+configure:9246: gcc -shared conftest.o  -v -Wl,-soname -Wl,conftest -o conftest 2\>\&1 \| /bin/grep  -lc  \>/dev/null 2\>\&1
+configure:9249: $? = 0
+configure:9261: result: no
+configure:9425: checking dynamic linker characteristics
+configure:9858: gcc -o conftest -g -O2   -Wl,-rpath -Wl,/foo conftest.c  >&5
+configure:9858: $? = 0
+configure:10079: result: GNU/Linux ld.so
+configure:10181: checking how to hardcode library paths into programs
+configure:10206: result: immediate
+configure:10726: checking whether stripping libraries is possible
+configure:10731: result: yes
+configure:10766: checking if libtool supports shared libraries
+configure:10768: result: yes
+configure:10771: checking whether to build shared libraries
+configure:10792: result: yes
+configure:10795: checking whether to build static libraries
+configure:10799: result: yes
+configure:10839: checking arpa/inet.h usability
+configure:10839: gcc -c -g -O2  conftest.c >&5
+configure:10839: $? = 0
+configure:10839: result: yes
+configure:10839: checking arpa/inet.h presence
+configure:10839: gcc -E  conftest.c
+configure:10839: $? = 0
+configure:10839: result: yes
+configure:10839: checking for arpa/inet.h
+configure:10839: result: yes
+configure:10839: checking fcntl.h usability
+configure:10839: gcc -c -g -O2  conftest.c >&5
+configure:10839: $? = 0
+configure:10839: result: yes
+configure:10839: checking fcntl.h presence
+configure:10839: gcc -E  conftest.c
+configure:10839: $? = 0
+configure:10839: result: yes
+configure:10839: checking for fcntl.h
+configure:10839: result: yes
+configure:10839: checking netdb.h usability
+configure:10839: gcc -c -g -O2  conftest.c >&5
+configure:10839: $? = 0
+configure:10839: result: yes
+configure:10839: checking netdb.h presence
+configure:10839: gcc -E  conftest.c
+configure:10839: $? = 0
+configure:10839: result: yes
+configure:10839: checking for netdb.h
+configure:10839: result: yes
+configure:10839: checking netinet/in.h usability
+configure:10839: gcc -c -g -O2  conftest.c >&5
+configure:10839: $? = 0
+configure:10839: result: yes
+configure:10839: checking netinet/in.h presence
+configure:10839: gcc -E  conftest.c
+configure:10839: $? = 0
+configure:10839: result: yes
+configure:10839: checking for netinet/in.h
+configure:10839: result: yes
+configure:10839: checking stddef.h usability
+configure:10839: gcc -c -g -O2  conftest.c >&5
+configure:10839: $? = 0
+configure:10839: result: yes
+configure:10839: checking stddef.h presence
+configure:10839: gcc -E  conftest.c
+configure:10839: $? = 0
+configure:10839: result: yes
+configure:10839: checking for stddef.h
+configure:10839: result: yes
+configure:10839: checking for stdint.h
+configure:10839: result: yes
+configure:10839: checking for stdlib.h
+configure:10839: result: yes
+configure:10839: checking for string.h
+configure:10839: result: yes
+configure:10839: checking sys/socket.h usability
+configure:10839: gcc -c -g -O2  conftest.c >&5
+configure:10839: $? = 0
+configure:10839: result: yes
+configure:10839: checking sys/socket.h presence
+configure:10839: gcc -E  conftest.c
+configure:10839: $? = 0
+configure:10839: result: yes
+configure:10839: checking for sys/socket.h
+configure:10839: result: yes
+configure:10839: checking for unistd.h
+configure:10839: result: yes
+configure:10901: checking for pkg-config
+configure:10919: found /usr/bin/pkg-config
+configure:10931: result: /usr/bin/pkg-config
+configure:10956: checking pkg-config is at least version 0.9.0
+configure:10959: result: yes
+configure:10970: checking for GTK
+configure:10977: $PKG_CONFIG --exists --print-errors "gtk+-2.0 >= 2.16"
+configure:10980: $? = 0
+configure:10993: $PKG_CONFIG --exists --print-errors "gtk+-2.0 >= 2.16"
+configure:10996: $? = 0
+configure:11050: result: yes
+configure:11063: checking for GLIB2
+configure:11072: $PKG_CONFIG --exists --print-errors "
 		glib-2.0 >= 2.14
 		"
-configure:11096: $? = 0
-configure:11115: $PKG_CONFIG --exists --print-errors "
+configure:11077: $? = 0
+configure:11094: $PKG_CONFIG --exists --print-errors "
 		glib-2.0 >= 2.14
 		"
-configure:11120: $? = 0
-configure:11183: result: yes
-configure:11190: checking for LIBGLADE
-configure:11200: $PKG_CONFIG --exists --print-errors "
+configure:11099: $? = 0
+configure:11161: result: yes
+configure:11168: checking for LIBGLADE
+configure:11177: $PKG_CONFIG --exists --print-errors "
 		libglade-2.0 >= 2.0
 		"
-configure:11205: $? = 0
-configure:11224: $PKG_CONFIG --exists --print-errors "
+configure:11182: $? = 0
+configure:11199: $PKG_CONFIG --exists --print-errors "
 		libglade-2.0 >= 2.0
 		"
-configure:11229: $? = 0
-configure:11292: result: yes
-configure:11300: checking for LIBXML
-configure:11308: $PKG_CONFIG --exists --print-errors "libxml-2.0"
-configure:11311: $? = 0
-configure:11326: $PKG_CONFIG --exists --print-errors "libxml-2.0"
-configure:11329: $? = 0
-configure:11384: result: yes
-configure:11396: checking for inline
-configure:11412: gcc -c -g -O2  conftest.c >&5
-configure:11412: $? = 0
-configure:11420: result: inline
-configure:11438: checking for int64_t
-configure:11438: gcc -c -g -O2  conftest.c >&5
-configure:11438: $? = 0
-configure:11438: gcc -c -g -O2  conftest.c >&5
+configure:11204: $? = 0
+configure:11266: result: yes
+configure:11274: checking for LIBXML
+configure:11281: $PKG_CONFIG --exists --print-errors "libxml-2.0"
+configure:11284: $? = 0
+configure:11297: $PKG_CONFIG --exists --print-errors "libxml-2.0"
+configure:11300: $? = 0
+configure:11354: result: yes
+configure:11366: checking for inline
+configure:11382: gcc -c -g -O2  conftest.c >&5
+configure:11382: $? = 0
+configure:11390: result: inline
+configure:11408: checking for int64_t
+configure:11408: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:73: warning: integer overflow in expression
-conftest.c:73: error: size of array 'test_array' is negative
-configure:11438: $? = 1
+conftest.c:71: error: expected ')' before ';' token
+conftest.c:72: error: expected expression before ']' token
+configure:11408: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "ifreechat"
@@ -495,25 +493,439 @@ configure: failed program was:
 | #ifdef HAVE_UNISTD_H
 | # include <unistd.h>
 | #endif
-| 	        enum { N = 64 / 2 - 1 };
 | int
 | main ()
 | {
-| static int test_array [1 - 2 * !((int64_t) (((((int64_t) 1 << N) << N) - 1) * 2 + 1)
-| 		 < (int64_t) (((((int64_t) 1 << N) << N) - 1) * 2 + 2))];
+| static int test_array [1 - 2 * !(enum { N = 64 / 2 - 1 };
+| 	     0 < (int64_t) (((((int64_t) 1 << N) << N) - 1) * 2 + 1))];
 | test_array [0] = 0
 | 
 |   ;
 |   return 0;
 | }
-configure:11438: result: yes
-configure:11449: checking for size_t
-configure:11449: gcc -c -g -O2  conftest.c >&5
-configure:11449: $? = 0
-configure:11449: gcc -c -g -O2  conftest.c >&5
+configure:11408: gcc -c -g -O2  conftest.c >&5
+conftest.c: In function 'main':
+conftest.c:71: error: expected ')' before ';' token
+conftest.c:72: error: expected expression before ']' token
+configure:11408: $? = 1
+configure: failed program was:
+| /* confdefs.h */
+| #define PACKAGE_NAME "ifreechat"
+| #define PACKAGE_TARNAME "ifreechat"
+| #define PACKAGE_VERSION "0.1"
+| #define PACKAGE_STRING "ifreechat 0.1"
+| #define PACKAGE_BUGREPORT "http://codedelight.net"
+| #define PACKAGE_URL ""
+| #define PACKAGE "ifreechat"
+| #define VERSION "0.1"
+| #define STDC_HEADERS 1
+| #define HAVE_SYS_TYPES_H 1
+| #define HAVE_SYS_STAT_H 1
+| #define HAVE_STDLIB_H 1
+| #define HAVE_STRING_H 1
+| #define HAVE_MEMORY_H 1
+| #define HAVE_STRINGS_H 1
+| #define HAVE_INTTYPES_H 1
+| #define HAVE_STDINT_H 1
+| #define HAVE_UNISTD_H 1
+| #define HAVE_DLFCN_H 1
+| #define LT_OBJDIR ".libs/"
+| #define HAVE_ARPA_INET_H 1
+| #define HAVE_FCNTL_H 1
+| #define HAVE_NETDB_H 1
+| #define HAVE_NETINET_IN_H 1
+| #define HAVE_STDDEF_H 1
+| #define HAVE_STDINT_H 1
+| #define HAVE_STDLIB_H 1
+| #define HAVE_STRING_H 1
+| #define HAVE_SYS_SOCKET_H 1
+| #define HAVE_UNISTD_H 1
+| #define USE_GTK 1
+| #define USE_LIBXML 1
+| /* end confdefs.h.  */
+| #include <stdio.h>
+| #ifdef HAVE_SYS_TYPES_H
+| # include <sys/types.h>
+| #endif
+| #ifdef HAVE_SYS_STAT_H
+| # include <sys/stat.h>
+| #endif
+| #ifdef STDC_HEADERS
+| # include <stdlib.h>
+| # include <stddef.h>
+| #else
+| # ifdef HAVE_STDLIB_H
+| #  include <stdlib.h>
+| # endif
+| #endif
+| #ifdef HAVE_STRING_H
+| # if !defined STDC_HEADERS && defined HAVE_MEMORY_H
+| #  include <memory.h>
+| # endif
+| # include <string.h>
+| #endif
+| #ifdef HAVE_STRINGS_H
+| # include <strings.h>
+| #endif
+| #ifdef HAVE_INTTYPES_H
+| # include <inttypes.h>
+| #endif
+| #ifdef HAVE_STDINT_H
+| # include <stdint.h>
+| #endif
+| #ifdef HAVE_UNISTD_H
+| # include <unistd.h>
+| #endif
+| int
+| main ()
+| {
+| static int test_array [1 - 2 * !(enum { N = 64 / 2 - 1 };
+| 	     0 < (int) (((((int) 1 << N) << N) - 1) * 2 + 1))];
+| test_array [0] = 0
+| 
+|   ;
+|   return 0;
+| }
+configure:11408: gcc -c -g -O2  conftest.c >&5
+conftest.c: In function 'main':
+conftest.c:71: error: expected ')' before ';' token
+conftest.c:72: error: expected expression before ']' token
+configure:11408: $? = 1
+configure: failed program was:
+| /* confdefs.h */
+| #define PACKAGE_NAME "ifreechat"
+| #define PACKAGE_TARNAME "ifreechat"
+| #define PACKAGE_VERSION "0.1"
+| #define PACKAGE_STRING "ifreechat 0.1"
+| #define PACKAGE_BUGREPORT "http://codedelight.net"
+| #define PACKAGE_URL ""
+| #define PACKAGE "ifreechat"
+| #define VERSION "0.1"
+| #define STDC_HEADERS 1
+| #define HAVE_SYS_TYPES_H 1
+| #define HAVE_SYS_STAT_H 1
+| #define HAVE_STDLIB_H 1
+| #define HAVE_STRING_H 1
+| #define HAVE_MEMORY_H 1
+| #define HAVE_STRINGS_H 1
+| #define HAVE_INTTYPES_H 1
+| #define HAVE_STDINT_H 1
+| #define HAVE_UNISTD_H 1
+| #define HAVE_DLFCN_H 1
+| #define LT_OBJDIR ".libs/"
+| #define HAVE_ARPA_INET_H 1
+| #define HAVE_FCNTL_H 1
+| #define HAVE_NETDB_H 1
+| #define HAVE_NETINET_IN_H 1
+| #define HAVE_STDDEF_H 1
+| #define HAVE_STDINT_H 1
+| #define HAVE_STDLIB_H 1
+| #define HAVE_STRING_H 1
+| #define HAVE_SYS_SOCKET_H 1
+| #define HAVE_UNISTD_H 1
+| #define USE_GTK 1
+| #define USE_LIBXML 1
+| /* end confdefs.h.  */
+| #include <stdio.h>
+| #ifdef HAVE_SYS_TYPES_H
+| # include <sys/types.h>
+| #endif
+| #ifdef HAVE_SYS_STAT_H
+| # include <sys/stat.h>
+| #endif
+| #ifdef STDC_HEADERS
+| # include <stdlib.h>
+| # include <stddef.h>
+| #else
+| # ifdef HAVE_STDLIB_H
+| #  include <stdlib.h>
+| # endif
+| #endif
+| #ifdef HAVE_STRING_H
+| # if !defined STDC_HEADERS && defined HAVE_MEMORY_H
+| #  include <memory.h>
+| # endif
+| # include <string.h>
+| #endif
+| #ifdef HAVE_STRINGS_H
+| # include <strings.h>
+| #endif
+| #ifdef HAVE_INTTYPES_H
+| # include <inttypes.h>
+| #endif
+| #ifdef HAVE_STDINT_H
+| # include <stdint.h>
+| #endif
+| #ifdef HAVE_UNISTD_H
+| # include <unistd.h>
+| #endif
+| int
+| main ()
+| {
+| static int test_array [1 - 2 * !(enum { N = 64 / 2 - 1 };
+| 	     0 < (long int) (((((long int) 1 << N) << N) - 1) * 2 + 1))];
+| test_array [0] = 0
+| 
+|   ;
+|   return 0;
+| }
+configure:11408: gcc -c -g -O2  conftest.c >&5
+conftest.c: In function 'main':
+conftest.c:71: error: expected ')' before ';' token
+conftest.c:72: error: expected expression before ']' token
+configure:11408: $? = 1
+configure: failed program was:
+| /* confdefs.h */
+| #define PACKAGE_NAME "ifreechat"
+| #define PACKAGE_TARNAME "ifreechat"
+| #define PACKAGE_VERSION "0.1"
+| #define PACKAGE_STRING "ifreechat 0.1"
+| #define PACKAGE_BUGREPORT "http://codedelight.net"
+| #define PACKAGE_URL ""
+| #define PACKAGE "ifreechat"
+| #define VERSION "0.1"
+| #define STDC_HEADERS 1
+| #define HAVE_SYS_TYPES_H 1
+| #define HAVE_SYS_STAT_H 1
+| #define HAVE_STDLIB_H 1
+| #define HAVE_STRING_H 1
+| #define HAVE_MEMORY_H 1
+| #define HAVE_STRINGS_H 1
+| #define HAVE_INTTYPES_H 1
+| #define HAVE_STDINT_H 1
+| #define HAVE_UNISTD_H 1
+| #define HAVE_DLFCN_H 1
+| #define LT_OBJDIR ".libs/"
+| #define HAVE_ARPA_INET_H 1
+| #define HAVE_FCNTL_H 1
+| #define HAVE_NETDB_H 1
+| #define HAVE_NETINET_IN_H 1
+| #define HAVE_STDDEF_H 1
+| #define HAVE_STDINT_H 1
+| #define HAVE_STDLIB_H 1
+| #define HAVE_STRING_H 1
+| #define HAVE_SYS_SOCKET_H 1
+| #define HAVE_UNISTD_H 1
+| #define USE_GTK 1
+| #define USE_LIBXML 1
+| /* end confdefs.h.  */
+| #include <stdio.h>
+| #ifdef HAVE_SYS_TYPES_H
+| # include <sys/types.h>
+| #endif
+| #ifdef HAVE_SYS_STAT_H
+| # include <sys/stat.h>
+| #endif
+| #ifdef STDC_HEADERS
+| # include <stdlib.h>
+| # include <stddef.h>
+| #else
+| # ifdef HAVE_STDLIB_H
+| #  include <stdlib.h>
+| # endif
+| #endif
+| #ifdef HAVE_STRING_H
+| # if !defined STDC_HEADERS && defined HAVE_MEMORY_H
+| #  include <memory.h>
+| # endif
+| # include <string.h>
+| #endif
+| #ifdef HAVE_STRINGS_H
+| # include <strings.h>
+| #endif
+| #ifdef HAVE_INTTYPES_H
+| # include <inttypes.h>
+| #endif
+| #ifdef HAVE_STDINT_H
+| # include <stdint.h>
+| #endif
+| #ifdef HAVE_UNISTD_H
+| # include <unistd.h>
+| #endif
+| int
+| main ()
+| {
+| static int test_array [1 - 2 * !(enum { N = 64 / 2 - 1 };
+| 	     0 < (long long int) (((((long long int) 1 << N) << N) - 1) * 2 + 1))];
+| test_array [0] = 0
+| 
+|   ;
+|   return 0;
+| }
+configure:11408: gcc -c -g -O2  conftest.c >&5
+conftest.c: In function 'main':
+conftest.c:71: error: expected ')' before ';' token
+conftest.c:72: error: expected expression before ']' token
+configure:11408: $? = 1
+configure: failed program was:
+| /* confdefs.h */
+| #define PACKAGE_NAME "ifreechat"
+| #define PACKAGE_TARNAME "ifreechat"
+| #define PACKAGE_VERSION "0.1"
+| #define PACKAGE_STRING "ifreechat 0.1"
+| #define PACKAGE_BUGREPORT "http://codedelight.net"
+| #define PACKAGE_URL ""
+| #define PACKAGE "ifreechat"
+| #define VERSION "0.1"
+| #define STDC_HEADERS 1
+| #define HAVE_SYS_TYPES_H 1
+| #define HAVE_SYS_STAT_H 1
+| #define HAVE_STDLIB_H 1
+| #define HAVE_STRING_H 1
+| #define HAVE_MEMORY_H 1
+| #define HAVE_STRINGS_H 1
+| #define HAVE_INTTYPES_H 1
+| #define HAVE_STDINT_H 1
+| #define HAVE_UNISTD_H 1
+| #define HAVE_DLFCN_H 1
+| #define LT_OBJDIR ".libs/"
+| #define HAVE_ARPA_INET_H 1
+| #define HAVE_FCNTL_H 1
+| #define HAVE_NETDB_H 1
+| #define HAVE_NETINET_IN_H 1
+| #define HAVE_STDDEF_H 1
+| #define HAVE_STDINT_H 1
+| #define HAVE_STDLIB_H 1
+| #define HAVE_STRING_H 1
+| #define HAVE_SYS_SOCKET_H 1
+| #define HAVE_UNISTD_H 1
+| #define USE_GTK 1
+| #define USE_LIBXML 1
+| /* end confdefs.h.  */
+| #include <stdio.h>
+| #ifdef HAVE_SYS_TYPES_H
+| # include <sys/types.h>
+| #endif
+| #ifdef HAVE_SYS_STAT_H
+| # include <sys/stat.h>
+| #endif
+| #ifdef STDC_HEADERS
+| # include <stdlib.h>
+| # include <stddef.h>
+| #else
+| # ifdef HAVE_STDLIB_H
+| #  include <stdlib.h>
+| # endif
+| #endif
+| #ifdef HAVE_STRING_H
+| # if !defined STDC_HEADERS && defined HAVE_MEMORY_H
+| #  include <memory.h>
+| # endif
+| # include <string.h>
+| #endif
+| #ifdef HAVE_STRINGS_H
+| # include <strings.h>
+| #endif
+| #ifdef HAVE_INTTYPES_H
+| # include <inttypes.h>
+| #endif
+| #ifdef HAVE_STDINT_H
+| # include <stdint.h>
+| #endif
+| #ifdef HAVE_UNISTD_H
+| # include <unistd.h>
+| #endif
+| int
+| main ()
+| {
+| static int test_array [1 - 2 * !(enum { N = 64 / 2 - 1 };
+| 	     0 < (short int) (((((short int) 1 << N) << N) - 1) * 2 + 1))];
+| test_array [0] = 0
+| 
+|   ;
+|   return 0;
+| }
+configure:11408: gcc -c -g -O2  conftest.c >&5
+conftest.c: In function 'main':
+conftest.c:71: error: expected ')' before ';' token
+conftest.c:72: error: expected expression before ']' token
+configure:11408: $? = 1
+configure: failed program was:
+| /* confdefs.h */
+| #define PACKAGE_NAME "ifreechat"
+| #define PACKAGE_TARNAME "ifreechat"
+| #define PACKAGE_VERSION "0.1"
+| #define PACKAGE_STRING "ifreechat 0.1"
+| #define PACKAGE_BUGREPORT "http://codedelight.net"
+| #define PACKAGE_URL ""
+| #define PACKAGE "ifreechat"
+| #define VERSION "0.1"
+| #define STDC_HEADERS 1
+| #define HAVE_SYS_TYPES_H 1
+| #define HAVE_SYS_STAT_H 1
+| #define HAVE_STDLIB_H 1
+| #define HAVE_STRING_H 1
+| #define HAVE_MEMORY_H 1
+| #define HAVE_STRINGS_H 1
+| #define HAVE_INTTYPES_H 1
+| #define HAVE_STDINT_H 1
+| #define HAVE_UNISTD_H 1
+| #define HAVE_DLFCN_H 1
+| #define LT_OBJDIR ".libs/"
+| #define HAVE_ARPA_INET_H 1
+| #define HAVE_FCNTL_H 1
+| #define HAVE_NETDB_H 1
+| #define HAVE_NETINET_IN_H 1
+| #define HAVE_STDDEF_H 1
+| #define HAVE_STDINT_H 1
+| #define HAVE_STDLIB_H 1
+| #define HAVE_STRING_H 1
+| #define HAVE_SYS_SOCKET_H 1
+| #define HAVE_UNISTD_H 1
+| #define USE_GTK 1
+| #define USE_LIBXML 1
+| /* end confdefs.h.  */
+| #include <stdio.h>
+| #ifdef HAVE_SYS_TYPES_H
+| # include <sys/types.h>
+| #endif
+| #ifdef HAVE_SYS_STAT_H
+| # include <sys/stat.h>
+| #endif
+| #ifdef STDC_HEADERS
+| # include <stdlib.h>
+| # include <stddef.h>
+| #else
+| # ifdef HAVE_STDLIB_H
+| #  include <stdlib.h>
+| # endif
+| #endif
+| #ifdef HAVE_STRING_H
+| # if !defined STDC_HEADERS && defined HAVE_MEMORY_H
+| #  include <memory.h>
+| # endif
+| # include <string.h>
+| #endif
+| #ifdef HAVE_STRINGS_H
+| # include <strings.h>
+| #endif
+| #ifdef HAVE_INTTYPES_H
+| # include <inttypes.h>
+| #endif
+| #ifdef HAVE_STDINT_H
+| # include <stdint.h>
+| #endif
+| #ifdef HAVE_UNISTD_H
+| # include <unistd.h>
+| #endif
+| int
+| main ()
+| {
+| static int test_array [1 - 2 * !(enum { N = 64 / 2 - 1 };
+| 	     0 < (signed char) (((((signed char) 1 << N) << N) - 1) * 2 + 1))];
+| test_array [0] = 0
+| 
+|   ;
+|   return 0;
+| }
+configure:11408: result: no
+configure:11419: checking for size_t
+configure:11419: gcc -c -g -O2  conftest.c >&5
+configure:11419: $? = 0
+configure:11419: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:71: error: expected expression before ')' token
-configure:11449: $? = 1
+configure:11419: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "ifreechat"
@@ -590,83 +1002,83 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:11449: result: yes
-configure:11460: checking for uint16_t
-configure:11460: gcc -c -g -O2  conftest.c >&5
-configure:11460: $? = 0
-configure:11460: result: yes
-configure:11472: checking for uint32_t
-configure:11472: gcc -c -g -O2  conftest.c >&5
-configure:11472: $? = 0
-configure:11472: result: yes
-configure:11486: checking for uint8_t
-configure:11486: gcc -c -g -O2  conftest.c >&5
-configure:11486: $? = 0
-configure:11486: result: yes
-configure:11502: checking for pthread_create in -lpthread
-configure:11527: gcc -o conftest -g -O2   conftest.c -lpthread   >&5
-configure:11527: $? = 0
-configure:11536: result: yes
-configure:11549: checking for stdlib.h
-configure:11549: result: yes
-configure:11559: checking for GNU libc compatible malloc
-configure:11583: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
-configure:11583: $? = 0
-configure:11583: ./conftest
-configure:11583: $? = 0
-configure:11593: result: yes
-configure:11617: checking for bzero
-configure:11617: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
+configure:11419: result: yes
+configure:11430: checking for uint16_t
+configure:11430: gcc -c -g -O2  conftest.c >&5
+configure:11430: $? = 0
+configure:11430: result: yes
+configure:11442: checking for uint32_t
+configure:11442: gcc -c -g -O2  conftest.c >&5
+configure:11442: $? = 0
+configure:11442: result: yes
+configure:11456: checking for uint8_t
+configure:11456: gcc -c -g -O2  conftest.c >&5
+configure:11456: $? = 0
+configure:11456: result: yes
+configure:11472: checking for pthread_create in -lpthread
+configure:11497: gcc -o conftest -g -O2   conftest.c -lpthread   >&5
+configure:11497: $? = 0
+configure:11506: result: yes
+configure:11519: checking for stdlib.h
+configure:11519: result: yes
+configure:11529: checking for GNU libc compatible malloc
+configure:11553: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
+configure:11553: $? = 0
+configure:11553: ./conftest
+configure:11553: $? = 0
+configure:11563: result: yes
+configure:11587: checking for bzero
+configure:11587: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
 conftest.c:61: warning: conflicting types for built-in function 'bzero'
-configure:11617: $? = 0
-configure:11617: result: yes
-configure:11617: checking for ftruncate
-configure:11617: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
-configure:11617: $? = 0
-configure:11617: result: yes
-configure:11617: checking for memset
-configure:11617: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
+configure:11587: $? = 0
+configure:11587: result: yes
+configure:11587: checking for ftruncate
+configure:11587: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
+configure:11587: $? = 0
+configure:11587: result: yes
+configure:11587: checking for memset
+configure:11587: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
 conftest.c:63: warning: conflicting types for built-in function 'memset'
-configure:11617: $? = 0
-configure:11617: result: yes
-configure:11617: checking for socket
-configure:11617: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
-configure:11617: $? = 0
-configure:11617: result: yes
-configure:11617: checking for strcasecmp
-configure:11617: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
+configure:11587: $? = 0
+configure:11587: result: yes
+configure:11587: checking for socket
+configure:11587: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
+configure:11587: $? = 0
+configure:11587: result: yes
+configure:11587: checking for strcasecmp
+configure:11587: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
 conftest.c:65: warning: conflicting types for built-in function 'strcasecmp'
-configure:11617: $? = 0
-configure:11617: result: yes
-configure:11617: checking for strchr
-configure:11617: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
+configure:11587: $? = 0
+configure:11587: result: yes
+configure:11587: checking for strchr
+configure:11587: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
 conftest.c:66: warning: conflicting types for built-in function 'strchr'
-configure:11617: $? = 0
-configure:11617: result: yes
-configure:11617: checking for strerror
-configure:11617: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
-configure:11617: $? = 0
-configure:11617: result: yes
-configure:11617: checking for strpbrk
-configure:11617: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
+configure:11587: $? = 0
+configure:11587: result: yes
+configure:11587: checking for strerror
+configure:11587: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
+configure:11587: $? = 0
+configure:11587: result: yes
+configure:11587: checking for strpbrk
+configure:11587: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
 conftest.c:68: warning: conflicting types for built-in function 'strpbrk'
-configure:11617: $? = 0
-configure:11617: result: yes
-configure:11617: checking for strrchr
-configure:11617: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
+configure:11587: $? = 0
+configure:11587: result: yes
+configure:11587: checking for strrchr
+configure:11587: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
 conftest.c:69: warning: conflicting types for built-in function 'strrchr'
-configure:11617: $? = 0
-configure:11617: result: yes
-configure:11617: checking for strspn
-configure:11617: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
+configure:11587: $? = 0
+configure:11587: result: yes
+configure:11587: checking for strspn
+configure:11587: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
 conftest.c:70: warning: conflicting types for built-in function 'strspn'
-configure:11617: $? = 0
-configure:11617: result: yes
-configure:11617: checking for strtoul
-configure:11617: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
-configure:11617: $? = 0
-configure:11617: result: yes
-configure:11748: creating ./config.status
+configure:11587: $? = 0
+configure:11587: result: yes
+configure:11587: checking for strtoul
+configure:11587: gcc -o conftest -g -O2   conftest.c -lpthread  >&5
+configure:11587: $? = 0
+configure:11587: result: yes
+configure:11718: creating ./config.status
 
 ## ---------------------- ##
 ## Running config.status. ##
@@ -705,7 +1117,6 @@ config.status:1123: creating include/feiq/Makefile
 config.status:1123: creating include/encoding/Makefile
 config.status:1123: creating include/hash/Makefile
 config.status:1123: creating config.h
-config.status:1295: config.h is unchanged
 config.status:1343: executing depfiles commands
 config.status:1343: executing libtool commands
 
@@ -716,7 +1127,7 @@ config.status:1343: executing libtool commands
 ac_cv_build=i686-pc-linux-gnu
 ac_cv_c_compiler_gnu=yes
 ac_cv_c_inline=inline
-ac_cv_c_int64_t=yes
+ac_cv_c_int64_t=no
 ac_cv_c_uint16_t=yes
 ac_cv_c_uint32_t=yes
 ac_cv_c_uint8_t=yes
@@ -1011,93 +1422,3 @@ target_alias=''
 #define HAVE_STRTOUL 1
 
 configure: exit 0
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by ifreechat config.status 0.1, which was
-generated by GNU Autoconf 2.65.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status src/feiq/Makefile depfiles
-
-on armor
-
-config.status:1123: creating src/feiq/Makefile
-config.status:1343: executing depfiles commands
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by ifreechat config.status 0.1, which was
-generated by GNU Autoconf 2.65.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status src/feiq/Makefile depfiles
-
-on armor
-
-config.status:1123: creating src/feiq/Makefile
-config.status:1343: executing depfiles commands
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by ifreechat config.status 0.1, which was
-generated by GNU Autoconf 2.65.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status src/Makefile depfiles
-
-on armor
-
-config.status:1123: creating src/Makefile
-config.status:1343: executing depfiles commands
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by ifreechat config.status 0.1, which was
-generated by GNU Autoconf 2.65.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status src/Makefile depfiles
-
-on armor
-
-config.status:1123: creating src/Makefile
-config.status:1343: executing depfiles commands
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by ifreechat config.status 0.1, which was
-generated by GNU Autoconf 2.65.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status src/Makefile depfiles
-
-on armor
-
-config.status:1123: creating src/Makefile
-config.status:1343: executing depfiles commands

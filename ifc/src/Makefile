@@ -49,14 +49,16 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_ifreechat_OBJECTS = ifreechat-ifreechat.$(OBJEXT) \
 	ifreechat-group.$(OBJEXT) ifreechat-user.$(OBJEXT) \
-	ifreechat-handle_message.$(OBJEXT) ifreechat-config.$(OBJEXT)
+	ifreechat-handle_message.$(OBJEXT) ifreechat-config.$(OBJEXT) \
+	ifreechat-category.$(OBJEXT) ifreechat-broadcast.$(OBJEXT)
 ifreechat_OBJECTS = $(am_ifreechat_OBJECTS)
 am__DEPENDENCIES_1 =
-ifreechat_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) ../lib/blowfish/libblowfish.a \
-	../lib/encoding/libencoding.a ../lib/mem_pool/libmempool.a \
+ifreechat_DEPENDENCIES = ui/libmygui.a $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	../lib/blowfish/libblowfish.a ../lib/mem_pool/libmempool.a \
 	../lib/hash/libmyhash.a ../lib/net/libmynet.a \
-	../lib/queue/libqueue.a ../lib/protocol/libprotocol.a
+	../lib/queue/libqueue.a ../lib/protocol/libprotocol.a \
+	feiq/libfeiq.a ../lib/encoding/libencoding.a
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -233,7 +235,7 @@ target_alias =
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
-SUBDIRS = 
+SUBDIRS = feiq ui
 ifreechat_CPPFLAGS = $(LIBXML_CFLAGS) $(GTK_CFLAGS) \
 				   $(GLIB_CFLAGS) $(LIBGLADE_CFLAGS) \
 				 -I ../include \
@@ -243,24 +245,30 @@ ifreechat_CPPFLAGS = $(LIBXML_CFLAGS) $(GTK_CFLAGS) \
 				 -I ../include/encoding \
 				 -I ../include/protocol \
 				 -I ../include/queue \
-				 -I ../include/net
+				 -I ../include/net \
+				 -I ../include/feiq \
+				 -I ../include/ui
 
-ifreechat_LDADD = $(LIBXML_LIBS) $(GTK_LIBS) \
-				  $(GLIB_LIBS) $(LIBGLADE_CFLAGS) \
+ifreechat_LDADD = ui/libmygui.a \
+				  $(LIBXML_LIBS) $(GTK_LIBS) \
+				  $(GLIB_LIBS) $(LIBGLADE_LIBS) \
 				  ../lib/blowfish/libblowfish.a \
-				  ../lib/encoding/libencoding.a \
 				  ../lib/mem_pool/libmempool.a \
 				  ../lib/hash/libmyhash.a \
 				  ../lib/net/libmynet.a \
 				  ../lib/queue/libqueue.a \
 				  ../lib/protocol/libprotocol.a \
+				  feiq/libfeiq.a \
+				  ../lib/encoding/libencoding.a \
 				  -lpthread
 
 ifreechat_SOURCES = ifreechat.c \
 					group.c \
 					user.c \
 					handle_message.c \
-					config.c
+					config.c \
+					category.c \
+					broadcast.c
 
 all: all-recursive
 
@@ -349,6 +357,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+include ./$(DEPDIR)/ifreechat-broadcast.Po
+include ./$(DEPDIR)/ifreechat-category.Po
 include ./$(DEPDIR)/ifreechat-config.Po
 include ./$(DEPDIR)/ifreechat-group.Po
 include ./$(DEPDIR)/ifreechat-handle_message.Po
@@ -445,6 +455,34 @@ ifreechat-config.obj: config.c
 #	source='config.c' object='ifreechat-config.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ifreechat-config.obj `if test -f 'config.c'; then $(CYGPATH_W) 'config.c'; else $(CYGPATH_W) '$(srcdir)/config.c'; fi`
+
+ifreechat-category.o: category.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ifreechat-category.o -MD -MP -MF $(DEPDIR)/ifreechat-category.Tpo -c -o ifreechat-category.o `test -f 'category.c' || echo '$(srcdir)/'`category.c
+	$(am__mv) $(DEPDIR)/ifreechat-category.Tpo $(DEPDIR)/ifreechat-category.Po
+#	source='category.c' object='ifreechat-category.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ifreechat-category.o `test -f 'category.c' || echo '$(srcdir)/'`category.c
+
+ifreechat-category.obj: category.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ifreechat-category.obj -MD -MP -MF $(DEPDIR)/ifreechat-category.Tpo -c -o ifreechat-category.obj `if test -f 'category.c'; then $(CYGPATH_W) 'category.c'; else $(CYGPATH_W) '$(srcdir)/category.c'; fi`
+	$(am__mv) $(DEPDIR)/ifreechat-category.Tpo $(DEPDIR)/ifreechat-category.Po
+#	source='category.c' object='ifreechat-category.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ifreechat-category.obj `if test -f 'category.c'; then $(CYGPATH_W) 'category.c'; else $(CYGPATH_W) '$(srcdir)/category.c'; fi`
+
+ifreechat-broadcast.o: broadcast.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ifreechat-broadcast.o -MD -MP -MF $(DEPDIR)/ifreechat-broadcast.Tpo -c -o ifreechat-broadcast.o `test -f 'broadcast.c' || echo '$(srcdir)/'`broadcast.c
+	$(am__mv) $(DEPDIR)/ifreechat-broadcast.Tpo $(DEPDIR)/ifreechat-broadcast.Po
+#	source='broadcast.c' object='ifreechat-broadcast.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ifreechat-broadcast.o `test -f 'broadcast.c' || echo '$(srcdir)/'`broadcast.c
+
+ifreechat-broadcast.obj: broadcast.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ifreechat-broadcast.obj -MD -MP -MF $(DEPDIR)/ifreechat-broadcast.Tpo -c -o ifreechat-broadcast.obj `if test -f 'broadcast.c'; then $(CYGPATH_W) 'broadcast.c'; else $(CYGPATH_W) '$(srcdir)/broadcast.c'; fi`
+	$(am__mv) $(DEPDIR)/ifreechat-broadcast.Tpo $(DEPDIR)/ifreechat-broadcast.Po
+#	source='broadcast.c' object='ifreechat-broadcast.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ifreechat_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ifreechat-broadcast.obj `if test -f 'broadcast.c'; then $(CYGPATH_W) 'broadcast.c'; else $(CYGPATH_W) '$(srcdir)/broadcast.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
