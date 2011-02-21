@@ -130,6 +130,32 @@ int on_pchat_callback(ifreechat_t *ifc, const void *msg) {
 	return 0;
 }
 
+int on_pcaht_send_callback(ifreechat_t *ifc, const char *str, const void *data) {
+	user_entry_t *user_entry;
+	msg_t msg;
+	packet_t *pkt;
+
+	user_entry = (user_entry_t*)data;
+
+	strcpy(msg.ip, user_entry->ipaddr);
+	msg.port = ifc->port;
+
+	strcpy(msg.macaddr, ifc->macaddr);
+	strcpy(msg.username, ifc->username);
+	strcpy(msg.hostname, ifc->hostname);
+	strcpy(msg.data, str);
+
+	msg.avatar_id = ifc->avatar_id;
+	msg.command = 0x120;
+	msg.packet_id = (uint32_t)time(NULL);
+	msg.data_size = strlen(str) + 1;
+	msg.user_data = (void*)ifc->pool;
+
+	protocol_build_packet(ifc->proto, &pkt, &msg);
+	udp_send(ifc->usock, (void*)pkt);
+	return 0;
+}
+
 int on_gchat_callback(ifreechat_t *ifc, const void *msg) {
 	return 0;
 }

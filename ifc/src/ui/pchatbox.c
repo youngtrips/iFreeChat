@@ -111,14 +111,5 @@ void on_send_message(GtkWidget *widget, pchatbox_t *chatbox) {
 		0.0, TRUE, 0.0, 0.0);
 	gtk_text_buffer_delete_mark(output_buffer, mark);
 
-	printf("msg: [%s]\n", msg);
-//	sprintf(buf, "1_lbt4_%d#128#%s#0#0#0:%lu:%s:%s:%u:%s",
-//			ifc->avatar_id,
-//			ifc->macaddr,
-//			pno,
-//			ifc->username,
-//			ifc->hostname,
-//			0x120,
-//			msg);
-//	printf("buf: %s\n", buf);
+	on_pcaht_send_callback(ifc, msg, user_entry);
 }

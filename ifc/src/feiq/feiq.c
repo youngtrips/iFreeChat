@@ -74,7 +74,7 @@ int feiq_entry_broadcast_pkt(packet_t **pkt, mem_pool_t *pool, uint32_t avatar_i
 	sprintf(buf + size, "%s", category);
 	size += strlen(buf) + 1;
 
-	*pkt = new_packet(pool, 0xffffffff, 2425, buf, size);
+	*pkt = new_packet(pool, 0xffffffff, 9090, buf, size);
 	return *pkt == NULL ? -1 : 0;
 }
 
@@ -159,6 +159,8 @@ int feiq_parse_packet(const packet_t *pkt, msg_t *msg) {
 	q = strchr(p, ':'); *q++ = '\0';
 	strcpy(msg->version, p);
 	size -= strlen(p) + 1;
+	if (strncmp(msg->version, "1_lbt4", 6) != 0)
+		return -1;
 
 	/* get avatar id */
 	msg->avatar_id = get_avatar_id_from_version(p);
