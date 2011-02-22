@@ -48,7 +48,7 @@ LIBRARIES = $(noinst_LIBRARIES)
 ARFLAGS = cru
 libmyhash_a_AR = $(AR) $(ARFLAGS)
 libmyhash_a_DEPENDENCIES = ../mem_pool/libmempool.a
-am_libmyhash_a_OBJECTS = hash.$(OBJEXT)
+am_libmyhash_a_OBJECTS = hash.$(OBJEXT) murmurhash.$(OBJEXT)
 libmyhash_a_OBJECTS = $(am_libmyhash_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -195,7 +195,9 @@ AM_CPPFLAGS = -g -Wall \
 	   		-I ../../include/mem_pool
 
 libmyhash_a_LIBADD = ../mem_pool/libmempool.a
-libmyhash_a_SOURCES = hash.c
+libmyhash_a_SOURCES = hash.c \
+					  murmurhash.c
+
 all: all-am
 
 .SUFFIXES:
@@ -245,6 +247,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hash.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/murmurhash.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

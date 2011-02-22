@@ -83,12 +83,21 @@ void hash_entry_set_val(hash_entry_t *entry, const void *val) {
 
 unsigned int hash_index(hash_t *h, const void *key) {
 	unsigned int idx;
+#define HASH_SEED 0x1a2b3c
 
 	if (h->ktype == KEY_INT) {
+#ifdef USE_MIX_FUNC
 		idx = hash_integer(*(unsigned int*)key);
+#else
+		idx = MurmurHash2(key, sizeof(unsigned int), HASH_SEED); 
+#endif
 	} else {
+#ifdef USE_MIX_FUNC
 		idx = hash_string((unsigned char*)key, strlen((char*)key));
 		idx = hash_integer(idx);
+#else
+		idx = MurmurHash2(key, strlen((char*)key), HASH_SEED);
+#endif
 	}
 	return (idx & h->hash_size);
 }

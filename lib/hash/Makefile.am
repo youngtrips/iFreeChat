@@ -7,4 +7,5 @@ AM_CPPFLAGS = -g -Wall \
 
 libmyhash_a_LIBADD = ../mem_pool/libmempool.a
 
-libmyhash_a_SOURCES = hash.c
+libmyhash_a_SOURCES = hash.c \
+					  murmurhash.c
